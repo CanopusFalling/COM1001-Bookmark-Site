@@ -70,16 +70,17 @@ CREATE TABLE edit(
     edit_ID INTEGER NOT NULL PRIMARY KEY,
     editor_ID INTEGER NOT NULL REFERENCES users(user_ID),
     bookmark_edited_ID INTEGER NOT NULL REFERENCES bookmark(bookmark_ID),
-    edit_date DATETIME;
+    edit_date DATETIME
 );
 
 DROP TABLE IF EXISTS favourite;
 CREATE TABLE favourite(
-userID INTEGER NOT NULL REFERENCES users(user_ID),
-bookmarkID INTEGER NOT NULL REFERENCES bookmark(bookmark_ID),
+user_ID INTEGER NOT NULL REFERENCES users(user_ID),
+bookmark_ID INTEGER NOT NULL REFERENCES bookmark(bookmark_ID),
 PRIMARY KEY (user_ID,bookmark_ID)
 );
 
+DROP TABLE IF EXISTS tag_bookmark_link;
 CREATE TABLE tag_bookmark_link (
     tag_ID INTEGER NOT NULL REFERENCES tag(tag_ID),
     bookmark_ID INTEGER NOT NULL REFERENCES bookmark(bookmark_ID),

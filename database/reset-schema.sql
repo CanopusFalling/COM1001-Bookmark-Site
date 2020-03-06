@@ -58,8 +58,8 @@ rating_created DATETIME,
 rating_deleted DATETIME
 );
 
-DROP TABLE IF EXISTS view;
-CREATE TABLE view(
+DROP TABLE IF EXISTS views;
+CREATE TABLE views(
 view_ID INTEGER NOT NULL PRIMARY KEY,
 viewer_ID INTEGER REFERENCES users(user_ID),
 bookmark_viewed_ID INTEGER NOT NULL REFERENCES bookmark(bookmark_ID),

@@ -1,8 +1,8 @@
-[]-parameters
+-- []-parameters
 
-// General views
+-- ===== General views =====
 
-    //quantity of each value of rating
+    -- quantity of each value of rating
     CREATE VIEW ratings_quantity AS 
     SELECT
         bookmark_ID,
@@ -24,7 +24,7 @@
         )
     GROUP BY bookmark_ID;
 
-    //returns table with bookmark: id, title, avg rating and number of views
+    -- returns table with bookmark: id, title, avg rating and number of views
     CREATE VIEW bookmark_list AS
     SELECT 
     bookmark_ID AS ID,
@@ -44,21 +44,21 @@
     ) USING(bookmark_id);
 
 
-//Guest Homepage
+-- ===== Guest Homepage =====
 
-    //get list of bookmarks matching search bar value (for “” just returns all bookmarks)
+    -- get list of bookmarks matching search bar value (for “” just returns all bookmarks)
     SELECT * FROM bookmark_list
     WHERE title LIKE ‘%[Current Searched title]%’;
 
 
-//Register Page
+-- ===== Register Page =====
 
-    //get existing emails to check if already in use
+    -- get existing emails to check if already in use
     SELECT DISTINCT user_email AS email
     FROM users;
 
 
-//Login Page
+-- ===== Login Page =====
 
     SELECT 
     user_email AS login,
@@ -69,7 +69,7 @@
     WHERE login=[login_input];
     
 
-//Bookmark Details Page - GUEST
+-- ===== Bookmark Details Page - GUEST =====
 
     //get info about bookmark and creator
     SELECT 
@@ -84,16 +84,16 @@
     WHERE bookmark_ID = [current_bookmark_ID];
 
     
-//Employee Home Page
+-- ===== Employee Home Page =====
 
-    //get list of bookmarks matching search bar value (for “” just returns all bookmarks)
+    -- get list of bookmarks matching search bar value (for “” just returns all bookmarks)
     SELECT * FROM bookmark_list
     WHERE title LIKE ‘%[Current Searched title]%’;
 
 
-//Employee Bookmark Details Page
+-- ===== Employee Bookmark Details Page =====
 
-    //get bookmark information
+    -- get bookmark information
     SELECT 
     bookmark_id AS ID,
     bookmark_title AS title,
@@ -112,14 +112,14 @@
     JOIN ratings_quantity USING(bookmark_ID)
     WHERE bookmark_ID = [current_bookmark_ID];
 
-    //get tags for this bookmark   
+    -- get tags for this bookmark   
     SELECT 
     tag_name AS name,
     tag_colour AS colour
     FROM tag_bookmark_link JOIN tag USING(tag_ID)
     WHERE bookmark_ID = [current_bookmark_ID];
 
-    //get comments for this bookmark
+    -- get comments for this bookmark
     SELECT 
     comment_details AS details,
     date_created AS created,
@@ -129,20 +129,20 @@
     FROM comment JOIN users ON commenter_ID = user_ID
     WHERE bookmark_ID = [current_bookmark_ID];
 
-    //check if user liked the bookmark
+    -- check if user liked the bookmark
     SELECT * FROM favourite
     WHERE user_ID = [current_user_ID] AND bookmark_ID = [current_bookmark_ID];
 
 
-// Add Bookmark Page
+-- ===== Add Bookmark Page =====
 
-    //to check if tags user is adding exist already
+    -- to check if tags user is adding exist already
     SELECT tag_name FROM tag; 
 
 
-//User Profile Page
+-- ===== User Profile Page =====
 
-    //get informations to display on the page
+    -- get informations to display on the page
     SELECT user_displayName AS name,
     user_email AS email,
     user_department AS department
@@ -150,17 +150,17 @@
     WHERE user_ID = [current_user_ID];
     
 
-//Favourites Page
+-- ===== Favourites Page =====
 
-    //get list of favourite bookmarks
+    -- get list of favourite bookmarks
     SELECT ID, title, rating, views 
     FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
     WHERE favourite_user_ID = [current_user_ID];
     
     
-//Unverified Users Page
+-- ===== Unverified Users Page =====
 
-    //get list of unverified users
+    -- get list of unverified users
     SELECT 
     user_ID AS ID,
     user_email AS email,
@@ -169,9 +169,9 @@
     FROM users
     WHERE user_type = [unverified_user_string];
 
-//Verified Users Page
+-- ===== Verified Users Page =====
 
-    //get list of verified users
+    -- get list of verified users
     SELECT 
     user_ID AS ID,
     user_email AS email,
@@ -181,8 +181,3 @@
     user_suspended AS suspended
     FROM users
     WHERE NOT user_type = [unverified_user_string];
-
-
-
-
-

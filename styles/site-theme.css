@@ -1,0 +1,26 @@
+/*
+ * File for all the styles that are distinctive across 
+ * the bookmarks site. Made for the COM1001 - Group Assesment.
+ */
+
+/*
+ * ===== Mobile Styles =====
+ */
+
+
+
+/*
+ * ===== Tablet Styles =====
+ */
+
+@media only screen and (min-width: 400px) {
+    
+}
+
+/*
+ * ===== Desktop Styles =====
+ */
+
+@media only screen and (min-width: 800px) {
+    
+}

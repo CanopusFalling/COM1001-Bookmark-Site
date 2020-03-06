@@ -46,14 +46,14 @@
 
 -- ===== Guest Homepage =====
 
-    -- get list of bookmarks matching search bar value (for “” just returns all bookmarks)
+    -- Get list of bookmarks matching search bar value (for “” just returns all bookmarks.)
     SELECT * FROM bookmark_list
-    WHERE title LIKE ‘%[Current Searched title]%’;
+    WHERE title LIKE '%[Current Searched title]%';
 
 
 -- ===== Register Page =====
 
-    -- get existing emails to check if already in use
+    -- Get existing emails to check if already in use.
     SELECT DISTINCT user_email AS email
     FROM users;
 
@@ -71,7 +71,7 @@
 
 -- ===== Bookmark Details Page - GUEST =====
 
-    //get info about bookmark and creator
+    -- Get info about bookmark and creator.
     SELECT 
     bookmark_ID AS ID,
     bookmark_title AS title,
@@ -86,14 +86,14 @@
     
 -- ===== Employee Home Page =====
 
-    -- get list of bookmarks matching search bar value (for “” just returns all bookmarks)
+    -- Get list of bookmarks matching search bar value (for “” just returns all bookmarks.)
     SELECT * FROM bookmark_list
-    WHERE title LIKE ‘%[Current Searched title]%’;
+    WHERE title LIKE '%[Current Searched title]%';
 
 
 -- ===== Employee Bookmark Details Page =====
 
-    -- get bookmark information
+    -- Get bookmark information.
     SELECT 
     bookmark_id AS ID,
     bookmark_title AS title,
@@ -112,14 +112,14 @@
     JOIN ratings_quantity USING(bookmark_ID)
     WHERE bookmark_ID = [current_bookmark_ID];
 
-    -- get tags for this bookmark   
+    -- Get tags for this bookmark.
     SELECT 
     tag_name AS name,
     tag_colour AS colour
     FROM tag_bookmark_link JOIN tag USING(tag_ID)
     WHERE bookmark_ID = [current_bookmark_ID];
 
-    -- get comments for this bookmark
+    -- Get comments for this bookmark.
     SELECT 
     comment_details AS details,
     date_created AS created,
@@ -129,20 +129,20 @@
     FROM comment JOIN users ON commenter_ID = user_ID
     WHERE bookmark_ID = [current_bookmark_ID];
 
-    -- check if user liked the bookmark
+    -- Check if user liked the bookmark.
     SELECT * FROM favourite
     WHERE user_ID = [current_user_ID] AND bookmark_ID = [current_bookmark_ID];
 
 
 -- ===== Add Bookmark Page =====
 
-    -- to check if tags user is adding exist already
+    -- To check if tags user is adding exist already.
     SELECT tag_name FROM tag; 
 
 
 -- ===== User Profile Page =====
 
-    -- get informations to display on the page
+    -- Get informations to display on the page.
     SELECT user_displayName AS name,
     user_email AS email,
     user_department AS department
@@ -152,7 +152,7 @@
 
 -- ===== Favourites Page =====
 
-    -- get list of favourite bookmarks
+    -- Get list of favourite bookmarks.
     SELECT ID, title, rating, views 
     FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
     WHERE favourite_user_ID = [current_user_ID];
@@ -160,18 +160,18 @@
     
 -- ===== Unverified Users Page =====
 
-    -- get list of unverified users
+    -- Get list of unverified users.
     SELECT 
     user_ID AS ID,
     user_email AS email,
     user_displayName as displayName,
-    user_department as department,
+    user_department as department
     FROM users
     WHERE user_type = [unverified_user_string];
 
 -- ===== Verified Users Page =====
 
-    -- get list of verified users
+    -- Get list of verified users.
     SELECT 
     user_ID AS ID,
     user_email AS email,

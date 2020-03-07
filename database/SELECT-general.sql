@@ -24,7 +24,7 @@
         )
     GROUP BY bookmark_ID;
 
-    -- returns table with bookmark: id, title, avg rating and number of views
+    -- Returns table with bookmark: id, title, avg rating and number of views
     CREATE VIEW bookmark_list AS
     SELECT 
     bookmark_ID AS ID,
@@ -181,3 +181,42 @@
     user_suspended AS suspended
     FROM users
     WHERE NOT user_type = [unverified_user_string];
+
+-- ===== User Datail's Edit Page =====
+
+    -- Get user specific details.
+    SELECT 
+    user_displayName AS displayName,
+    user_email AS email,
+    user_department As department
+    FROM users
+    WHERE user_ID = [current_user_ID];
+
+    -- Get user view history.
+    SELECT
+        bookmark_viewed_ID AS bookmark_ID,
+        view_date AS date
+        FROM views
+        WHERE viewer_ID = [current_user_ID];
+
+-- ===== Reported Bookmarks Page =====
+
+    -- Get List of bookmarks with at least one unresolved report.
+    SELECT *
+    FROM bookmark_list JOIN(
+        SELECT UNIQUE bookmark_ID
+        FROM reports
+        WHERE report_resolved = 0
+    ) USING(bookmark_ID);
+
+-- ===== Reported Bookmark Specific Page =====
+
+    -- Get details of specific reported bookmark.
+    SELECT 
+        bookmark_title AS title,
+        bookmark_link AS link,
+        report_type AS report_type,
+        report_details AS details
+        FROM bookmark JOIN report USING(bookmark_ID)
+        WHERE bookmark_ID = [current_bookmark_ID];
+

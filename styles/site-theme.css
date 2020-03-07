@@ -22,5 +22,12 @@
  */
 
 @media only screen and (min-width: 800px) {
-    
+    body{
+        margin: 0px;
+    }
+
+    header{
+        margin: 0px;
+        padding: 6px;
+    }
 }

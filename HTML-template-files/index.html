@@ -5,19 +5,37 @@
     <meta charset="utf-8">
     <title>Bookmark Site V1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
 </head>
 
 <!-- Site Structure -->
 <body>
     <header>
-
+        <h1>Bookmark Site</h1>
         <nav>
-
+            <ul>
+                <li>Register</li>
+                <li>Login</li>
+            </ul>
         </nav>
     </header>
 
     <main>
+        <section id="homepage-bookmarks-table">
 
+            <!-- Example HTML for bookmark entries. -->
+            <div id="[bookmark_ID]" onclick="window.location = '[bookmark link here]'">
+                <!-- Bookmark Details -->
+                <!-- Image if we wanted to add that later. <img width='50' height='50'>-->
+                <span class="bookmark-title">[Bookmark Title]</span>
+                <span class="bookmark-description">[Bookmark Description]</span>
+
+                <!-- Editing Buttons. -->
+                <img src="../assets/load-details.jpg" onclick="window.location = '/bookmark?bookmark-ID=[bookmark ID]'">
+                <img src="../assets/delete-button.jpg" onclick="window.location = '/delete-bookmark?bookmark-ID=[bookmark ID]'">
+            </div>
+
+        </section>
     </main>
 
     <footer>

@@ -4,10 +4,14 @@ module Bookmarks
     
     DATABASE_DIRECTORY=""
 
+    #Setup methods
+
     def Bookmarks.init
         @@db = SQLite3::Database.new DATABASE_DIRECTORY
         @@db.results_as_hash = true    
     end
+
+    #Queries methods
 
     def Bookmarks.getHomepageData search
         result = nil
@@ -50,7 +54,7 @@ module Bookmarks
 
             return true
         end
-        
+
         return nil
     end
 
@@ -58,7 +62,7 @@ module Bookmarks
         result[:details] = nil
         result[:tags] = nil
        
-        if id
+        if id.is_a? Integer
 
             query = "SELECT 
             bookmark_ID AS ID,
@@ -92,7 +96,7 @@ module Bookmarks
         result[:tags] = details[:tags]
         result[:comments] = nil
         result[:liked] = nil
-        if user_ID 
+        if user_ID.is_a? Integer
             query = "SELECT 
             comment_details AS details,
             date_created AS created,
@@ -103,7 +107,7 @@ module Bookmarks
             WHERE bookmark_ID = ?;"
             result[:comments] = @@db.execute query,user_ID.to_i
             
-            if bookmark_ID
+            if bookmark_ID.is_a? Integer
                 query = "SELECT * FROM favourite
                 WHERE user_ID = ? AND bookmark_ID = ?;"
                 rows = @@db.execute query,user_ID.to_i,bookmark_ID.to_i
@@ -129,8 +133,10 @@ module Bookmarks
     end
 
     def Bookmarks.getUserDetails ID
-        result = nil
-        if ID
+        result[:name] = nil
+        result[:email] = nil
+        result[:department] = nil
+        if ID.is_a? Integer
             query = "SELECT user_displayName AS name,
                     user_email AS email,
                     user_department AS department
@@ -144,7 +150,7 @@ module Bookmarks
 
     def Bookmarks.getFavouriteList ID
         result = nil
-        if ID
+        if ID.is_a? Integer
             query = "SELECT ID, title, rating, views 
                     FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
                     WHERE favourite_user_ID = ?;"
@@ -153,7 +159,6 @@ module Bookmarks
 
         return result
     end
-
-    def 
+    
 
 end

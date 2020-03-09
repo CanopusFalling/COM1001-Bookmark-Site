@@ -2,7 +2,7 @@ require 'sqlite3'
 
 module Bookmarks
     
-    DATABASE_DIRECTORY = ""
+    DATABASE_DIRECTORY=""
 
     def Bookmarks.init
         @@db = SQLite3::Database.new DATABASE_DIRECTORY
@@ -10,11 +10,11 @@ module Bookmarks
     end
 
     def Bookmarks.getHomepageData search
-        result = {}
+        result = nil
         if search
             query = "SELECT * FROM bookmark_list
                     WHERE title LIKE ?;"  
-            result = { :bookmark_list: => @@db.execute query, "%#{search}%"}
+            result = @@db.execute query, "%#{search}%"
         end
         return result
     end
@@ -35,22 +35,29 @@ module Bookmarks
     end
 
     def Bookmarks.correctLogin? (email, password)
-        query = "SELECT 
-                user_email AS login,
-                user_password_hash AS hash,
-                user_password_salt AS salt,
-                user_suspended AS suspended
-                FROM users
-                WHERE login=?;"
-        result = @@db.get_first_value query,email
-        #TODO code login verification
-        if result[:suspended] then return false
-        
+        if email && password
+            query = "SELECT 
+                    user_email AS login,
+                    user_password_hash AS hash,
+                    user_password_salt AS salt,
+                    user_suspended AS suspended
+                    FROM users
+                    WHERE login=?;"
+            result = @@db.get_first_value query,email
+            #TODO code login verification
+            if result[:suspended] then return false
+            
 
-        return true
+            return true
+        end
+        
+        return nil
     end
 
     def Bookmarks.getGuestBookmarkDetails ID
+        result[:details] = nil
+        result[:tags] = nil
+       
         if id
 
             query = "SELECT 
@@ -72,13 +79,7 @@ module Bookmarks
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
             result[:tags] = @@db.execute query, ID.to_i
-
-
-
-        
-        else
-            result[:details] = nil
-            result[:tags] = nil
+            
         end
 
         return result
@@ -100,12 +101,12 @@ module Bookmarks
             user_displayName AS displayName
             FROM comment JOIN users ON commenter_ID = user_ID
             WHERE bookmark_ID = ?;"
-            result[:comments] = @@db.execute query,user_ID
+            result[:comments] = @@db.execute query,user_ID.to_i
             
             if bookmark_ID
                 query = "SELECT * FROM favourite
                 WHERE user_ID = ? AND bookmark_ID = ?;"
-                rows = @@db.execute query,user_ID,bookmark_ID
+                rows = @@db.execute query,user_ID.to_i,bookmark_ID.to_i
                 if(rows.length() == 0) 
                     result[:liked] = false
                 else     
@@ -115,9 +116,44 @@ module Bookmarks
         end
 
         return result
-
     end
 
+    def Bookmarks.getTagNames
+        query = "SELECT tag_name FROM tag";
+        result = @@db.execute query
+        result.each do |row|
+            row=row[:tag_name]
+        end
 
+        return result
+    end
+
+    def Bookmarks.getUserDetails ID
+        result = nil
+        if ID
+            query = "SELECT user_displayName AS name,
+                    user_email AS email,
+                    user_department AS department
+                    FROM users
+                    WHERE user_ID = ?;"
+            result = @@db.get_first_value query, ID.to_i
+        end
+        
+        return result
+    end
+
+    def Bookmarks.getFavouriteList ID
+        result = nil
+        if ID
+            query = "SELECT ID, title, rating, views 
+                    FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
+                    WHERE favourite_user_ID = ?;"
+            result = @@db.execute query,ID.to_i
+        end
+
+        return result
+    end
+
+    def 
 
 end

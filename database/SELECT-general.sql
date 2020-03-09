@@ -83,6 +83,13 @@
     FROM bookmark JOIN users ON creator_ID = user_ID
     WHERE bookmark_ID = [current_bookmark_ID];
 
+    -- Get tags for this bookmark.
+    SELECT 
+    tag_name AS name,
+    tag_colour AS colour
+    FROM tag_bookmark_link JOIN tag USING(tag_ID)
+    WHERE bookmark_ID = [current_bookmark_ID];
+
     
 -- ===== Employee Home Page =====
 

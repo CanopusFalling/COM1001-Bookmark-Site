@@ -193,7 +193,7 @@
 
     -- Get user specific details.
     SELECT 
-    user_displayName AS displayName,
+    user_displayName AS name,
     user_email AS email,
     user_department As department
     FROM users

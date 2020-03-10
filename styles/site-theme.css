@@ -56,7 +56,7 @@
         padding: 6px;
         display: flex;
         font-family: Comic Sans Ms, cursive,sans-serif;
-        font-size:36px;
+        font-size:30px;
         font-weight: 500;
         min-width:3200x;
         max-width: 1400px;
@@ -77,6 +77,30 @@
 
     /*--------------- main ---------------*/
 
+    table, td, th{
+        border: 1px solid black;
+        color: black;
+    }
+    table {
+        margin: 0% 5%;
+        padding: 6px;
+        border-collapse: collapse;
+        width: 85%;
+        text-align: left;
+        vertical-align: center;
+        background-color: rgba(196,242,252,0.8);
+    }
+    th{
+        font-weight: 550;
+        font-size: 25px;
+        height: 50px;
+        
+    }
 
+    td{
+        font-weight: 500;
+        font-size: 20px;
+        height: 45px;
+    }
     
 }

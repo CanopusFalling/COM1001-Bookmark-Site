@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <!-- Setup HTML -->
+    <meta charset="utf-8">
+    <title>Bookmark Site V1.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
+</head>
+
+<!-- Site Structure -->
+<body>
+    <header>
+        <h1>Login</h1>
+        <nav>
+            <ul>
+                <li>Register</li>
+                <li>Login</li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <form name="myform" action="https://www.dcs.shef.ac.uk/cgi-intranet/public/FormMail.pl" method="get"> 
+        <input type="hidden" name="recipient" value="plin7@sheffield.ac.uk">
+        <section id="homepage-bookmarks-table">
+        <p> 
+            <label for="email">Enter Your e-mail:</label>
+            <input name="email" type="email" class="size1" id="email" placeholder="enter your email..."> 
+        </p> 
+            <p>
+            <label for="GET-name">Enter your password:</label> 
+            <input name="name" type="text" class="size2" id="GET-password" placeholder="Enter your password..." >
+
+            </p>
+            <p>
+               <input type="submit" name="submit" id="submit" value="Submit">
+                <input type="reset"> 
+            </p> 
+            <!-- Example HTML for bookmark entries. -->
+            <div id="[bookmark_ID]" onclick="window.location = '[bookmark link here]'">
+                <!-- Bookmark Details -->
+                <!-- Image if we wanted to add that later. <img width='50' height='50'>-->
+                <span class="bookmark-title">[Bookmark Title]</span>
+                <span class="bookmark-description">[Bookmark Description]</span>
+
+                <!-- Editing Buttons. -->
+                <img src="../assets/load-details.jpg" onclick="window.location = '/bookmark?bookmark-ID=[bookmark ID]'">
+                <img src="../assets/delete-button.jpg" onclick="window.location = '/delete-bookmark?bookmark-ID=[bookmark ID]'">
+            </div>
+
+        </section>
+        </form>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>

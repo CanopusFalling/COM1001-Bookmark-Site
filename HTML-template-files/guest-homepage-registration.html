@@ -12,43 +12,50 @@
     <!-- Style sheet -->
     <link rel="stylesheet" href="../styles/site-theme.css">
 </head>
+
 <!-- Body part -->
 <body>
 
-<!-- Navigation bar -->
-<main>
-    <div id="frame_container">
-        <!-- the action needs to be defined -->
-        <form action= >
-            <h1 class="title_within_the_frame">
-                Registration
-            </h1>
-            <textarea rows="1" placeholder="Enter your preferred name.." class="textarea" name="name"></textarea>
-            <br>
-            <textarea rows="1" placeholder="Enter your email.." class="textarea" name="email"></textarea>
-            <br>
-            <textarea rows="1" placeholder="Confirm your email.." class="textarea" name="email_validation"></textarea>
-            <br>
-            <textarea rows="1" placeholder="Create a password." class="textarea" name="password"></textarea>
-            <br>
-            <p>*Note: Password must be at least 8 characters long and contain a number and a special character</p>
-            <br>
-            <textarea rows="1" placeholder="Confirm password.." class="textarea" name="password_validation"></textarea>
-            <br>
-            <!-- Cancel bottom should redirect to the previous page-->
-            <input type="button" value="cancel" onclick="history.back()">
-            <!-- encrypt the password and submit, not implemented yet -->
-            <input type="submit" value="Create" class="textarea">
-        </form>
-    </div>
-</main>
+    <header>
+        <h1>Registration</h1>
+        <nav>
+            <ul>
+                <li>Register</li>
+                <li>Login</li>
+            </ul>
+        </nav>
+    </header>
+    <!-- -->
+    <main>
+        <div id="frame_container">
+            <!-- the action needs to be defined -->
+            <form action= >
+                <textarea rows="1" placeholder="Enter your preferred name.." class="textarea" name="name"></textarea>
+                <br>
+                <textarea rows="1" placeholder="Enter your email.." class="textarea" name="email"></textarea>
+                <br>
+                <textarea rows="1" placeholder="Confirm your email.." class="textarea" name="email_validation"></textarea>
+                <br>
+                <textarea rows="1" placeholder="Create a password." class="textarea" name="password"></textarea>
+                <br>
+                <p>*Note: Password must be at least 8 characters long and contain a number and a special character</p>
+                <br>
+                <textarea rows="1" placeholder="Confirm password.." class="textarea" name="password_validation"></textarea>
+                <br>
+                <!-- Cancel bottom should redirect to the previous page-->
+                <input type="button" value="cancel" onclick="history.back()">
+                <!-- encrypt the password and submit, not implemented yet -->
+                <input type="submit" value="Create" class="textarea">
+            </form>
+        </div>
+    </main>
 
-<!-- Footer bar -->
-<footer>
-    <p>
-        &copy; Designed by Team 4, 2020
-    </p>
-</footer>
+    <!-- Footer bar -->
+    <footer>
+        <p>
+            &copy; Designed by Team 4, 2020
+        </p>
+    </footer>
 </body>
 <!-- End of body -->
 

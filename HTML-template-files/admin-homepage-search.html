@@ -1,0 +1,52 @@
+<html>
+
+    <head>
+        <!-- Setup HTML -->
+        <meta charset="utf-8">
+        <title>Bookmark Site Admin V1.0</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
+    </head>
+    
+    <!-- Site Structure -->
+    <body>
+        <header>
+            <h1>Bookmark Site</h1>
+            <nav>
+                <ul>
+                    <li>Create Bookmark</li>
+                    <li>Favourites</li>
+                    <li>Profile</li>
+                </ul>
+            </nav>
+        </header>
+    
+        <main>
+            <section class="basic-table" id="homepage-bookmarks-table">
+    
+                <!-- Example HTML for bookmark entries. -->
+                <div id="[bookmark_ID]" onclick="window.location = '[bookmark link here]'">
+                    <!-- Bookmark Details -->
+                    <div class="bookmark-details">
+                        <!-- Image if we wanted to add that later. <img width='50' height='50'>-->
+                        <span class="bookmark-title">[Bookmark Title]</span>
+                        <span class="bookmark-description">[Bookmark Description]</span>
+                    </div>
+    
+                    <!-- Editing Buttons. -->
+                    <div class="edit-buttons">
+                        <img src="../assets/load-details.jpg" onclick="window.location = '/bookmark?bookmark-ID=[bookmark ID]'">
+                        <img src="../assets/delete-button.jpg" onclick="window.location = '/delete-bookmark?bookmark-ID=[bookmark ID]'">
+                    </div>
+                </div>
+    
+            </section>
+            <button Onclick="window.location=''">Console</button>
+        </main>
+    
+        <footer>
+    
+        </footer>
+    </body>
+    
+    </html>

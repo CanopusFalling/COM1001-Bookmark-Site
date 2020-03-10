@@ -39,18 +39,18 @@ module Bookmarks
         return result
     end
 
-    def Bookmarks.correctLogin? (email, password)
-        
+    def Bookmarks.getPasswordHash? (email)
+        result = nil
         if email && password
             query = "SELECT 
                     user_id AS id,
-                    user_email AS login,
                     user_password AS password,
                     FROM users
                     WHERE login=?;"
             result = @@db.get_first_value query,email
 
         end
+        return result
     end
 
     def Bookmarks.getGuestBookmarkDetails id

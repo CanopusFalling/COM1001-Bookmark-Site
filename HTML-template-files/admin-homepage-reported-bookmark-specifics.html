@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <!-- Setup HTML -->
+    <meta charset="utf-8">
+    <title>Reported `Bookmark Detail Specifics</title>
+    <meta name="author" content="Yi Jing">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
+</head>
+
+<!-- Site Structure -->
+<body>
+    <header>
+        <h1>Reported Bookmark Specifics</h1>
+    </header>
+
+    <main>
+        <section class="basic-table" id="homepage-bookmarks-specifics-reported">
+                <!-- Reported Bookmark Details -->
+                <div class="bookmark-details">
+                    <span class="bookmark-name">[Bookmark Name]</span>
+                </div>
+                <div class="bookmark-details">
+                    <span class="bookmark-url">[Bookmark URL]</span>
+                </div>
+                <div class="bookmark-details">
+                    <span class="reported-category">[Reported Category]</span>
+                </div>
+                <div class="bookmark-details">
+                    <span class="additional-details">[Additional Details</span>
+                </div>
+        </section>
+        <!-- Editing Buttons. -->
+        <div class="report-edit-buttons">
+            <img src="../assets/load-details.jpg" onclick="window.location = '/bookmark?bookmark-ID=[bookmark ID]'">
+            <button Onclick="">Mark as Resolved</button>
+            <img src="../assets/delete-button.jpg" onclick="window.location = '/delete-bookmark?bookmark-ID=[bookmark ID]'">
+        </div>
+        <button Onclick="window.location = '..'">Back</button> 
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>

@@ -92,6 +92,11 @@
         width: 100%;
     }
 
+    section.basic-table div.edit-buttons img{
+        width: 20px;
+        height: 20px;
+    }
+
     section.basic-table div{
         background-color: rgba(0, 0, 0, 0.75);
         margin: 2px auto;

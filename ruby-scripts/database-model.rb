@@ -39,27 +39,18 @@ module Bookmarks
         return result
     end
 
-    def Bookmarks.correctLogin? (email, password)
-        
+    def Bookmarks.getPasswordHash? (email)
+        result = nil
         if email && password
             query = "SELECT 
-                    user_email AS login,
-                    user_password_hash AS hash,
-                    user_password_salt AS salt,
-                    user_suspended AS suspended
+                    user_id AS id,
+                    user_password AS password,
                     FROM users
                     WHERE login=?;"
             result = @@db.get_first_value query,email
-            #TODO code login verification
-            if result[:suspended] 
-                return false
-            end
-            
 
-            return true
         end
-
-        return nil
+        return result
     end
 
     def Bookmarks.getGuestBookmarkDetails id

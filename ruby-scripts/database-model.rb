@@ -8,8 +8,9 @@ module Bookmarks
     #Setup methods
 
     def Bookmarks.init
-        @@db = SQLite3::Database.new DATABASE_DIRECTORY
-        @@db.results_as_hash = true    
+        puts DATABASE_DIRECTORY
+        @@db = SQLite3::Database.open DATABASE_DIRECTORY
+        @@db.results_as_hash = true
     end
 
     #Queries methods
@@ -20,6 +21,7 @@ module Bookmarks
             query = "SELECT * FROM bookmark_list
                     WHERE title LIKE ?;"  
             result = @@db.execute query, "%#{search}%"
+            result.map{|row| row.transform_keys!(&:to_sym)}
         end
         return result
     end
@@ -30,25 +32,26 @@ module Bookmarks
     end
 
     def Bookmarks.currentUserEmails
-        query = "SELECT DISTINCT user_email AS email
+        query = "SELECT user_email AS email
                 FROM users;"
         result = @@db.execute query
-        result.each do |row|
-            row = row[:email]
+        (0..(result.length()-1)).each do |i|
+            result[i] = result[i]["email"]
         end
         return result
     end
 
-    def Bookmarks.getPasswordHash? (email)
+    def Bookmarks.getPasswordHash email
         result = nil
-        if email && password
+        if email
             query = "SELECT 
                     user_id AS id,
                     user_password AS password,
                     FROM users
-                    WHERE login=?;"
-            result = @@db.get_first_value query,email
-
+                    WHERE user_email=?;"
+            result = @@db.execute query,email
+            result = result[0]
+            result.transform_keys!(&:to_sym)
         end
         return result
     end
@@ -72,7 +75,9 @@ module Bookmarks
             FROM bookmark JOIN users ON creator_ID = user_ID
             WHERE bookmark_ID = ?;"
 
-            result[:details] = @db.get_first_value query , id.to_i
+            result[:details] = @@db.execute query , id.to_i
+            result[:details] = result[:details][0]
+            result[:details].transform_keys!(&:to_sym)
 
             query = "SELECT 
                     tag_name AS name,
@@ -80,6 +85,7 @@ module Bookmarks
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
             result[:tags] = @@db.execute query, id.to_i
+            result[:tags].map{|row| row.transform_keys!(&:to_sym)}
             
         end
 
@@ -104,6 +110,7 @@ module Bookmarks
             FROM comment JOIN users ON commenter_ID = user_ID
             WHERE bookmark_ID = ?;"
             result[:comments] = @@db.execute query,user_ID.to_i
+            result[:comments].map{|row| row.transform_keys!(&:to_sym)}
             
             if bookmark_ID.is_a? Integer
                 query = "SELECT * FROM favourite
@@ -124,23 +131,23 @@ module Bookmarks
         query = "SELECT tag_name FROM tag";
         result = @@db.execute query
         result.each do |row|
-            row=row[:tag_name]
+            row = row["tag_name"]
         end
 
         return result
     end
 
     def Bookmarks.getUserDetails id
-        result[:name] = nil
-        result[:email] = nil
-        result[:department] = nil
+        result = nil
         if id.is_a? Integer
             query = "SELECT user_displayName AS name,
                     user_email AS email,
                     user_department AS department
                     FROM users
                     WHERE user_ID = ?;"
-            result = @@db.get_first_value query, id.to_i
+            result = @@db.execute query, id.to_i
+            result = result[0]
+            result.transform_keys!(&:to_sym)
         end
         
         return result
@@ -153,6 +160,7 @@ module Bookmarks
                     FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
                     WHERE favourite_user_ID = ?;"
             result = @@db.execute query,id.to_i
+            result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
         return result
@@ -167,6 +175,7 @@ module Bookmarks
                 FROM users
                 WHERE user_type = ?;"
         result = @@db.execute query, UNVERIFIED_STRING
+        result.map{|row| row.transform_keys!(&:to_sym)}
         
         return result
     end
@@ -182,6 +191,7 @@ module Bookmarks
                 FROM users
                 WHERE NOT user_type = ?;"
         result = @@db.execute query, UNVERIFIED_STRING
+        result.map{|row| row.transform_keys!(&:to_sym)}
 
         return result
     end
@@ -195,12 +205,13 @@ module Bookmarks
                     FROM views
                     WHERE viewer_ID = ?;"
             result = @@db.execute query, id.to_i
+            result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
         return result
     end
 
-    def Bookmark.getUnresolvedReports
+    def Bookmarks.getUnresolvedReports
         query = "SELECT *
                 FROM bookmark_list JOIN(
                     SELECT UNIQUE bookmark_ID
@@ -208,11 +219,12 @@ module Bookmarks
                     WHERE report_resolved = 0
                 ) USING(bookmark_ID);"
         result = @@db.execute query
+        result.map{|row| row.transform_keys!(&:to_sym)}
                     
         return result
     end
 
-    def Bookmark.getReportedBookmarkDetails id
+    def Bookmarks.getReportedBookmarkDetails id
         result = nil
         if id.is_a? Integer
             query = "SELECT 
@@ -223,8 +235,14 @@ module Bookmarks
                     FROM bookmark JOIN report USING(bookmark_ID)
                     WHERE bookmark_ID = ?;"
             result = @@db.execute query,id
+            result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
         return result
     end
 end
+
+Bookmarks.init
+puts Bookmarks.currentUserEmails
+puts Bookmarks.getBookmarkDetails 1 ,0
+puts Bookmarks.getUserDetails 1

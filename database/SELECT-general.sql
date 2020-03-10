@@ -62,8 +62,7 @@
 
     SELECT 
     user_email AS login,
-    user_password_hash AS hash,
-    user_password_salt AS salt,
+    user_password AS password
     user_suspended AS suspended
     FROM users
     WHERE login=[login_input];

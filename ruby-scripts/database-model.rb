@@ -2,7 +2,8 @@ require 'sqlite3'
 
 module Bookmarks
     
-    DATABASE_DIRECTORY=""
+    DATABASE_DIRECTORY = ""
+    UNVERIFIED_STRING = "Unverified"
 
     #Setup methods
 
@@ -38,27 +39,23 @@ module Bookmarks
         return result
     end
 
-    def Bookmarks.correctLogin? (email, password)
+    def Bookmarks.getPasswordHash? (email)
+        result = nil
         if email && password
             query = "SELECT 
-                    user_email AS login,
-                    user_password_hash AS hash,
-                    user_password_salt AS salt,
-                    user_suspended AS suspended
+                    user_id AS id,
+                    user_password AS password,
                     FROM users
                     WHERE login=?;"
             result = @@db.get_first_value query,email
-            #TODO code login verification
-            if result[:suspended] then return false
-            
 
-            return true
         end
-
-        return nil
+        return result
     end
 
-    def Bookmarks.getGuestBookmarkDetails ID
+    def Bookmarks.getGuestBookmarkDetails id
+        
+        result = Hash.new
         result[:details] = nil
         result[:tags] = nil
        
@@ -75,14 +72,14 @@ module Bookmarks
             FROM bookmark JOIN users ON creator_ID = user_ID
             WHERE bookmark_ID = ?;"
 
-            result[:details] = @db.get_first_value query , ID.to_i
+            result[:details] = @db.get_first_value query , id.to_i
 
             query = "SELECT 
                     tag_name AS name,
                     tag_colour AS colour
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
-            result[:tags] = @@db.execute query, ID.to_i
+            result[:tags] = @@db.execute query, id.to_i
             
         end
 
@@ -92,6 +89,7 @@ module Bookmarks
     def Bookmarks.getBookmarkDetails (bookmark_ID,user_ID)
             
         details = Bookmarks.getGuestBookmarkDetails bookmark_ID
+        result = Hash.new
         result[:details] = details[:details]
         result[:tags] = details[:tags]
         result[:comments] = nil
@@ -132,33 +130,101 @@ module Bookmarks
         return result
     end
 
-    def Bookmarks.getUserDetails ID
+    def Bookmarks.getUserDetails id
         result[:name] = nil
         result[:email] = nil
         result[:department] = nil
-        if ID.is_a? Integer
+        if id.is_a? Integer
             query = "SELECT user_displayName AS name,
                     user_email AS email,
                     user_department AS department
                     FROM users
                     WHERE user_ID = ?;"
-            result = @@db.get_first_value query, ID.to_i
+            result = @@db.get_first_value query, id.to_i
         end
         
         return result
     end
 
-    def Bookmarks.getFavouriteList ID
+    def Bookmarks.getFavouriteList id
         result = nil
-        if ID.is_a? Integer
+        if id.is_a? Integer
             query = "SELECT ID, title, rating, views 
                     FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
                     WHERE favourite_user_ID = ?;"
-            result = @@db.execute query,ID.to_i
+            result = @@db.execute query,id.to_i
         end
 
         return result
     end
-    
 
+    def Bookmarks.getUnverifiedList 
+        query = "SELECT 
+                user_ID AS ID,
+                user_email AS email,
+                user_displayName as displayName,
+                user_department as department
+                FROM users
+                WHERE user_type = ?;"
+        result = @@db.execute query, UNVERIFIED_STRING
+        
+        return result
+    end
+    
+    def Bookmarks.getUnverifiedList
+        query = "SELECT 
+                user_ID AS ID,
+                user_email AS email,
+                user_displayName AS displayName,
+                user_department AS department,
+                user_type AS status,
+                user_suspended AS suspended
+                FROM users
+                WHERE NOT user_type = ?;"
+        result = @@db.execute query, UNVERIFIED_STRING
+
+        return result
+    end
+
+    def Bookmarks.getViewHistory id
+        result = nil
+        if id.is_a? Integer
+            query = "SELECT
+                    bookmark_viewed_ID AS bookmark_ID,
+                    view_date AS date
+                    FROM views
+                    WHERE viewer_ID = ?;"
+            result = @@db.execute query, id.to_i
+        end
+
+        return result
+    end
+
+    def Bookmark.getUnresolvedReports
+        query = "SELECT *
+                FROM bookmark_list JOIN(
+                    SELECT UNIQUE bookmark_ID
+                    FROM reports
+                    WHERE report_resolved = 0
+                ) USING(bookmark_ID);"
+        result = @@db.execute query
+                    
+        return result
+    end
+
+    def Bookmark.getReportedBookmarkDetails id
+        result = nil
+        if id.is_a? Integer
+            query = "SELECT 
+                    bookmark_title AS title,
+                    bookmark_link AS link,
+                    report_type AS report_type,
+                    report_details AS details
+                    FROM bookmark JOIN report USING(bookmark_ID)
+                    WHERE bookmark_ID = ?;"
+            result = @@db.execute query,id
+        end
+
+        return result
+    end
 end

@@ -2,19 +2,29 @@ require 'sqlite3'
 
 module Bookmarks
     
+    #===Constants declaration
+
     DATABASE_DIRECTORY = ""
     UNVERIFIED_STRING = "Unverified"
 
-    #Setup methods
+    #===Setup methods===
 
+    #Run to open the database connection
     def Bookmarks.init
         puts DATABASE_DIRECTORY
         @@db = SQLite3::Database.open DATABASE_DIRECTORY
         @@db.results_as_hash = true
     end
 
-    #Queries methods
+    #===Queries methods===
 
+    #Retursns list of bookmarks with titles containing param search
+    #Params: search - what to look for in target titles
+    #Returns: A array of hashes with following keys (or nil if input was incorrect): 
+    #   :ID - id of a bookmark
+    #   :title - title of a bookmark
+    #   :rating - avg rating of a bookmark
+    #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData search
         result = nil
         if search
@@ -26,13 +36,19 @@ module Bookmarks
         return result
     end
 
-
+    #Returns list of all bookmarks 
+    #Returns: A array of hashes with following keys: 
+    #   :ID - id of a bookmark
+    #   :title - title of a bookmark
+    #   :rating - avg rating of a bookmark
+    #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData
-        Bookmarks.getHomepageData ""
+        return Bookmarks.getHomepageData ""
     end
 
+    #Returns: An array of distinct user emails(strings)
     def Bookmarks.currentUserEmails
-        query = "SELECT user_email AS email
+        query = "SELECT DISTINCT user_email AS email
                 FROM users;"
         result = @@db.execute query
         (0..(result.length()-1)).each do |i|
@@ -41,6 +57,11 @@ module Bookmarks
         return result
     end
 
+    #Given an email returns id and password hash of a given user
+    #Params: email - an email of a current user
+    #Returns: A hash with following keys (or nil if input was incorrect):
+    #   :id - user id
+    #   :password - user password_hash
     def Bookmarks.getPasswordHash email
         result = nil
         if email
@@ -50,12 +71,31 @@ module Bookmarks
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
-            result = result[0]
-            result.transform_keys!(&:to_sym)
+
+            if result.length > 0
+                result = result[0]
+                result.transform_keys!(&:to_sym)
+            else
+                result = nil
+            end
         end
         return result
     end
 
+    #Returns details of a bookmark when viewed by a guest
+    #Params: id (integer) - an id of a bookmark in current system
+    #Returns: A hash with following keys:
+    #   :details - A hash with following keys (or nil if input was incorrect):
+    #       :ID - id of a bookmark
+    #       :title - title of a bookmark
+    #       :description - description of a bookmark
+    #       :link - link of a bookmark
+    #       :date - date of creation of a bookmark
+    #       :email - email of an autor of a bookmark
+    #       :displayName - display name of an author of a bookmark
+    #   :tags - An array of hashes with following keys (or nil if input wasn't an integer):
+    #       :name - name of a tag the bookmark is tagged with
+    #       :colour - coulour of a tag the bookmark is tagged with
     def Bookmarks.getGuestBookmarkDetails id
         
         result = Hash.new
@@ -76,8 +116,13 @@ module Bookmarks
             WHERE bookmark_ID = ?;"
 
             result[:details] = @@db.execute query , id.to_i
-            result[:details] = result[:details][0]
-            result[:details].transform_keys!(&:to_sym)
+
+            if result[:details].length() >0
+                result[:details] = result[:details][0]
+                result[:details].transform_keys!(&:to_sym)
+            else
+                result[:details] = nil
+            end
 
             query = "SELECT 
                     tag_name AS name,
@@ -92,13 +137,36 @@ module Bookmarks
         return result
     end
 
+    #Returns details of a bookmark when viewed by a user
+    #Params: 
+    #   bookmark_id (integer) - an id of a bookmark in current system
+    #   user_id (integer) - an id of a user viewing the bookmark
+    #Returns: A hash with following keys:
+    #   :details - A hash with following keys (or nil if input was incorrect):
+    #       :ID - id of a bookmark
+    #       :title - title of a bookmark
+    #       :description - description of a bookmark
+    #       :link - link of a bookmark
+    #       :date - date of creation of a bookmark
+    #       :email - email of an autor of a bookmark
+    #       :displayName - display name of an author of a bookmark
+    #   :tags - An array of hashes with following keys (or nil if input wasn't an integer):
+    #       :name - name of a tag the bookmark is tagged with
+    #       :colour - coulour of a tag the bookmark is tagged with
+    #   :comments - An array of hashes with following keys (or nil if input wasn't an integer):
+    #       :details - a comment itself
+    #       :created - a date of creation
+    #       :deleted - adate of deletion
+    #       :email - email af an author
+    #       :displayName - display name of an author
+    #   :liked (boolean) - is this bookmark on user's favourite list 
     def Bookmarks.getBookmarkDetails (bookmark_ID,user_ID)
             
         details = Bookmarks.getGuestBookmarkDetails bookmark_ID
         result = Hash.new
         result[:details] = details[:details]
         result[:tags] = details[:tags]
-        result[:comments] = nil
+        result[:comments] = []
         result[:liked] = nil
         if user_ID.is_a? Integer
             query = "SELECT 
@@ -127,6 +195,7 @@ module Bookmarks
         return result
     end
 
+    #Returns: An array with all the tag names
     def Bookmarks.getTagNames
         query = "SELECT tag_name FROM tag";
         result = @@db.execute query
@@ -137,6 +206,12 @@ module Bookmarks
         return result
     end
 
+    #Returns details of a user with given id
+    #Params: id(integer) - an id of a user 
+    #Returns: A hash containing with following keys (or nil if input was incorrect):
+    #   :name - display name of a user
+    #   :email - email of a user
+    #   :department - department of a user
     def Bookmarks.getUserDetails id
         result = nil
         if id.is_a? Integer
@@ -146,13 +221,25 @@ module Bookmarks
                     FROM users
                     WHERE user_ID = ?;"
             result = @@db.execute query, id.to_i
-            result = result[0]
-            result.transform_keys!(&:to_sym)
+
+            if(result.length()>0)
+                result = result[0]
+                result.transform_keys!(&:to_sym)
+            else
+                result = nil
+            end
         end
         
         return result
     end
 
+    #Returns list of bookmarks on given users favourite list
+    #Params: id (integer) - id of a given user
+    #Returns: A array of hashes with following keys (or nil if input was incorrect): 
+    #   :ID - id of a bookmark
+    #   :title - title of a bookmark
+    #   :rating - avg rating of a bookmark
+    #   :views - total view count of a bookmark
     def Bookmarks.getFavouriteList id
         result = nil
         if id.is_a? Integer

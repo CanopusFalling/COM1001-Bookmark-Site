@@ -3,7 +3,8 @@
 <head>
     <!-- Setup HTML -->
     <meta charset="utf-8">
-    <title>Bookmark Site Employee V1.0</title>
+    <meta name="author" content="Yi Jing">
+    <title>Bookmark Site V1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
 </head>
@@ -11,26 +12,18 @@
 <!-- Site Structure -->
 <body>
     <header>
-        <h1>Bookmark Site</h1>
-        <nav>
-            <ul>
-                <li>Create Bookmark</li>
-                <li>Favourites</li>
-                <li>Profile</li>
-            </ul>
-        </nav>
+        <h1>Reported Bookmark List</h1>
     </header>
 
     <main>
         <section class="basic-table" id="homepage-bookmarks-table">
 
-            <!-- Example HTML for bookmark entries. -->
+            <!-- Example HTML for reported bookmark entries. -->
             <div id="[bookmark_ID]" onclick="window.location = '[bookmark link here]'">
                 <!-- Bookmark Details -->
-                <div class="bookmark-details">
-                    <!-- Image if we wanted to add that later. <img width='50' height='50'>-->
-                    <span class="bookmark-title">[Bookmark Title]</span>
-                    <span class="bookmark-description">[Bookmark Description]</span>
+                <div class="reported-bookmark-details">
+                    <span class="reported-bookmark-title">[Reported Bookmark Title]</span>
+                    <span class="reported-bookmark-description">[Reported Bookmark Description]</span>
                 </div>
 
                 <!-- Editing Buttons. -->
@@ -41,6 +34,7 @@
             </div>
 
         </section>
+        <button Onclick="window.location='..'">Back</button>
     </main>
 
     <footer>

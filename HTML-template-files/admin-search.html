@@ -6,6 +6,7 @@
         <title>Bookmark Site Admin V1.0</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
+        <link rel="shortcut icon" type="image/png" href="../assets/images/favicon.png"/>
     </head>
     
     <!-- Site Structure -->
@@ -14,9 +15,9 @@
             <h1>Bookmark Site</h1>
             <nav>
                 <ul>
-                    <li>Create Bookmark</li>
-                    <li>Favourites</li>
-                    <li>Profile</li>
+                    <li onclick="window.location='[create-bookmark page]'">Create Bookmark</li>
+                    <img src="../assets/images/favicon.png" onclick="window.location='[favourites page]'" height="50px" width="50px">
+                    <li onclick="window.location='[profile page]'">Profile</li>
                 </ul>
             </nav>
         </header>
@@ -41,7 +42,7 @@
                 </div>
     
             </section>
-            <button Onclick="window.location=''">Console</button>
+            <button Onclick="history.back()">Console</button>
         </main>
     
         <footer>

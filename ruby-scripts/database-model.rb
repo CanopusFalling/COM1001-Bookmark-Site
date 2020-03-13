@@ -235,7 +235,7 @@ module Bookmarks
 
     #Returns list of bookmarks on given users favourite list
     #Params: id (integer) - id of a given user
-    #Returns: A array of hashes with following keys (or nil if input was incorrect): 
+    #Returns: An array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
     #   :rating - avg rating of a bookmark
@@ -253,6 +253,12 @@ module Bookmarks
         return result
     end
 
+    #Returns a list of users waiting for verification
+    #Returns: An array of hashes with following keys:
+    #   :ID - id of a user
+    #   :email - email of a user 
+    #   :displayName - display name of a user
+    #   :department - department of a user
     def Bookmarks.getUnverifiedList 
         query = "SELECT 
                 user_ID AS ID,
@@ -267,6 +273,14 @@ module Bookmarks
         return result
     end
     
+    #Returns a list of users already verified
+    #Returns: An array of hashes with following keys:
+    #   :ID - id of a user
+    #   :email - email of a user 
+    #   :displayName - display name of a user
+    #   :department - department of a user
+    #   :status - type of user perrmisons
+    #   :suspended - is the usersuspended
     def Bookmarks.getUnverifiedList
         query = "SELECT 
                 user_ID AS ID,
@@ -283,6 +297,11 @@ module Bookmarks
         return result
     end
 
+    #Returns a viewing history of specified user
+    #Params: id (integer) - is of the specified user
+    #Returns: An array of hashes with following keys (or nil if input was incorrect):
+    #   :bookmark_ID - id of a bookmark viewed
+    #   :date - when was the bookmark viewed
     def Bookmarks.getViewHistory id
         result = nil
         if id.is_a? Integer
@@ -298,6 +317,13 @@ module Bookmarks
         return result
     end
 
+    #Returns a list of unresolved reports
+    #Returns: An array of hashes with following keys:
+    #   :bookmark_ID - id of a bookmark reported 
+    #   :title - title of a bookmark
+    #   :rating - avg rating of a bookmark
+    #   :views - total view count of a bookmark
+
     def Bookmarks.getUnresolvedReports
         query = "SELECT *
                 FROM bookmark_list JOIN(
@@ -311,6 +337,13 @@ module Bookmarks
         return result
     end
 
+    #Returns details of a reported bookmark
+    #Params: id (integer) - an id of a specified bookmark
+    #Returns: A hash with following keys (or nil if the input was incorrect):
+    #   :title - title of a bookmark
+    #   :link - link of a bookmark
+    #   :report_type - a type of the report
+    #   :details - details of the report
     def Bookmarks.getReportedBookmarkDetails id
         result = nil
         if id.is_a? Integer
@@ -329,7 +362,3 @@ module Bookmarks
     end
 end
 
-Bookmarks.init
-puts Bookmarks.currentUserEmails
-puts Bookmarks.getBookmarkDetails 1 ,0
-puts Bookmarks.getUserDetails 1

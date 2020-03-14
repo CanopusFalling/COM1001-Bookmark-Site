@@ -2,8 +2,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 user_ID INTEGER NOT NULL PRIMARY KEY,
 user_email VARCHAR(200) NOT NULL,
-user_password_hash VARCHAR(255),
-user_password_salt VARCHAR(255),
+user_password VARCHAR(255),
 user_displayName VARCHAR(200),
 user_department VARCHAR(200),
 user_type VARCHAR(50),

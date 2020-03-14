@@ -3,16 +3,13 @@ require 'sqlite3'
 module Bookmarks
     
     #===Constants declaration
-
-    DATABASE_DIRECTORY = ""
     UNVERIFIED_STRING = "Unverified"
 
     #===Setup methods===
 
     #Run to open the database connection
-    def Bookmarks.init
-        puts DATABASE_DIRECTORY
-        @@db = SQLite3::Database.open DATABASE_DIRECTORY
+    def Bookmarks.init databaseDirectory
+        @@db = SQLite3::Database.open databaseDirectory
         @@db.results_as_hash = true
     end
 

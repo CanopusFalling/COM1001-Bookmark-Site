@@ -9,7 +9,7 @@ module Bookmarks
 
     #Run to open the database connection
     def Bookmarks.init databaseDirectory
-        @@db = SQLite3::Database.open databaseDirectory
+        @@db = SQLite3::Database.open File.join(File.dirname(__FILE__), databaseDirectory)
         @@db.results_as_hash = true
     end
 
@@ -20,7 +20,7 @@ module Bookmarks
     #Returns: A array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark
+    #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData search
         result = nil
@@ -37,9 +37,9 @@ module Bookmarks
     #Returns: A array of hashes with following keys: 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark
+    #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
-    def Bookmarks.getHomepageData
+    def Bookmarks.getHomepageDataAll
         return Bookmarks.getHomepageData ""
     end
 
@@ -58,13 +58,13 @@ module Bookmarks
     #Params: email - an email of a current user
     #Returns: A hash with following keys (or nil if input was incorrect):
     #   :id - user id
-    #   :password - user password_hash
+    #   :password - user password's hash
     def Bookmarks.getPasswordHash email
         result = nil
         if email
             query = "SELECT 
                     user_id AS id,
-                    user_password AS password,
+                    user_password AS password
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
@@ -165,7 +165,7 @@ module Bookmarks
         result[:tags] = details[:tags]
         result[:comments] = []
         result[:liked] = nil
-        if user_ID.is_a? Integer
+        if bookmark_ID.is_a? Integer
             query = "SELECT 
             comment_details AS details,
             date_created AS created,
@@ -174,13 +174,13 @@ module Bookmarks
             user_displayName AS displayName
             FROM comment JOIN users ON commenter_ID = user_ID
             WHERE bookmark_ID = ?;"
-            result[:comments] = @@db.execute query,user_ID.to_i
+            result[:comments] = @@db.execute query,bookmark_ID.to_i
             result[:comments].map{|row| row.transform_keys!(&:to_sym)}
             
-            if bookmark_ID.is_a? Integer
+            if user_ID.is_a? Integer
                 query = "SELECT * FROM favourite
                 WHERE user_ID = ? AND bookmark_ID = ?;"
-                rows = @@db.execute query,user_ID.to_i,bookmark_ID.to_i
+                rows = @@db.execute query,user_ID.to_i,user_ID.to_i
                 if(rows.length() == 0) 
                     result[:liked] = false
                 else     
@@ -196,8 +196,8 @@ module Bookmarks
     def Bookmarks.getTagNames
         query = "SELECT tag_name FROM tag";
         result = @@db.execute query
-        result.each do |row|
-            row = row["tag_name"]
+        (0..(result.length()-1)).each do |i|
+            result[i] = result[i]["tag_name"]
         end
 
         return result
@@ -235,14 +235,14 @@ module Bookmarks
     #Returns: An array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark
+    #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getFavouriteList id
         result = nil
         if id.is_a? Integer
             query = "SELECT ID, title, rating, views 
-                    FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
-                    WHERE favourite_user_ID = ?;"
+                    FROM favourite JOIN bookmark_list ON bookmark_ID = ID
+                    WHERE user_ID = ?;"
             result = @@db.execute query,id.to_i
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
@@ -278,7 +278,7 @@ module Bookmarks
     #   :department - department of a user
     #   :status - type of user perrmisons
     #   :suspended - is the usersuspended
-    def Bookmarks.getUnverifiedList
+    def Bookmarks.getVerifiedList
         query = "SELECT 
                 user_ID AS ID,
                 user_email AS email,
@@ -318,16 +318,20 @@ module Bookmarks
     #Returns: An array of hashes with following keys:
     #   :bookmark_ID - id of a bookmark reported 
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark
+    #   :rating - avg rating of a bookmark  (nil if no ratings)
     #   :views - total view count of a bookmark
 
     def Bookmarks.getUnresolvedReports
-        query = "SELECT *
+        query = "SELECT 
+                ID,
+                title,
+                rating,
+                views
                 FROM bookmark_list JOIN(
-                    SELECT UNIQUE bookmark_ID
-                    FROM reports
+                    SELECT DISTINCT bookmark_ID
+                    FROM report
                     WHERE report_resolved = 0
-                ) USING(bookmark_ID);"
+                ) ON ID = bookmark_ID;"
         result = @@db.execute query
         result.map{|row| row.transform_keys!(&:to_sym)}
                     

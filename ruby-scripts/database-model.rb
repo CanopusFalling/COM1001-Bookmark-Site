@@ -378,7 +378,7 @@ module Bookmarks
     end
     
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate)
-        query = "INSERT INTO reports(bookmark_title, bookmark_description, bookmark_link,
+        query = "INSERT INTO bookmarks(bookmark_title, bookmark_description, bookmark_link,
                                      creator_ID, bookmark_date_created)
                  VALUES (?, ?, ?, ?, ?);"
         @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate

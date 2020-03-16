@@ -361,5 +361,27 @@ module Bookmarks
 
         return result
     end
+    
+    
+    def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, passHash, passSalt)
+        query = "INSERT INTO users(user_email, user_displayName, user_department,
+                                   user_password_hash, user_password_salt)
+                 VALUES (?, ?, ?, ?, ?);"
+        @@db.execute query, uEmail, uDisplay, uDepartment, passHash, passSalt
+    end
+    
+    def Bookmarks.addReport (reportedPageId, reportType, reportDetails, reporterID, reportDate)
+        query = "INSERT INTO reports(reported_id, report_type, report_details, 
+                                     report_id, report_date)
+                 VALUES (?, ?, ?, ?, ?);"
+        @@db.execute query, reportedPageId, reportType, reportDetails, reporterID, reportDate
+    end
+    
+    def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate)
+        query = "INSERT INTO reports(bookmark_title, bookmark_description, bookmark_link,
+                                     creator_ID, bookmark_date_created)
+                 VALUES (?, ?, ?, ?, ?);"
+        @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate
+    end
 end
 

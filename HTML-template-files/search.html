@@ -15,8 +15,8 @@
         <h1>Bookmark Site</h1>
         <nav>
             <!-- Site search bar. -->
-            <form action="search.html" method="get">
-                <input type="text" name="search-query" placeholder="Search..">
+            <form action="/search.html" method="get">
+                <input type="text" name="search-query" value="[Search Query]">
                 <input type="submit" value="Search">
             </form>
             <!-- User spesific elements.-->
@@ -28,6 +28,10 @@
     </header>
 
     <main>
+        <h2>
+            <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'index.html'">
+            Showing results for: [Search Query]
+        </h2>
         <section class="basic-table" id="homepage-bookmarks-table">
 
             <!-- Example HTML for bookmark entries. -->
@@ -43,7 +47,6 @@
                 <div class="edit-buttons">
                     <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="window.location = '[bookmark link here]'">
                     <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmark-ID=[bookmark ID]'">
-                    <img class="edit-button" src="../assets/images/report.png" onclick="window.location = 'report-bookmark?bookmark-ID=[bookmark ID]'">
                 </div>
             </div>
 

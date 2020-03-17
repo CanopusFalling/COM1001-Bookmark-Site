@@ -1,4 +1,5 @@
 require 'sqlite3'
+require 'bcrypt'
 
 module Bookmarks
     
@@ -363,11 +364,50 @@ module Bookmarks
     end
     
     
-    def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, passHash, passSalt)
+    def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)
         query = "INSERT INTO users(user_email, user_displayName, user_department,
-                                   user_password_hash, user_password_salt)
+                                   user_password)
                  VALUES (?, ?, ?, ?, ?);"
-        @@db.execute query, uEmail, uDisplay, uDepartment, passHash, passSalt
+        @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password)
+    end
+    
+    def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password, user_type)
+         query = "INSERT INTO users(user_email, user_displayName, user_department,
+                                   user_password, user_type)
+                 VALUES (?, ?, ?, ?, ?,?);"
+        @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), "ADMIN"
+    end 
+    
+    def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate)
+        query = "INSERT INTO bookmarks(bookmark_title, bookmark_description, bookmark_link,
+                                     creator_ID, bookmark_date_created)
+                 VALUES (?, ?, ?, ?, ?);"
+        @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate
+    end
+    
+    def Bookmarks.addBookmarkEdit(editor, bookmark, editDate)
+        query = "INSERT INTO edit(editor_ID, bookmark_edited_ID, edit_date)
+                VALUES(?,?,?);"
+        @@db.execute query, editor, bookmark, editDate
+    end
+    
+    def Bookmarks.addComment(bookmark, commenter, details, dateCreated)
+        query = "INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created)
+                VALUES(?,?,?,?);"
+        @@db.execute query, bookmark, commenter, details, dateCreated
+    end
+    
+    def Bookmarks.addFavourite(user,bookmark)
+        query = "INSERT INTO favourite(user_ID,bookmark_ID)
+                VALUES(?,?);"
+        @@db.execute query, user, bookmark
+    end
+    
+    def Bookmarks.addRating(bookmark, rater, value, dateCreated)
+        query = "INSERT INTO rating(bookmark_ID, rater_ID, rating_value,
+                rating_created)
+                VALUES(?,?,?,?);"
+        @@db.execute query, bookmark, rater, value, dateCreated
     end
     
     def Bookmarks.addReport (reportedPageId, reportType, reportDetails, reporterID, reportDate)
@@ -377,11 +417,23 @@ module Bookmarks
         @@db.execute query, reportedPageId, reportType, reportDetails, reporterID, reportDate
     end
     
-    def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate)
-        query = "INSERT INTO bookmarks(bookmark_title, bookmark_description, bookmark_link,
-                                     creator_ID, bookmark_date_created)
-                 VALUES (?, ?, ?, ?, ?);"
-        @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate
+    def Bookmarks.addTag(name, colour, dateCreated)
+        query = "INSERT INTO tag(tag_name, tag_colour, tag_date_created)
+                 VALUES(?,?,?);"
+        @@db.execute query, name, colour, dateCreated
     end
+    
+    def Bookmarks.addTagBookmarkLink(tag, bookmark)
+        query = "INSERT INTO tag_bookmark_link(tag_ID,bookmark_ID)
+                VALUES(?,?);"
+        @@db.execute query, tag, bookmark
+    end
+    
+    def Bookmarks.addView(viewer, bookmark, dateViewed)
+        query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
+                VALUES(?,?,?);"
+        @@db.execute query, bookmark, dateViewed
+    end
+    
 end
 

@@ -92,7 +92,7 @@
         width: 100%;
     }
 
-    section.basic-table div.edit-buttons img{
+    .edit-button{
         width: 20px;
         height: 20px;
     }

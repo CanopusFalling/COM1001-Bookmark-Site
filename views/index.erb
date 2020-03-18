@@ -1,12 +1,46 @@
 <html>
 
-<%= erb :head %>
+    <head>
+        <!-- Setup HTML -->
+        <meta charset="utf-8">
+        <title>Bookmark Site V1.0</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="styles/site-theme.css">
+        <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png"/>
+    </head>
 
-<!-- Main Site Structure. -->
-<body>
-    <%= erb :header # Add the site header. %>
+    <!-- Site Structure -->
+    <body>
+        
+        <%= erb :guestHeader %>
 
-    <%= erb :footer # Add the site footer. %>
-</body>
+        <main>
+            <section class="basic-table" id="homepage-bookmarks-table">
+
+                <!-- Example HTML for bookmark entries. -->
+                <%@results.each do |entry|%>
+                <div id="<%= entry[:ID]%>">
+                    <!-- Bookmark Details -->
+                    <div class="bookmark-details" onclick="window.location = 'bookmark-spesifics.html?bookmark-ID=<%=entry[:ID]%>'">
+                        <span class="bookmark-title"><%= entry[:title]%></span>
+                        <span class="bookmark-views"><%= entry[:views]%></span>
+                    </div>
+
+                    <!-- Editing Buttons. -->
+                    <div class="edit-buttons">
+                        <!-- TODO Fix external page button to do relative links 
+                            What when link has form "http//www.xyz.com"-->
+                        <img class="edit-button" src="assets/images/external-page-icon.png" onclick="window.location.href = 'http:\/\/<%= entry[:link]%>'">
+                        <img class="edit-button" src="assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmark-ID=<%=entry[:ID]%>'">
+                        <img class="edit-button" src="assets/images/report.png" onclick="window.location = 'report-bookmark?bookmark-ID=<%=entry[:ID]%>'">
+                    </div>
+                </div>
+                <%end%>
+
+            </section>
+        </main>
+
+        <%= erb :footer %>
+    </body>
 
 </html>

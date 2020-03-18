@@ -21,6 +21,7 @@ module Bookmarks
     #Returns: A array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData search
@@ -30,6 +31,13 @@ module Bookmarks
                     WHERE title LIKE ?;"  
             result = @@db.execute query, "%#{search}%"
             result.map{|row| row.transform_keys!(&:to_sym)}
+            result.each do |row|
+                row.each do |key,value|
+                    if row[key] == nil
+                        row[key] = 0
+                    end
+                end
+            end
         end
         return result
     end
@@ -236,6 +244,7 @@ module Bookmarks
     #Returns: An array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getFavouriteList id
@@ -319,6 +328,7 @@ module Bookmarks
     #Returns: An array of hashes with following keys:
     #   :bookmark_ID - id of a bookmark reported 
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark  (nil if no ratings)
     #   :views - total view count of a bookmark
 

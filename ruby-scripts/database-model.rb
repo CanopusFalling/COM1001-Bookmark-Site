@@ -1,18 +1,16 @@
 require 'sqlite3'
+require 'bcrypt'
 
 module Bookmarks
     
     #===Constants declaration
-
-    DATABASE_DIRECTORY = ""
     UNVERIFIED_STRING = "Unverified"
 
     #===Setup methods===
 
     #Run to open the database connection
-    def Bookmarks.init
-        puts DATABASE_DIRECTORY
-        @@db = SQLite3::Database.open DATABASE_DIRECTORY
+    def Bookmarks.init databaseDirectory
+        @@db = SQLite3::Database.open File.join(File.dirname(__FILE__), databaseDirectory)
         @@db.results_as_hash = true
     end
 
@@ -23,7 +21,7 @@ module Bookmarks
     #Returns: A array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark
+    #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData search
         result = nil
@@ -40,9 +38,9 @@ module Bookmarks
     #Returns: A array of hashes with following keys: 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark
+    #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
-    def Bookmarks.getHomepageData
+    def Bookmarks.getHomepageDataAll
         return Bookmarks.getHomepageData ""
     end
 
@@ -61,13 +59,13 @@ module Bookmarks
     #Params: email - an email of a current user
     #Returns: A hash with following keys (or nil if input was incorrect):
     #   :id - user id
-    #   :password - user password_hash
+    #   :password - user password's hash
     def Bookmarks.getPasswordHash email
         result = nil
         if email
             query = "SELECT 
                     user_id AS id,
-                    user_password AS password,
+                    user_password AS password
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
@@ -168,7 +166,7 @@ module Bookmarks
         result[:tags] = details[:tags]
         result[:comments] = []
         result[:liked] = nil
-        if user_ID.is_a? Integer
+        if bookmark_ID.is_a? Integer
             query = "SELECT 
             comment_details AS details,
             date_created AS created,
@@ -177,13 +175,13 @@ module Bookmarks
             user_displayName AS displayName
             FROM comment JOIN users ON commenter_ID = user_ID
             WHERE bookmark_ID = ?;"
-            result[:comments] = @@db.execute query,user_ID.to_i
+            result[:comments] = @@db.execute query,bookmark_ID.to_i
             result[:comments].map{|row| row.transform_keys!(&:to_sym)}
             
-            if bookmark_ID.is_a? Integer
+            if user_ID.is_a? Integer
                 query = "SELECT * FROM favourite
                 WHERE user_ID = ? AND bookmark_ID = ?;"
-                rows = @@db.execute query,user_ID.to_i,bookmark_ID.to_i
+                rows = @@db.execute query,user_ID.to_i,user_ID.to_i
                 if(rows.length() == 0) 
                     result[:liked] = false
                 else     
@@ -199,8 +197,8 @@ module Bookmarks
     def Bookmarks.getTagNames
         query = "SELECT tag_name FROM tag";
         result = @@db.execute query
-        result.each do |row|
-            row = row["tag_name"]
+        (0..(result.length()-1)).each do |i|
+            result[i] = result[i]["tag_name"]
         end
 
         return result
@@ -235,17 +233,17 @@ module Bookmarks
 
     #Returns list of bookmarks on given users favourite list
     #Params: id (integer) - id of a given user
-    #Returns: A array of hashes with following keys (or nil if input was incorrect): 
+    #Returns: An array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark
+    #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getFavouriteList id
         result = nil
         if id.is_a? Integer
             query = "SELECT ID, title, rating, views 
-                    FROM favourite JOIN bookmark_list ON ID=favourite_bookmark_ID
-                    WHERE favourite_user_ID = ?;"
+                    FROM favourite JOIN bookmark_list ON bookmark_ID = ID
+                    WHERE user_ID = ?;"
             result = @@db.execute query,id.to_i
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
@@ -253,6 +251,12 @@ module Bookmarks
         return result
     end
 
+    #Returns a list of users waiting for verification
+    #Returns: An array of hashes with following keys:
+    #   :ID - id of a user
+    #   :email - email of a user 
+    #   :displayName - display name of a user
+    #   :department - department of a user
     def Bookmarks.getUnverifiedList 
         query = "SELECT 
                 user_ID AS ID,
@@ -267,7 +271,15 @@ module Bookmarks
         return result
     end
     
-    def Bookmarks.getUnverifiedList
+    #Returns a list of users already verified
+    #Returns: An array of hashes with following keys:
+    #   :ID - id of a user
+    #   :email - email of a user 
+    #   :displayName - display name of a user
+    #   :department - department of a user
+    #   :status - type of user perrmisons
+    #   :suspended - is the usersuspended
+    def Bookmarks.getVerifiedList
         query = "SELECT 
                 user_ID AS ID,
                 user_email AS email,
@@ -283,6 +295,11 @@ module Bookmarks
         return result
     end
 
+    #Returns a viewing history of specified user
+    #Params: id (integer) - is of the specified user
+    #Returns: An array of hashes with following keys (or nil if input was incorrect):
+    #   :bookmark_ID - id of a bookmark viewed
+    #   :date - when was the bookmark viewed
     def Bookmarks.getViewHistory id
         result = nil
         if id.is_a? Integer
@@ -298,19 +315,37 @@ module Bookmarks
         return result
     end
 
+    #Returns a list of unresolved reports
+    #Returns: An array of hashes with following keys:
+    #   :bookmark_ID - id of a bookmark reported 
+    #   :title - title of a bookmark
+    #   :rating - avg rating of a bookmark  (nil if no ratings)
+    #   :views - total view count of a bookmark
+
     def Bookmarks.getUnresolvedReports
-        query = "SELECT *
+        query = "SELECT 
+                ID,
+                title,
+                rating,
+                views
                 FROM bookmark_list JOIN(
-                    SELECT UNIQUE bookmark_ID
-                    FROM reports
+                    SELECT DISTINCT bookmark_ID
+                    FROM report
                     WHERE report_resolved = 0
-                ) USING(bookmark_ID);"
+                ) ON ID = bookmark_ID;"
         result = @@db.execute query
         result.map{|row| row.transform_keys!(&:to_sym)}
                     
         return result
     end
 
+    #Returns details of a reported bookmark
+    #Params: id (integer) - an id of a specified bookmark
+    #Returns: A hash with following keys (or nil if the input was incorrect):
+    #   :title - title of a bookmark
+    #   :link - link of a bookmark
+    #   :report_type - a type of the report
+    #   :details - details of the report
     def Bookmarks.getReportedBookmarkDetails id
         result = nil
         if id.is_a? Integer
@@ -327,9 +362,78 @@ module Bookmarks
 
         return result
     end
+    
+    
+    def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)
+        query = "INSERT INTO users(user_email, user_displayName, user_department,
+                                   user_password)
+                 VALUES (?, ?, ?, ?, ?);"
+        @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password)
+    end
+    
+    def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password, user_type)
+         query = "INSERT INTO users(user_email, user_displayName, user_department,
+                                   user_password, user_type)
+                 VALUES (?, ?, ?, ?, ?,?);"
+        @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), "ADMIN"
+    end 
+    
+    def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate)
+        query = "INSERT INTO bookmarks(bookmark_title, bookmark_description, bookmark_link,
+                                     creator_ID, bookmark_date_created)
+                 VALUES (?, ?, ?, ?, ?);"
+        @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate
+    end
+    
+    def Bookmarks.addBookmarkEdit(editor, bookmark, editDate)
+        query = "INSERT INTO edit(editor_ID, bookmark_edited_ID, edit_date)
+                VALUES(?,?,?);"
+        @@db.execute query, editor, bookmark, editDate
+    end
+    
+    def Bookmarks.addComment(bookmark, commenter, details, dateCreated)
+        query = "INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created)
+                VALUES(?,?,?,?);"
+        @@db.execute query, bookmark, commenter, details, dateCreated
+    end
+    
+    def Bookmarks.addFavourite(user,bookmark)
+        query = "INSERT INTO favourite(user_ID,bookmark_ID)
+                VALUES(?,?);"
+        @@db.execute query, user, bookmark
+    end
+    
+    def Bookmarks.addRating(bookmark, rater, value, dateCreated)
+        query = "INSERT INTO rating(bookmark_ID, rater_ID, rating_value,
+                rating_created)
+                VALUES(?,?,?,?);"
+        @@db.execute query, bookmark, rater, value, dateCreated
+    end
+    
+    def Bookmarks.addReport (reportedPageId, reportType, reportDetails, reporterID, reportDate)
+        query = "INSERT INTO reports(reported_id, report_type, report_details, 
+                                     report_id, report_date)
+                 VALUES (?, ?, ?, ?, ?);"
+        @@db.execute query, reportedPageId, reportType, reportDetails, reporterID, reportDate
+    end
+    
+    def Bookmarks.addTag(name, colour, dateCreated)
+        query = "INSERT INTO tag(tag_name, tag_colour, tag_date_created)
+                 VALUES(?,?,?);"
+        @@db.execute query, name, colour, dateCreated
+    end
+    
+    def Bookmarks.addTagBookmarkLink(tag, bookmark)
+        query = "INSERT INTO tag_bookmark_link(tag_ID,bookmark_ID)
+                VALUES(?,?);"
+        @@db.execute query, tag, bookmark
+    end
+    
+    def Bookmarks.addView(viewer, bookmark, dateViewed)
+        query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
+                VALUES(?,?,?);"
+        @@db.execute query, bookmark, dateViewed
+    end
+    
 end
 
-Bookmarks.init
-puts Bookmarks.currentUserEmails
-puts Bookmarks.getBookmarkDetails 1 ,0
-puts Bookmarks.getUserDetails 1

@@ -12,7 +12,7 @@
     <!-- Site Structure -->
     <body>
         
-        <%= erb :guestHeader %>
+        <%= erb :header %>
 
         <main>
             <section class="basic-table" id="homepage-bookmarks-table">
@@ -21,7 +21,7 @@
                 <%@results.each do |entry|%>
                 <div id="<%= entry[:ID]%>">
                     <!-- Bookmark Details -->
-                    <div class="bookmark-details" onclick="window.location = 'bookmark-spesifics.html?bookmark-ID=<%=entry[:ID]%>'">
+                    <div class="bookmark-details" onclick="window.location = 'bookmark-spesifics?bookmark-ID=<%=entry[:ID]%>'">
                         <span class="bookmark-title"><%= entry[:title]%></span>
                         <span class="bookmark-views"><%= entry[:views]%></span>
                     </div>

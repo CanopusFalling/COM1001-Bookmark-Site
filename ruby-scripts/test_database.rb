@@ -108,3 +108,27 @@ puts Bookmarks.getReportedBookmarkDetails 1
 puts ""
 puts Bookmarks.getReportedBookmarkDetails 3
 puts ""
+
+puts"=== getTableNames ==="
+puts Bookmarks.getTableNames
+puts ""
+
+puts"=== getColumnNames ==="
+puts Bookmarks.getColumnNames nil
+puts ""
+puts Bookmarks.getColumnNames "bookmarks"
+puts ""
+puts Bookmarks.getColumnNames "bookmark"
+puts ""
+puts Bookmarks.getColumnNames "edit"
+puts ""
+
+puts"=== isUniqueValue ==="
+puts Bookmarks.isUniqueValue "bookmarks", "bookmark_title", "title1"  
+puts ""
+puts Bookmarks.isUniqueValue "bookmark", "bookmark_title", "title1"  
+puts ""
+puts Bookmarks.isUniqueValue "bookmark", "bookmark_title", "title8"  
+puts ""
+puts Bookmarks.isUniqueValue nil, "bookmark_title", "title8"  
+puts ""

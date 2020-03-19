@@ -364,33 +364,34 @@ module Bookmarks
     end
     
     #Returns table names in current database in an array
-    def getTableNames
+    def Bookmarks.getTableNames
         query = "SELECT 
                 name
                 FROM sqlite_master 
                 WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
-        result @@db.execute query
+        result = @@db.execute query
         
         (0..(result.length()-1)).each do |i|
             result[i]=result[i]["name"]
         end
 
         return result
-        
     end
 
     #Returns column names given table in an array
-    def getColumnName tableName
-        if getTagNames.include? tableName
+    def Bookmarks.getColumnNames tableName
+        if Bookmarks.getTableNames.include? tableName
 
-            query = "PRAGMA table_info (?);"
-            result = @@db.execute query , tableName
+            query = "PRAGMA table_info ('#{tableName}');"
+            result = @@db.execute query
 
             (0..(result.length()-1)).each do |i|
                 result[i]=result[i]["name"]
             end
+
             return result
         end
+        return Array.new
     end
 
     #Checks if value passed exists in a database
@@ -400,21 +401,20 @@ module Bookmarks
     #Returns: true - if value doesn't exist in a given column in given table
     #         false - if it does
     #         nil -if given column or table name are incorrect
-    def isUniqueValue tableName , columnName , VALUES
-        if (getColumnName tableName).include? columnName
+    def Bookmarks.isUniqueValue tableName , columnName , value
+        if (Bookmarks.getColumnNames tableName).include? columnName
             
-               query = "SELECT DISTINCT ?
-                     FROM ?;"
-            result = @@db.execute query , columnName , tableName
+            query = "SELECT DISTINCT #{columnName}
+                     FROM #{tableName} ;"
+            result = @@db.execute query
             
             (0..(result.length()-1)).each do |i|
                 if result[i][columnName] == value
                     return false
                 end
             end
-                return true
+            return true
 
-            end
         end
         return nil
     end

@@ -362,6 +362,17 @@ module Bookmarks
 
         return result
     end
+
+    #Checks if value passed exists in a database
+    #Params tableName - name of the table in which to look for uniqness
+    #       columnName - name of the column in which to check uniqness
+    #       value - value to be looked for
+    #Returns: true - if value doesn't exist in a given column in given table
+    #         false - if it does
+    #         nil -if given column or table name are incorrect
+    def isUniqueValue tableName , columnName , VALUES
+        
+    end
     
     
     def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)

@@ -11,8 +11,8 @@ enable :sessions
 Bookmarks.init "../database/test.db"
 
 before do
-    if !session[:user_ID] 
-        session[:user_ID] = -1
+    if !session[:userID] 
+        session[:userID] = -1
     end
 end
 
@@ -25,7 +25,7 @@ get '/' do
 end
 
 get '/login' do
-    if session[:user_ID] == -1 
+    if session[:userID] == -1 
         erb :loginPage
     else
         redirect '/'
@@ -42,9 +42,10 @@ post '/authenticate-user' do
     @login = params[:user_email]
     @password = params[:user_password]
 
-    session[:user_ID] = UserAuthentication.check @login , @password
-    if session[:user_ID] = -1
-        redirect '/login'
+    session[:userID] = UserAuthentication.check @login , @password
+    if session[:userID] = -1
+        @error = "Invalid login or password."
+        erb :loginPage
     else
         redirect '/'
     end

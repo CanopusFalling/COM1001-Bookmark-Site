@@ -32,6 +32,11 @@ get '/login' do
     end
 end
 
+get '/search/:searchQuery' do
+    @results = Bookmarks.getHomepageData params[:searchQuery]
+    erb :search
+end
+
 post '/authenticate-user' do
 
     @login = params[:user_email]

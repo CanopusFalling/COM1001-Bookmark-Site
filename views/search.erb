@@ -11,7 +11,7 @@
             <section class="basic-table" id="homepage-bookmarks-table">
                 <h2>
                     <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'index.html'">
-                    Showing results for: <% params[:searchQuery] %>
+                    Showing results for: <% request["search-query"] %>
                 </h2>
                 <%@results.each do |entry|%>
                 <div id="<%= entry[:ID]%>">

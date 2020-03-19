@@ -32,8 +32,9 @@ get '/login' do
     end
 end
 
-get '/search/:searchQuery' do
-    @results = Bookmarks.getHomepageData params[:searchQuery]
+# Search handling.
+get '/search' do
+    @results = Bookmarks.getHomepageData request["search-query"]
     erb :search
 end
 

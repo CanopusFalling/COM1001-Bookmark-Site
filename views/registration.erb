@@ -1,0 +1,58 @@
+<html>
+
+    <%= erb :head%>
+
+    <!-- Site Structure -->
+    <body>
+
+        <%= erb :header%>
+
+        <main>
+            <div id="frame_container">
+                <!-- the action needs to be defined -->
+                <form action="">
+                    <label>Display name:</label>
+                    <br>
+                    <input type="text" placeholder="Enter your preferred name.." name="name">
+                    <br>
+                    <div id="email_inputs">
+                    
+                        <label>Email:</label>
+                        <br>
+                        <input type="email" placeholder="Enter your email.." name="email" required>
+                        <br>
+                        
+                        <label>Confirm email:</label>
+                        <br>
+                        <input type="email" placeholder="Confirm your email.." name="email_validation" required>
+                        <br>
+
+                    </div>
+
+                    <div id="password_inputs" title = "Password must be at least 8 characters long and contain a number and a special character">
+                        
+                        <label>Password:</label>
+                        <br>
+                        <input type="password" placeholder="Create a password." name="password" minlength = 8 required>
+                        <p id="password_note">*Note: Password must be at least 8 characters long and contain a number and a special character</p>
+                        
+                        <label>Confirm password:</label>
+                        <br>
+                        <input type="password" placeholder="Confirm password.." name="password_validation" minlength = 8 required>
+                        <br><br>
+
+                    </div>
+
+                    <input type="submit" value="Create" class="textarea">
+
+                    <!-- Cancel bottom should redirect to the previous page-->
+                    <input type="button" value="Cancel" onclick="history.back()">
+                    
+                </form>
+            </div>
+        </main>
+
+        <%= erb :footer%>
+    </body>
+
+</html>

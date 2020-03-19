@@ -32,6 +32,10 @@ get '/login' do
     end
 end
 
+get '/registration' do
+    erb :registration
+end
+
 # Search handling.
 get '/search' do
     req = Rack::Request.new(env)

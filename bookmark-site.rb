@@ -34,8 +34,17 @@ end
 
 # Search handling.
 get '/search' do
-    @results = Bookmarks.getHomepageData request["search-query"]
-    erb :search
+    req = Rack::Request.new(env)
+    req.post?
+    @searchQuery = req.params["search_query"]
+
+    @results = Bookmarks.getHomepageData @searchQuery
+    
+    if(!@results.nil?) then
+        erb :search
+    else
+        erb :noResults
+    end
 end
 
 post '/authenticate-user' do

@@ -1,37 +1,29 @@
 <html>
 
-<head>
-    <!-- Setup HTML -->
-    <meta charset="utf-8">
-    <title>Bookmark Site V1.0</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
-    <link rel="shortcut icon" type="image/png" href="../assets/images/favicon.png"/>
-</head>
+    <%= erb :head%>
+    <!-- Site Structure -->
+    <body>
+        <%= erb :header %>
 
-<!-- Site Structure -->
-<body>
-    <%= erb :header %>
-
-    <main>
-        <section class="central-form">
-            <form action="authenticate-user" method="post">
-                <div>
-                    <span class="form-label">Email </span>
-                    <input type="text" name="user_email">
-                </div>
-                <div>
-                    <span class="form-label">Password </span>
-                    <input class="form-input" type="password" name="user_password">
+        <main>
+            <section class="central-form">
+                <form action="authenticate-user" method="post">
+                    <div>
+                        <span class="form-label">Email </span>
+                        <input type="text" name="user_email">
+                    </div>
+                    <div>
+                        <span class="form-label">Password </span>
+                        <input class="form-input" type="password" name="user_password">
+                        
+                    </div>
                     
-                </div>
-                
-                <input class="submission-button" type="submit" value="Login"><span class="login-error-message"><%= @error%> <span>
-            </form>
-        </section>
-    </main>
+                    <input class="submission-button" type="submit" value="Login"><span class="login-error-message"><%= @error%> <span>
+                </form>
+            </section>
+        </main>
 
-    <%= erb :footer%>
-</body>
+        <%= erb :footer%>
+    </body>
 
 </html>

@@ -39,7 +39,8 @@ post '/authenticate-user' do
 
     session[:user_ID] = UserAuthentication.check @login , @password
     if session[:user_ID] = -1
-        redirect '/login'
+        @error = "Invalid login or password."
+        erb :loginPage
     else
         redirect '/'
     end

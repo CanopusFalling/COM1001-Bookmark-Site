@@ -362,6 +362,36 @@ module Bookmarks
 
         return result
     end
+    
+    #Returns table names in current database in an array
+    def getTableNames
+        query = "SELECT 
+                name
+                FROM sqlite_master 
+                WHERE type ='table' AND name NOT LIKE 'sqlite_%';"
+        result @@db.execute query
+        
+        (0..(result.length()-1)).each do |i|
+            result[i]=result[i]["name"]
+        end
+
+        return result
+        
+    end
+
+    #Returns column names given table in an array
+    def getColumnName tableName
+        if getTagNames.include? tableName
+
+            query = "PRAGMA table_info (?);"
+            result = @@db.execute query , tableName
+
+            (0..(result.length()-1)).each do |i|
+                result[i]=result[i]["name"]
+            end
+            return result
+        end
+    end
 
     #Checks if value passed exists in a database
     #Params tableName - name of the table in which to look for uniqness
@@ -371,7 +401,22 @@ module Bookmarks
     #         false - if it does
     #         nil -if given column or table name are incorrect
     def isUniqueValue tableName , columnName , VALUES
-        
+        if (getColumnName tableName).include? columnName
+            
+               query = "SELECT DISTINCT ?
+                     FROM ?;"
+            result = @@db.execute query , columnName , tableName
+            
+            (0..(result.length()-1)).each do |i|
+                if result[i][columnName] == value
+                    return false
+                end
+            end
+                return true
+
+            end
+        end
+        return nil
     end
     
     

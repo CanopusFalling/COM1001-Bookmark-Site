@@ -73,7 +73,7 @@ post '/authenticate-user' do
     @password = params[:user_password]
 
     session[:userID] = UserAuthentication.check @login , @password
-    if session[:userID] = -1
+    if session[:userID] == -1
         @error = "Invalid login or password."
         erb :loginPage
     else

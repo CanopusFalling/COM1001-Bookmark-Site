@@ -3,7 +3,7 @@ require 'sinatra'
 require 'bcrypt'
 require_relative 'ruby-scripts/database-model.rb'
 require_relative 'user-authentication.rb'
-
+require_relative 'ruby-scripts/support-functions.rb'
 # For running the server from codio.
 set :bind, '0.0.0.0'
 enable :sessions
@@ -34,6 +34,22 @@ end
 
 get '/registration' do
     erb :registration
+end
+
+post '/registration' do
+
+    @error_msg = getErrorMessage params
+    @displayName = params[:displayName]
+    @email = params[:email]
+    @email_valid = params[:email_validation]
+    
+    if @error_msg == ""
+        newUser @displayName , @email, params[:password]
+        redirect '/'
+    else
+        erb:registration
+    end
+
 end
 
 # Search handling.

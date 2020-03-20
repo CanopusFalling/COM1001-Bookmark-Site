@@ -9,34 +9,35 @@
 
         <main>
             <div id="frame_container">
+                <p id="error_message"><%= @error_msg%></p>
                 <!-- the action needs to be defined -->
-                <form action="">
+                <form action="" method="post">
                     <label>Display name:</label>
                     <br>
-                    <input type="text" placeholder="Enter your preferred name.." name="name">
+                    <input type="text" placeholder="Enter your preferred name.."  value="<%= @displayName%>" name="displayName">
                     <br>
                     <div id="email_inputs">
                     
-                        <label>Email:</label>
+                        <label>Email*:</label>
                         <br>
-                        <input type="email" placeholder="Enter your email.." name="email" required>
+                        <input type="email" placeholder="Enter your email.." value="<%= @email%>" name="email" required>
                         <br>
                         
-                        <label>Confirm email:</label>
+                        <label>Confirm email*:</label>
                         <br>
-                        <input type="email" placeholder="Confirm your email.." name="email_validation" required>
+                        <input type="email" placeholder="Confirm your email.." value="<%= @email_valid%>" name="email_validation" required>
                         <br>
 
                     </div>
 
-                    <div id="password_inputs" title = "Password must be at least 8 characters long and contain a number and a special character">
+                    <div id="password_inputs" title = "Password must be at least 8 characters long and contain a number and a special character (#?!@$%^&*-_)">
                         
-                        <label>Password:</label>
+                        <label>Password*:</label>
                         <br>
                         <input type="password" placeholder="Create a password." name="password" minlength = 8 required>
-                        <p id="password_note">*Note: Password must be at least 8 characters long and contain a number and a special character</p>
+                        <p id="password_note">*Note: Password must be at least 8 characters long and contain a number and a special character (#?!@$%^&*-_)</p>
                         
-                        <label>Confirm password:</label>
+                        <label>Confirm password*:</label>
                         <br>
                         <input type="password" placeholder="Confirm password.." name="password_validation" minlength = 8 required>
                         <br><br>
@@ -47,6 +48,8 @@
 
                     <!-- Cancel bottom should redirect to the previous page-->
                     <input type="button" value="Cancel" onclick="history.back()">
+
+                    
                     
                 </form>
             </div>

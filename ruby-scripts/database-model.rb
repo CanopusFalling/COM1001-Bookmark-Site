@@ -68,12 +68,13 @@ module Bookmarks
     #Returns: A hash with following keys (or nil if input was incorrect):
     #   :id - user id
     #   :password - user password's hash
-    def Bookmarks.getPasswordHash email
+    def Bookmarks.getDetailsByEmail email
         result = nil
         if email
             query = "SELECT 
                     user_id AS id,
-                    user_password AS password
+                    user_password AS password,
+                    user_suspended AS susspended
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email

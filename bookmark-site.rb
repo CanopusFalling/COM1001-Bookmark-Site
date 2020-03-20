@@ -26,7 +26,7 @@ end
 
 get '/login' do
     if session[:userID] == -1 
-        erb :loginPage
+        erb :loginpage
     else
         redirect '/'
     end
@@ -71,13 +71,18 @@ post '/authenticate-user' do
 
     @login = params[:user_email]
     @password = params[:user_password]
-
-    session[:userID] = UserAuthentication.check @login , @password
-    if session[:userID] == -1
-        @error = "Invalid login or password."
-        erb :loginPage
+    @result = UserAuthentication.check @login , @password
+    @error=""
+    
+    if @result == -1
+        @error = "Invalid login or password"
+    elsif @result == "Suspended"
+        @error = "This account is suspended"
     else
+        session[:userID] = @result
         redirect '/'
     end
+    
+    erb:loginpage
 
 end

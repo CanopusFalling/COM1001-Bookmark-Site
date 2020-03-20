@@ -376,15 +376,15 @@ module Bookmarks
     
     def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)
         query = "INSERT INTO users(user_email, user_displayName, user_department,
-                                   user_password)
+                                   user_password,user_suspended)
                  VALUES (?, ?, ?, ?, ?);"
-        @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password)
+        @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), 0
     end
     
     def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password, user_type)
          query = "INSERT INTO users(user_email, user_displayName, user_department,
                                    user_password, user_type)
-                 VALUES (?, ?, ?, ?, ?,?);"
+                 VALUES (?, ?, ?, ?, ?);"
         @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), "ADMIN"
     end 
     

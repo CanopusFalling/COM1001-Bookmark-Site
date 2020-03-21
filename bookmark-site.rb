@@ -88,6 +88,23 @@ get '/search' do
     end
 end
 
+get '/report-bookmark' do
+    erb :newReport
+end
+
+post '/report-bookmark' do
+
+    @ID = params[:bookmarkID]
+    @type = params[:category]
+    @desc = params[:details]=="" ? nil : params[:details]
+    @reporterID = session[:userID] == -1 ? nil : session[:userID]
+
+    newReport @ID, @reporterID, @type, @desc
+
+    redirect '/reportThanks'
+
+end
+
 get '/bookmark-spesifics' do
 
     @ID = params[:bookmarkID]

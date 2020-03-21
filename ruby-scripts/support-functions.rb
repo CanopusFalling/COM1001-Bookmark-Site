@@ -37,3 +37,7 @@ end
 def newUser displayName, email, password
     return Bookmarks.addRegisterDetails email, displayName, nil, password
 end
+
+def newReport bookmarkId, reporterID, type, desc
+    Bookmarks.addReport bookmarkId, type, desc, reporterID, Time.now.strftime("%d/%m/%Y")
+end

@@ -422,10 +422,10 @@ module Bookmarks
     end
     
     def Bookmarks.addReport (reportedPageId, reportType, reportDetails, reporterID, reportDate)
-        query = "INSERT INTO reports(reported_id, report_type, report_details, 
-                                     report_id, report_date)
-                 VALUES (?, ?, ?, ?, ?);"
-        @@db.execute query, reportedPageId, reportType, reportDetails, reporterID, reportDate
+        query = "INSERT INTO report(bookmark_ID, report_type, report_details, 
+                                     reporter_ID, report_date, report_resolved)
+                 VALUES (?, ?, ?, ?, ?, ?);"
+        @@db.execute query, reportedPageId, reportType, reportDetails, reporterID, reportDate, 0
     end
     
     def Bookmarks.addTag(name, colour, dateCreated)

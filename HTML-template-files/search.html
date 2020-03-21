@@ -6,10 +6,11 @@
     <title>Bookmark Site V1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
-    <link rel="shortcut icon" type="image/png" href="../assets/images/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/favicon.png" />
 </head>
 
 <!-- Site Structure -->
+
 <body>
     <header>
         <h1>Bookmark Site</h1>
@@ -37,7 +38,8 @@
             <!-- Example HTML for bookmark entries. -->
             <div id="[bookmark_ID]">
                 <!-- Bookmark Details -->
-                <div class="bookmark-details" onclick="window.location = 'bookmark-spesifics.html?bookmark-ID=[bookmark ID]'">
+                <div class="bookmark-details"
+                    onclick="window.location = 'bookmark-spesifics.html?bookmarkID=[bookmark ID]'">
                     <!-- Image if we wanted to add that later. <img width='50' height='50'>-->
                     <span class="bookmark-title">[Bookmark Title]</span>
                     <span class="bookmark-description">[Bookmark Description]</span>
@@ -45,8 +47,10 @@
 
                 <!-- Editing Buttons. -->
                 <div class="edit-buttons">
-                    <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="window.location = '[bookmark link here]'">
-                    <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmark-ID=[bookmark ID]'">
+                    <img class="edit-button" src="../assets/images/external-page-icon.png"
+                        onclick="window.location = '[bookmark link here]'">
+                    <img class="edit-button" src="../assets/images/bin-icon.png"
+                        onclick="window.location = 'delete-bookmark?bookmarkID=[bookmark ID]'">
                 </div>
             </div>
 

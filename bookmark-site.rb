@@ -32,6 +32,27 @@ get '/login' do
     end
 end
 
+
+post '/authenticate-user' do
+
+    @login = params[:user_email]
+    @password = params[:user_password]
+    @result = UserAuthentication.check @login , @password
+    @error=""
+    
+    if @result == -1
+        @error = "Invalid login or password"
+    elsif @result == "Suspended"
+        @error = "This account is suspended"
+    else
+        session[:userID] = @result
+        redirect '/'
+    end
+    
+    erb:loginpage
+
+end
+
 get '/registration' do
     erb :registration
 end
@@ -67,22 +88,17 @@ get '/search' do
     end
 end
 
-post '/authenticate-user' do
+get '/bookmark-spesifics' do
 
-    @login = params[:user_email]
-    @password = params[:user_password]
-    @result = UserAuthentication.check @login , @password
-    @error=""
-    
-    if @result == -1
-        @error = "Invalid login or password"
-    elsif @result == "Suspended"
-        @error = "This account is suspended"
-    else
-        session[:userID] = @result
-        redirect '/'
-    end
-    
-    erb:loginpage
+    @ID = params[:bookmarkID]
+    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @title = @details[:details][:title]
+    @desc = @details[:details][:description]
+    @date = @details[:details][:date]
+    @displayName = @details[:details][:displayName]
+    @displayName = @details[:details][:email] if @displayName == nil
+    @link = @details[:details][:link]
+
+    erb :bookmarkDetails
 
 end

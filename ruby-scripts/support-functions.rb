@@ -35,5 +35,5 @@ def isValidPassword password
 end
 
 def newUser displayName, email, password
-    Bookmarks.addRegisterDetails email, displayName, nil, password 
+    return Bookmarks.addRegisterDetails email, displayName, nil, password
 end

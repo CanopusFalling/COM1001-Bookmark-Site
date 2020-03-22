@@ -43,7 +43,7 @@ post '/authenticate-user' do
     if @result == -1
         @error = "Invalid login or password"
     elsif @result == "Suspended"
-        @error = "This account is suspended"
+        redirect '/msg?msg=suspended'
     else
         session[:userID] = @result
         redirect '/'

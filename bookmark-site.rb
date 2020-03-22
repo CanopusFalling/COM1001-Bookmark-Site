@@ -116,6 +116,13 @@ get '/bookmark-spesifics' do
     @displayName = @details[:details][:email] if @displayName == nil
     @link = @details[:details][:link]
 
+    addView @ID, session[:userID]
+
     erb :bookmarkDetails
 
+end
+
+get '/bookmark-addView' do
+    addView params[:bookmarkID], session[:userID]
+    redirect "http://#{params[:bookmarkLink]}"
 end

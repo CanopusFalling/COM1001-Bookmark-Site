@@ -38,6 +38,11 @@ def newUser displayName, email, password
     return Bookmarks.addRegisterDetails email, displayName, nil, password
 end
 
-def newReport bookmarkId, reporterID, type, desc
-    Bookmarks.addReport bookmarkId, type, desc, reporterID, Time.now.strftime("%d/%m/%Y")
+def newReport bookmarkId, reporterId, type, desc
+    Bookmarks.addReport bookmarkId, type, desc, reporterId, Time.now.strftime("%d/%m/%Y")
+end
+
+def addView bookmarkId, userId
+    userId = nil if userId == -1;
+    Bookmarks.addView userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
 end

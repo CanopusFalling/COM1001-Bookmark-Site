@@ -443,7 +443,7 @@ module Bookmarks
     def Bookmarks.addView(viewer, bookmark, dateViewed)
         query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
                 VALUES(?,?,?);"
-        @@db.execute query, bookmark, dateViewed
+        @@db.execute query, viewer, bookmark, dateViewed
     end
     
 end

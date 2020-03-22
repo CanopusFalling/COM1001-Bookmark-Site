@@ -23,7 +23,7 @@
                     <div class="edit-buttons">
                         <!-- TODO Fix external page button to do relative links 
                             What when link has form "http//www.xyz.com"-->
-                        <img class="edit-button" src="assets/images/external-page-icon.png" onclick="window.location.href = 'http:\/\/<%= entry[:link]%>'">
+                        <img class="edit-button" src="assets/images/external-page-icon.png" onclick="window.location.href = 'bookmark-addView?bookmarkID=<%=entry[:ID]%>&bookmarkLink=<%=entry[:link]%>'">
                         <img class="edit-button" src="assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%=entry[:ID]%>'">
                         <img class="edit-button" src="assets/images/report.png" onclick="window.location = 'report-bookmark?bookmarkID=<%=entry[:ID]%>'">
                     </div>

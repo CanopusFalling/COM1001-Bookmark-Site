@@ -54,6 +54,8 @@ puts Bookmarks.getBookmarkDetails 2, 0
 puts ""
 puts Bookmarks.getBookmarkDetails 3, 2
 puts ""
+puts Bookmarks.getBookmarkDetails 3, 4
+puts ""
 puts Bookmarks.getBookmarkDetails 0, "abc"
 puts ""
 

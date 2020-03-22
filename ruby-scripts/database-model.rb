@@ -135,6 +135,42 @@ module Bookmarks
         return result
     end
 
+    #Returns value the user rated the bookmark with
+    #Params:
+    #   bookmark_id - an id of a bookmark in current system
+    #   user_id - an id of a user viewing the bookmark
+    #Returns: a value the user rated bookmark with 
+    #         or nil if the bookmark hasn't been rated yet or input was incorrect
+    def Bookmarks.isRated bookmark_ID, user_ID
+        if (bookmark_ID.is_a? Integer) && (user_ID.is_a? Integer)
+            query = "SELECT rating_value
+                    FROM rating
+                    WHERE bookmark_ID = ? AND rater_ID = ?"
+            value = @@db.get_first_value query , bookmark_ID.to_i, user_ID.to_i
+            value = value.to_i if !value.nil?
+            return value;
+        end
+        return nil
+    end
+
+    #Returns true if giben bookmark was liked by the user and false if not
+    #Params:
+    #   bookmark_id - an id of a bookmark in current system
+    #   user_id - an id of a user viewing the bookmark
+    def Bookmarks.isLiked bookmark_ID, user_ID
+        if (user_ID.is_a? Integer) && (bookmark_ID.is_a? Integer)
+                query = "SELECT * FROM favourite
+                WHERE user_ID = ? AND bookmark_ID = ?;"
+                rows = @@db.execute query,user_ID.to_i,user_ID.to_i
+                if(rows.length() == 0) 
+                    return false
+                else     
+                   return true
+                end
+        end
+        return nil
+    end
+
     #Returns details of a bookmark when viewed by a user
     #Params: 
     #   bookmark_id (integer) - an id of a bookmark in current system
@@ -158,6 +194,7 @@ module Bookmarks
     #       :email - email af an author
     #       :displayName - display name of an author
     #   :liked (boolean) - is this bookmark on user's favourite list 
+    #   :rating - a value the user rated bookmark with (nil if not rated yet or incorrect input)
     def Bookmarks.getBookmarkDetails (bookmark_ID,user_ID)
             
         details = Bookmarks.getGuestBookmarkDetails bookmark_ID
@@ -166,6 +203,7 @@ module Bookmarks
         result[:tags] = details[:tags]
         result[:comments] = []
         result[:liked] = nil
+        result[:rating] = nil
         if bookmark_ID.is_a? Integer
             query = "SELECT 
             comment_details AS details,
@@ -178,16 +216,10 @@ module Bookmarks
             result[:comments] = @@db.execute query,bookmark_ID.to_i
             result[:comments].map{|row| row.transform_keys!(&:to_sym)}
             
-            if user_ID.is_a? Integer
-                query = "SELECT * FROM favourite
-                WHERE user_ID = ? AND bookmark_ID = ?;"
-                rows = @@db.execute query,user_ID.to_i,user_ID.to_i
-                if(rows.length() == 0) 
-                    result[:liked] = false
-                else     
-                    result[:liked] = true
-                end
-            end
+            result[:liked] = Bookmarks.isLiked bookmark_ID, user_ID 
+
+            result[:rating] = Bookmarks.isRated bookmark_ID, user_ID
+
         end
 
         return result

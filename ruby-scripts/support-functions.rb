@@ -12,6 +12,8 @@ def getErrorMessage params
         error_msg += "Please enter valid email <br>"
     elsif email != email_conf
         error_msg+= "Emails don't match <br>"
+    elsif ! Bookmarks.isUniqueValue "users", "user_email", email
+        error_message+= "Email already in use <br>"
     end
 
     password = params[:password]
@@ -35,7 +37,7 @@ def isValidPassword password
 end
 
 def newUser displayName, email, password
-    return Bookmarks.addRegisterDetails email, displayName, nil, password
+    Bookmarks.addRegisterDetails email, displayName, nil, password
 end
 
 def newReport bookmarkId, reporterId, type, desc

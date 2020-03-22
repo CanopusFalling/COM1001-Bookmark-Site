@@ -1,0 +1,18 @@
+<!-- Page for displaying different messages to the user-->
+<html>
+    <head>
+        <%= erb :head %>
+    </head>
+
+    <!-- Site Structure -->
+
+    <body>
+        <%= erb :header %>
+
+        <main>
+            <%= erb @message %>
+        </main>
+
+        <%= erb :footer %>
+    </body>
+</html>

@@ -66,7 +66,7 @@ post '/registration' do
     
     if @error_msg == ""
         newUser @displayName , @email, params[:password]
-        redirect '/'
+        redirect '/msg?msg=newUser'
     else
         erb:registration
     end
@@ -125,4 +125,9 @@ end
 get '/bookmark-addView' do
     addView params[:bookmarkID], session[:userID]
     redirect "http://#{params[:bookmarkLink]}"
+end
+
+get '/msg' do
+    @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
+    erb :message
 end

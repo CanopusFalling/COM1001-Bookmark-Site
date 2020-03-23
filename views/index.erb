@@ -9,29 +9,7 @@
         <%= erb :header %>
 
         <main>
-            <section class="basic-table" id="homepage-bookmarks-table">
-
-                <!-- Example HTML for bookmark entries. -->
-                <%@results.each do |entry|%>
-                <div id="<%= entry[:ID]%>">
-                    <!-- Bookmark Details -->
-                    <div class="bookmark-details" onclick="window.location = 'bookmark-spesifics?bookmarkID=<%=entry[:ID]%>'">
-                        <span class="bookmark-title"><%= entry[:title]%></span>
-                        <span class="bookmark-views"><%= entry[:views]%></span>
-                    </div>
-
-                    <!-- Editing Buttons. -->
-                    <div class="edit-buttons">
-                        <!-- TODO Fix external page button to do relative links 
-                            What when link has form "http//www.xyz.com"-->
-                        <img class="edit-button" src="assets/images/external-page-icon.png" onclick="window.location.href = 'bookmark-addView?bookmarkID=<%=entry[:ID]%>&bookmarkLink=<%=entry[:link]%>'">
-                        <img class="edit-button" src="assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%=entry[:ID]%>'">
-                        <img class="edit-button" src="assets/images/report.png" onclick="window.location = 'report-bookmark?bookmarkID=<%=entry[:ID]%>'">
-                    </div>
-                </div>
-                <%end%>
-
-            </section>
+            <%= erb :resultsTable, :locals => {:results => @results}%>
         </main>
 
         <%= erb :footer %>

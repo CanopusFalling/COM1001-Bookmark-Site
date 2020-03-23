@@ -81,7 +81,7 @@ get '/search' do
 
     @results = Bookmarks.getHomepageData @searchQuery
     
-    if(!@results.nil?) then
+    if(@results.length != 0) then
         erb :search
     else
         erb :noResults

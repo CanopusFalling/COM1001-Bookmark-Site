@@ -9,6 +9,7 @@
         <%= erb :header %>
 
         <main>
+<<<<<<< HEAD
             <section class="basic-table" id="homepage-bookmarks-table">
                 <h2>
                     <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = ''">
@@ -34,6 +35,13 @@
                 <%end%>
 
             </section>
+=======
+            <h2>
+                <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = '/'">
+                Search results for: '<%= erb @searchQuery %>'
+            </h2>
+            <%= erb :resultsTable, :locals => {:results => @results}%>
+>>>>>>> a5338b7cf94261d1717ae754af107bcac98494c1
         </main>
 
         <%= erb :footer %>

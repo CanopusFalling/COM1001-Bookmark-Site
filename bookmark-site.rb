@@ -122,6 +122,10 @@ get '/bookmark-spesifics' do
 
 end
 
+get '/newBookmark' do
+    erb :newBookmark
+end
+
 get '/bookmark-addView' do
     addView params[:bookmarkID], session[:userID]
     redirect "http://#{params[:bookmarkLink]}"
@@ -131,3 +135,4 @@ get '/msg' do
     @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
     erb :message
 end
+

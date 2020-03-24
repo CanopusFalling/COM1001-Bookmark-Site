@@ -101,7 +101,7 @@ post '/report-bookmark' do
 
     newReport @ID, @reporterID, @type, @desc
 
-    redirect '/reportThanks'
+    redirect '/msg?msg=reportThanks'
 
 end
 

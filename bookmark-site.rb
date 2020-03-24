@@ -123,7 +123,22 @@ get '/bookmark-spesifics' do
 end
 
 get '/newBookmark' do
-    erb :newBookmark
+    if session[:userID] != -1
+        erb :newBookmark
+    else
+        redirect '/'
+    end
+end
+
+post '/newBookmark' do
+    @title = params[:title]
+    @link = params[:link]
+    @desc = params[:desc]
+    @userID = session[:userID]
+
+    newBookmark @userID, @title, @link, @desc
+
+    redirect '/msg?msg=newBookmarkMsg' 
 end
 
 get '/bookmark-addView' do

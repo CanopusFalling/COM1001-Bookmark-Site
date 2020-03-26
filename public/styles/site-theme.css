@@ -57,30 +57,73 @@
         margin: 0px;
         padding: auto;
         display: flex;
-        font-size: 30px;
-        font-weight: 500;
+        font-size: 1.6em;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    header h1{
+        width: 100%;
     }
 
     header nav {
         list-style: none;
         display: flex;
         justify-content: flex-end;
-        position: absolute;
+        position: relative;
         top: 0px;
         right: 0px;
     }
 
     header nav ul {
         display: flex;
-        padding: 0px;
-        margin: 6px;
+        padding: 0px 4px;
+        margin: 0px;
+        height: 100%;
     }
 
     header nav ul li {
-        padding: 4px 6px;
-        margin: 2px;
+        padding: 6px 8px;
+        margin: auto 2px;
         display: flex;
-        border: 2px solid white;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    header nav ul li:hover{
+        background-color: rgba(100, 100,100, 0.9);
+    }
+
+    header nav form{
+        display: flex;
+        padding: 0px 4px;
+        margin: 0px;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    header nav form input{
+        padding: 6px 8px;
+        margin: auto 0px;
+        display: flex;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.9);
+        border: 0px solid white;
+        border-bottom: 1px solid white;
+        font-size: 0.6em;
+    }
+
+    header nav form input:hover{
+        background-color: rgba(100, 100,100, 0.9);
+    }
+
+    /*--------------- Footer ---------------*/
+
+    footer{
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        margin: 0px;
+        padding: 4px 6px;
+        background-color: rgba(0, 0, 0, 0.9);
     }
 
     .homicon {
@@ -95,10 +138,12 @@
 
 
 
-    /*--------------- Basic Table ---------------*/
+    /* ===== Basic Tables ===== */
     section.basic-table {
         background-color: rgba(0, 0, 0, 0.5);
         width: 100%;
+        padding: 2px;
+        margin-bottom: 30px;
     }
 
     .edit-button {
@@ -109,20 +154,25 @@
     section.basic-table div {
         background-color: rgba(0, 0, 0, 0.75);
         margin: 2px auto;
-        padding: 4px 6px;
+        padding: 2px;
         width: 60%;
+        max-width: 1000px;
         display: flex;
     }
 
+    /* Bookmark Table */
+
     .bookmark-title {
         margin: 0px;
-        padding: 2px 6px;
+        padding: 2px 4px;
+        min-width: 32%;
     }
 
     .bookmark-views {
         margin: 0px;
         padding: 2px 6px;
         justify-content: center;
+        border-left: 1px solid white;
     }
 
     .edit-buttons {
@@ -132,6 +182,6 @@
         text-align: end;
     }
 
-
-
+    /* ===== bookmark spesifics ===== */
+    /* Need to rebuild the bookmarkDetails.erb slightly first. */
 }

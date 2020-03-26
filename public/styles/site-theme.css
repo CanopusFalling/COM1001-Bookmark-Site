@@ -176,4 +176,18 @@
 
     /* ===== bookmark spesifics ===== */
     /* Need to rebuild the bookmarkDetails.erb slightly first. */
+
+    /* ===== Central Form Styling ===== */
+
+    main section.central-form{
+        margin: 10px auto;
+        width: 50%;
+        max-width: 700px;
+        background-color: rgba(0, 0, 0, 0.75);
+    }
+
+    main section.central-form form{
+        margin: 0px;
+        padding: 4px 6px;
+    }
 }

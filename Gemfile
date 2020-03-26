@@ -13,3 +13,5 @@ gem 'cucumber'
 gem 'rspec'
 
 gem 'simplecov'
+
+gem 'minitest'

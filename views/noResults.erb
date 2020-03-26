@@ -11,7 +11,8 @@
         <main>
             <section class="basic-table" id="homepage-bookmarks-table">
                 <h2>
-                    No Results found for <%= erb @searchQuery %>
+                    <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = '/'">
+                    Showing results for: <%= @searchQuery %>
                 </h2>
                 <h2>
                     Try again with a different search...

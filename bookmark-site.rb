@@ -43,7 +43,7 @@ post '/authenticate-user' do
     if @result == -1
         @error = "Invalid login or password"
     elsif @result == "Suspended"
-        @error = "This account is suspended"
+        redirect '/msg?msg=suspended'
     else
         session[:userID] = @result
         redirect '/'
@@ -101,7 +101,7 @@ post '/report-bookmark' do
 
     newReport @ID, @reporterID, @type, @desc
 
-    redirect '/reportThanks'
+    redirect '/msg?msg=reportThanks'
 
 end
 
@@ -122,6 +122,25 @@ get '/bookmark-spesifics' do
 
 end
 
+get '/newBookmark' do
+    if session[:userID] != -1
+        erb :newBookmark
+    else
+        redirect '/'
+    end
+end
+
+post '/newBookmark' do
+    @title = params[:title]
+    @link = params[:link]
+    @desc = params[:desc]
+    @userID = session[:userID]
+
+    newBookmark @userID, @title, @link, @desc
+
+    redirect '/msg?msg=newBookmarkMsg' 
+end
+
 get '/bookmark-addView' do
     addView params[:bookmarkID], session[:userID]
     redirect "http://#{params[:bookmarkLink]}"
@@ -131,3 +150,4 @@ get '/msg' do
     @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
     erb :message
 end
+

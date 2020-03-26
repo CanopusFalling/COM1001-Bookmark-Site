@@ -48,3 +48,11 @@ def addView bookmarkId, userId
     userId = nil if userId == -1;
     Bookmarks.addView userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
 end
+
+def newBookmark userID, title, link, desc
+    title = nil if title == ""
+    link = nil if link == ""
+    desc = nil if desc = ""
+
+    Bookmarks.addBookmark title, desc, link, userID,  Time.now.strftime("%d/%m/%Y")
+end

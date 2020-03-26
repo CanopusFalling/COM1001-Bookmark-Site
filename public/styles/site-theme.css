@@ -126,6 +126,14 @@
         background-color: rgba(0, 0, 0, 0.9);
     }
 
+    .homicon {
+        height: 40px;
+        width: 40px;
+        margin: 7px 5px -5px 7px;
+    }
+
+
+
     /*--------------- Main ---------------*/
 
 

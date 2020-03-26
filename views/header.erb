@@ -1,24 +1,27 @@
 <header>
-    <h1>Bookmark Site</h1>
-    <nav>
-        <!-- Site search bar. -->
-        <form action="search" method="get">
-            <input type="text" name="search_query" placeholder="Search..">
-            <input type="submit" value="Search">
-        </form>
-        <!-- User spesific elements.-->
-        <div> 
-            <% if session[:userID] == -1 %>
-                <ul>
-                    <li onclick="window.location='registration'">Register</li>
-                    <li onclick="window.location='login'">Login</li>
-                </ul>
-            <% else %>
-                <ul>
-                    <li onclick="window.location='profilePage'">Profile</li>
-                    <li onclick="window.location='newBookmark'">Create Bookmark</li>
-                </ul>
-            <% end %>
-        </div>
-    </nav>
-</header>
+    <h1>
+    <img class="homicon" src="../assets/images/homicon.png" onclick="window.location = '/'">
+    Bookmark Site
+    </h1>
+        <nav>
+            <!-- Site search bar. -->
+            <form action="search" method="get">
+                <input type="text" name="search_query" placeholder="Search..">
+                <input type="submit" value="Search">
+            </form>
+            <!-- User spesific elements.-->
+            <div> 
+                <% if session[:userID] == -1 %>
+                    <ul>
+                        <li onclick="window.location='registration'">Register</li>
+                        <li onclick="window.location='login'">Login</li>
+                    </ul>
+                <% else %>
+                    <ul>
+                        <li onclick="window.location='profilePage'">Profile</li>
+                        <li onclick="window.location='newBookmark'">Create Bookmark</li>
+                    </ul>
+                <% end %>
+            </div>
+        </nav>
+    </header>

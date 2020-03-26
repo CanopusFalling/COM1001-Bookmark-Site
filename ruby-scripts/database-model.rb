@@ -473,6 +473,9 @@ module Bookmarks
                                     user_password)
                     VALUES (?, ?, ?, ?, ?);"
             @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password)
+            return true
+        else
+            return false
         end
     end
     # Insert admin user's details when registering account
@@ -482,6 +485,9 @@ module Bookmarks
                                     user_password, user_type)
                     VALUES (?, ?, ?, ?, ?,?);"
             @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), "ADMIN"
+            return true
+        else
+            return false
         end
     end 
     
@@ -492,6 +498,9 @@ module Bookmarks
                                         creator_ID, bookmark_date_created)
                     VALUES (?, ?, ?, ?, ?);"
             @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate
+            return true
+        else
+            return false
         end
     end
     
@@ -508,6 +517,9 @@ module Bookmarks
             query = "INSERT INTO edit(editor_ID, bookmark_edited_ID, edit_date)
                     VALUES(?,?,?);"
             @@db.execute query, editor, bookmark, editDate
+            return true
+        else
+            return false
         end
     end
     
@@ -523,6 +535,9 @@ module Bookmarks
             query = "INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created)
                     VALUES(?,?,?,?);"
             @@db.execute query, bookmark, commenter, details, dateCreated
+            return true
+        else 
+            return false
         end
     end
     
@@ -538,6 +553,9 @@ module Bookmarks
             query = "INSERT INTO favourite(user_ID,bookmark_ID)
                     VALUES(?,?);"
             @@db.execute query, user, bookmark
+            return true
+        else 
+            return false
         end
     end
     
@@ -554,6 +572,9 @@ module Bookmarks
                     rating_created)
                     VALUES(?,?,?,?);"
             @@db.execute query, bookmark, rater, value, dateCreated
+            return true
+        else
+            return false
         end
     end
     
@@ -570,14 +591,22 @@ module Bookmarks
                                         reporter_id, report_date)
                     VALUES (?, ?, ?, ?, ?);"
             @@db.execute query, reportedPageID, reportType, reportDetails, reporterID, reportDate
+            return true
+        else 
+            return false
         end
     end
     
     # Adds tag to db
     def Bookmarks.addTag(name, colour, dateCreated)
-        query = "INSERT INTO tag(tag_name, tag_colour, tag_date_created)
-                 VALUES(?,?,?);"
-        @@db.execute query, name, colour, dateCreated
+        if !Bookmarks.isNull(name) then
+            query = "INSERT INTO tag(tag_name, tag_colour, tag_date_created)
+                    VALUES(?,?,?);"
+            @@db.execute query, name, colour, dateCreated
+            return true
+        else
+            return false
+        end
     end
     
     # Add tag and bookmark ID's to the linking table
@@ -592,6 +621,9 @@ module Bookmarks
             query = "INSERT INTO tag_bookmark_link(tag_ID,bookmark_ID)
                     VALUES(?,?);"
             @@db.execute query, tag, bookmark
+            return true
+        else
+            return false
         end 
     end
     
@@ -604,10 +636,13 @@ module Bookmarks
             valid = false
         end
         if valid then
-        query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
-                VALUES(?,?,?);"
-        @@db.execute query, bookmark, dateViewed
-    end
-    
+            query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
+                    VALUES(?,?,?);"
+            @@db.execute query, bookmark, dateViewed  
+            return true
+        else 
+            return false
+        end
+    end 
 end
 

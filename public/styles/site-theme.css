@@ -191,11 +191,61 @@
         margin: 10px auto;
         width: 50%;
         max-width: 700px;
-        background-color: rgba(0, 0, 0, 0.75);
+        background-color: rgba(0, 0, 0, 0.3);
     }
 
     main section.central-form form{
         margin: 0px;
-        padding: 4px 6px;
+        padding: 2px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main section.central-form form div{
+        padding: 0px;
+        margin: 10px; 
+        display: flex;
+        justify-content: space-between;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    main section.central-form form div .form-label{
+        font-size: 1.2em;
+        padding: 4px 8px;
+    }
+
+    main section.central-form form div .label-desc{
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.8em;
+    }
+
+    main section.central-form form div .form-input{
+        background-color: rgba(0, 0, 0, 0.3);
+        border:1px solid white;
+        color: white;
+        width: 60%;
+    }
+
+    main section.central-form form .submission-button{
+        padding: 4px;
+        margin: 2px auto;
+        background-color: rgba(0, 0, 0, 0.3);
+        border: none;
+        color: white;
+        width: 40%;
+        font-size: 1.4em;
+    }
+
+    main section.central-form form .submission-button:hover{
+        background-color: rgba(100, 100,100, 0.9);
+    }
+
+    main section.central-form form .login-error-message{
+        padding: 4px 10px;
+        margin: 2px auto;
+        background-color: rgba(100, 0, 0, 0.3);
+        font-size: 1.4em;
+        align-items: center;
+        color: red;
     }
 }

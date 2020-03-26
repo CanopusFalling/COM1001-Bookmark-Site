@@ -183,5 +183,90 @@
     }
 
     /* ===== bookmark spesifics ===== */
-    /* Need to rebuild the bookmarkDetails.erb slightly first. */
+    main section.item-details{
+        width: 60%;
+        margin: 10px auto;
+        padding: 10px;
+        max-width: 700px;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    main section.item-details div.bookmark-details h2, main section.item-details div.bookmark-details div{
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) , rgba(0, 0, 0, 0.0));
+        margin: 10px 0px;
+        padding: 4px;
+    }
+
+    main section.item-details div.bookmark-details div.edit-buttons{
+        justify-content: flex-start;
+    }
+
+    main section.item-details div.bookmark-details div.edit-buttons img.edit-button{
+        width: 30px;
+        height: 30px;
+    }
+
+    /* ===== Central Form Styling ===== */
+
+    main section.central-form{
+        margin: 10px auto;
+        width: 50%;
+        max-width: 700px;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    main section.central-form form{
+        margin: 0px;
+        padding: 2px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main section.central-form form div{
+        padding: 0px;
+        margin: 10px; 
+        display: flex;
+        justify-content: space-between;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    main section.central-form form div .form-label{
+        font-size: 1.2em;
+        padding: 4px 8px;
+    }
+
+    main section.central-form form div .label-desc{
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.8em;
+    }
+
+    main section.central-form form div .form-input{
+        background-color: rgba(0, 0, 0, 0.3);
+        border:1px solid white;
+        color: white;
+        width: 60%;
+    }
+
+    main section.central-form form .submission-button{
+        padding: 4px;
+        margin: 2px auto;
+        background-color: rgba(0, 0, 0, 0.3);
+        border: none;
+        color: white;
+        width: 40%;
+        font-size: 1.4em;
+    }
+
+    main section.central-form form .submission-button:hover{
+        background-color: rgba(100, 100,100, 0.9);
+    }
+
+    main section.central-form form .login-error-message{
+        padding: 4px 10px;
+        margin: 2px auto;
+        background-color: rgba(100, 0, 0, 0.3);
+        font-size: 1.4em;
+        align-items: center;
+        color: red;
+    }
 }

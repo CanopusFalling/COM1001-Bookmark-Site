@@ -9,51 +9,49 @@
         <%= erb :header%>
 
         <main>
-            <div id="frame_container">
-                <p id="error_message"><%= @error_msg%></p>
+            <section class="central-form" id="frame_container">
                 <!-- the action needs to be defined -->
                 <form method="post">
-                    <label>Display name:</label>
-                    <br>
-                    <input type="text" placeholder="Enter your preferred name.."  value="<%= @displayName%>" name="displayName">
-                    <br>
-                    <div id="email_inputs">
+                    <div class="login-error-message" id="error_message"><%= @error_msg%></div>
+                    <div>
+                        <span class="form-label">Display name:</span>
+                        <input class="form-input" type="text" placeholder="Enter your preferred name.."  value="<%= @displayName%>" name="displayName">
+                    </div>
+                    <div>
                     
-                        <label>Email*:</label>
-                        <br>
-                        <input type="email" placeholder="Enter your email.." value="<%= @email%>" name="email" required>
-                        <br>
-                        
-                        <label>Confirm email*:</label>
-                        <br>
-                        <input type="email" placeholder="Confirm your email.." value="<%= @email_valid%>" name="email_validation" required>
-                        <br>
+                        <span class="form-label">Email*:</span>
+                        <input class="form-input" type="email" placeholder="Enter your email.." value="<%= @email%>" name="email" required>
+                    </div>
+                    <div>
+                        <span class="form-label">Confirm email*:</span>
+                        <input class="form-input" type="email" placeholder="Confirm your email.." value="<%= @email_valid%>" name="email_validation" required>
 
+                    </div>
+
+                    <div>
+                        <span class="label-desc" id="password_note">*Note: Password must be at least 8 characters long and contain a number and a special character (#?!@$%^&*-_)</span>
                     </div>
 
                     <div id="password_inputs" title = "Password must be at least 8 characters long and contain a number and a special character (#?!@$%^&*-_)">
                         
-                        <label>Password*:</label>
-                        <br>
-                        <input type="password" placeholder="Create a password." name="password" minlength = 8 required>
-                        <p id="password_note">*Note: Password must be at least 8 characters long and contain a number and a special character (#?!@$%^&*-_)</p>
-                        
-                        <label>Confirm password*:</label>
-                        <br>
-                        <input type="password" placeholder="Confirm password.." name="password_validation" minlength = 8 required>
-                        <br><br>
+                        <span class="form-label">Password*:</span>
+                        <input class="form-input" type="password" placeholder="Create a password." name="password" minlength = 8 required>
+                    </div>
+
+                    <div>    
+                        <span class="form-label">Confirm password*:</span>
+
+                        <input class="form-input" type="password" placeholder="Confirm password.." name="password_validation" minlength = 8 required>
 
                     </div>
 
-                    <input type="submit" value="Create" class="textarea">
+                    <input class="submission-button" type="submit" value="Create" class="textarea">
 
                     <!-- Cancel bottom should redirect to the previous page-->
-                    <input type="button" value="Cancel" onclick="history.back()">
+                    <input class="submission-button" type="button" value="Cancel" onclick="history.back()">
 
-                    
-                    
                 </form>
-            </div>
+            </section>
         </main>
 
         <%= erb :footer%>

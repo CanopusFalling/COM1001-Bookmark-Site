@@ -468,7 +468,7 @@ module Bookmarks
     
     # Insert user's details into db when they register an account
     def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)
-        if Boookmarks.isUniqueValue(users,user_email,uEmail) and (Bookmarks.isNull(uEmail)) then
+        if Boookmarks.isUniqueValue(users,user_email,uEmail) and Bookmarks.isNull(uEmail) then
             query = "INSERT INTO users(user_email, user_displayName, user_department,
                                     user_password)
                     VALUES (?, ?, ?, ?, ?);"
@@ -480,7 +480,7 @@ module Bookmarks
     end
     # Insert admin user's details when registering account
     def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password, user_type)
-        if Boookmarks.isUniqueValue(users,user_email,uEmail) and (uEmail.length > 0) then
+        if Boookmarks.isUniqueValue(users,user_email,uEmail) and Bookmarks.isNull(uEmail) then
             query = "INSERT INTO users(user_email, user_displayName, user_department,
                                     user_password, user_type)
                     VALUES (?, ?, ?, ?, ?,?);"
@@ -493,7 +493,7 @@ module Bookmarks
     
     # Add bookmark details to the db
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate)
-        if Boookmarks.isUniqueValue(bookmarks,bookmark_link, bookmarkLink) and (bookmarkTitle.length > 0)
+        if Boookmarks.isUniqueValue(bookmarks,bookmark_link, bookmarkLink) and Bookmarks.isNull(bookmarkTitle) then
             query = "INSERT INTO bookmarks(bookmark_title, bookmark_description, bookmark_link,
                                         creator_ID, bookmark_date_created)
                     VALUES (?, ?, ?, ?, ?);"

@@ -144,7 +144,6 @@
     /* ===== Basic Tables ===== */
     section.basic-table {
         background-color: rgba(0, 0, 0, 0.5);
-        width: 100%;
         padding: 2px;
         margin-bottom: 30px;
     }

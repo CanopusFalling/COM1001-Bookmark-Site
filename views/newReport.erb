@@ -9,23 +9,25 @@
         <%= erb :header %>
 
         <main>
-            <form name="reportForm" method="post">
-                <label for="Report">Report Category: </label>
-                <br><br>
-                <select name="category">
-                        <option value="Link Doesn't Work">Link Doesn't Work</option>
-                        <option value="Wrong tags">Wrong Tags</option>
-                        <option value="Information Not Relevant">Information not Relevant</option>
-                        <option value="Source Unreliable">Source Unreliable</option>
-                </select>
-                <br><br>
-                <label for="GET-additional-details">Additional Details: </label>
-                <br><br>
-                <textarea cols="50" rows="6" placeholder="Enter Additional Deteails..." class-"textarea" name="details"></textarea>
-                <br><br>
-                <input type="submit" value="Report Bookmark">  
-                <input type="button" value="Cancel" onclick="history.back()"> 
-            </form>
+            <section class="central-form">
+                <form name="reportForm" method="post">
+                    <div>
+                        <span class="form-label" for="Report">Report Category: </span>
+                        <select class="form-input" name="category">
+                                <option value="Link Doesn't Work">Link Doesn't Work</option>
+                                <option value="Wrong tags">Wrong Tags</option>
+                                <option value="Information Not Relevant">Information not Relevant</option>
+                                <option value="Source Unreliable">Source Unreliable</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class="form-label" for="GET-additional-details">Additional Details: </span>
+                        <textarea class="form-input" cols="50" rows="6" placeholder="Enter Additional Deteails..." class-"textarea" name="details"></textarea>
+                    </div>
+                    <input class="submission-button" type="submit" value="Report Bookmark">  
+                    <input class="submission-button" type="button" value="Cancel" onclick="history.back()"> 
+                </form>
+            </section>
         </main>
 
         <%= erb :footer %>

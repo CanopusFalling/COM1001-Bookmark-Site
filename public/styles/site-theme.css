@@ -29,6 +29,9 @@
         background-color: rgb(50, 45, 50);
         color: rgb(250, 250, 250);
         font-family: "Ubuntu", sans-serif;
+        /* Enables the secret background image lol. */
+        /*background-image: url('../assets/images/wallpaper.jpg');
+        background-size: cover;*/
     }
 
     h1,

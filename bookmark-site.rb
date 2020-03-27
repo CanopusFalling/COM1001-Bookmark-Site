@@ -123,8 +123,12 @@ get '/bookmark-spesifics' do
 end
 
 get '/newBookmark' do
-    if session[:userID] != -1
-        erb :newBookmark
+    if session[:userID] != -1 
+        if Bookmarks.isVerified session[:userID]
+            erb :newBookmark
+        else
+            redirect '/msg?msg=waitForVerification'
+        end
     else
         redirect '/'
     end

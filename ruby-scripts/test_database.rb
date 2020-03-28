@@ -134,3 +134,13 @@ puts Bookmarks.isUniqueValue "bookmark", "bookmark_title", "title8"
 puts ""
 puts Bookmarks.isUniqueValue nil, "bookmark_title", "title8"  
 puts ""
+
+puts"=== isVerified ==="
+puts Bookmarks.isVerified nil
+puts ""
+puts Bookmarks.isVerified "sas"
+puts ""
+puts Bookmarks.isVerified 0
+puts ""
+puts Bookmarks.isVerified 3
+puts ""

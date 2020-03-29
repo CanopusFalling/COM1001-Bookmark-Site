@@ -328,6 +328,23 @@ module Bookmarks
 
         return result
     end
+    
+    #Returns true if given id was verified and false if not (or nil if input was incorrect)
+    def Bookmarks.isVerified userID
+        if userID.is_a? Integer
+            query = "SELECT user_type
+                    FROM users
+                    WHERE user_ID = ?;"
+            result = @@db.get_first_value query, userID
+            if result != UNVERIFIED_STRING
+                return true
+            else
+                return false
+            end
+        else
+            return nil
+        end
+    end
 
     #Returns a viewing history of specified user
     #Params: id (integer) - is of the specified user

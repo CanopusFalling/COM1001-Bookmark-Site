@@ -5,14 +5,16 @@ module Bookmarks
     
     #===Constants declaration
     UNVERIFIED_STRING = "Unverified"
-
+    USER_STRING = "User"
+    ADMIN_STRING = "Admin"
     #===Setup methods===
 
     #Run to open the database connection
+    
     def Bookmarks.init databaseDirectory
         @@db = SQLite3::Database.open File.join(File.dirname(__FILE__), databaseDirectory)
         @@db.results_as_hash = true
-    end
+    end 
 
     #===Queries methods===
 
@@ -435,7 +437,6 @@ module Bookmarks
     #         nil -if given column or table name are incorrect
     def Bookmarks.isUniqueValue tableName , columnName , value
         if (Bookmarks.getColumnNames tableName).include? columnName
-            
             query = "SELECT DISTINCT #{columnName}
                      FROM #{tableName} ;"
             result = @@db.execute query
@@ -453,147 +454,175 @@ module Bookmarks
 
     # Returns true if the value is an integer
     def Bookmarks.isInteger value
-        return value.integer?
+        return value.is_a? Integer
     end 
     
     # Returns true if value is null
     def Bookmarks.isNull value
-        if value == nil then
+        if value == nil  then
             return true
         else 
             return false
         end
     end
 
-    
-    # Insert user's details into db when they register an account
-    def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)
-        if Boookmarks.isUniqueValue(users,user_email,uEmail) and Bookmarks.isNull(uEmail) then
-            query = "INSERT INTO users(user_email, user_displayName, user_department,
-                                    user_password)
-                    VALUES (?, ?, ?, ?, ?);"
-            @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password)
+    # Checks if value is outside of range of ID's in table
+    # Params id - value to being checked
+    # columnName - column where ID's are stored
+    # tableName - table of ID being checked
+    # Returns true - if 'id' is outside of the range
+    #         false - if 'id' is within the range
+
+    def Bookmarks.idOutOfRange id, columnName, tableName
+        query = "SELECT DISTINCT #{columnName}
+                     FROM #{tableName} ;"
+        result = @@db.execute query
+
+        largest = 0
+        (0..(result.length()-1)).each do |i|
+            if result[i][0] > largest then
+                largest = result[i][0]
+            end
+        end
+
+        if id > largest || id < 0 then
             return true
         else
             return false
         end
     end
-    # Insert admin user's details when registering account
-    def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password, user_type)
-        if Boookmarks.isUniqueValue(users,user_email,uEmail) and Bookmarks.isNull(uEmail) then
-            query = "INSERT INTO users(user_email, user_displayName, user_department,
-                                    user_password, user_type)
-                    VALUES (?, ?, ?, ?, ?,?);"
-            @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), "ADMIN"
-            return true
-        else
+
+    # === Insert Methods ========
+
+    
+    # Insert user's details into db when they register an account
+    def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)
+        if !Bookmarks.isUniqueValue('users','user_email',uEmail) then
             return false
+         
+        elsif Bookmarks.isNull(uEmail) then
+            return false         
+        else
+            query = "INSERT INTO users(user_email, user_displayName, user_department,
+                    user_password, user_type, user_suspended)
+                    VALUES (?, ?, ?, ?, ?, ?);"
+            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password),USER_STRING,0
+            return true
+        end 
+    end
+    # Insert admin user's details when registering account
+    def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password)
+        if !Bookmarks.isUniqueValue('users','user_email',uEmail) then
+            return false
+         
+        elsif Bookmarks.isNull(uEmail) then
+            return false         
+        else
+            query = "INSERT INTO users(user_email, user_displayName, user_department,
+                                    user_password, user_type, user_suspended)
+                    VALUES (?, ?, ?, ?, ?,?);"
+            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password),ADMIN_STRING,0
+            return true
         end
     end 
     
     # Add bookmark details to the db
-    def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate)
-        if Boookmarks.isUniqueValue(bookmarks,bookmark_link, bookmarkLink) and Bookmarks.isNull(bookmarkTitle) then
-            query = "INSERT INTO bookmarks(bookmark_title, bookmark_description, bookmark_link,
-                                        creator_ID, bookmark_date_created)
-                    VALUES (?, ?, ?, ?, ?);"
-            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, creatorID, bookmarkCreationDate
-            return true
-        else
+    def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
+        if !Bookmarks.isUniqueValue('bookmark','bookmark_link', bookmarkLink) then
+            return false      
+        elsif Bookmarks.isNull(bookmarkTitle) then
             return false
+        elsif Bookmarks.idOutOfRange(creatorID,'user_ID','users') && creatorID != nil then
+            return false
+        else
+            query = "INSERT INTO bookmark(bookmark_title, bookmark_description, bookmark_link, date_created,
+                                        creator_ID)
+                    VALUES (?, ?, ?, ?, ?);"
+            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID
+            return true
         end
     end
     
     # Adding details of edit made to bookmark
     def Bookmarks.addBookmarkEdit(editor, bookmark, editDate)
-        valid = true
-        if !Bookmarks.isInteger(editor) or !Bookmarks.isInteger(bookmark) then
-            valid = false 
-        elsif Bookmarks.isNull(editor) and Bookmarks.isNull(bookmark) then
-            valid = false
-        end
-
-        if valid then
+        if !Bookmarks.isInteger(editor) || !Bookmarks.isInteger(bookmark) then
+            return false 
+        elsif Bookmarks.isNull(editor) || Bookmarks.isNull(bookmark) then
+            return false
+        elsif Bookmarks.idOutOfRange(editor,'user_ID','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') then
+            return false
+        else
             query = "INSERT INTO edit(editor_ID, bookmark_edited_ID, edit_date)
                     VALUES(?,?,?);"
             @@db.execute query, editor, bookmark, editDate
             return true
-        else
-            return false
         end
     end
     
     # Add comment details to db
     def Bookmarks.addComment(bookmark, commenter, details, dateCreated)
-        valid = true
-        if !Bookmarks.isInteger(bookmark) or !Bookmarks.isInteger(commenter) then
-            valid = false
-        elsif Bookmarks.isNull(bookmark) or Bookmarks.isNull(commenter) then
-            valid = false
-        end
-        if valid then
+        if !Bookmarks.isInteger(bookmark) || !Bookmarks.isInteger(commenter) then
+            return false
+        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(commenter) then
+            return false
+        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(commenter,'user_ID','users') then
+            return false
+        else
             query = "INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created)
                     VALUES(?,?,?,?);"
             @@db.execute query, bookmark, commenter, details, dateCreated
             return true
-        else 
-            return false
         end
     end
     
     # Add details of favourite into db
     def Bookmarks.addFavourite(user,bookmark)
-        valid = true
-        if !Bookmarks.isInteger(user) or !Bookmarks.isInteger(bookmark) then
-            valid = false
-        elsif Bookmarks.isNull(user) or Bookmarks.isNull(bookmark) then
-            valid = false
-        end
-        if valid then
+        if !Bookmarks.isInteger(user) || !Bookmarks.isInteger(bookmark) then
+            return false
+        elsif Bookmarks.isNull(user) || Bookmarks.isNull(bookmark) then
+            return false
+        elsif Bookmarks.idOutOfRange(user,'user_ID','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') then
+            return false
+        else
             query = "INSERT INTO favourite(user_ID,bookmark_ID)
                     VALUES(?,?);"
             @@db.execute query, user, bookmark
             return true
-        else 
-            return false
         end
     end
     
     # Adds details of a rating to the db
     def Bookmarks.addRating(bookmark, rater, value, dateCreated)
-        valid = true
-        if !Bookmarks.isInteger(bookmark) or !Bookmarks.isInteger(rater) then
-            valid = false
-        elsif Bookmarks.isNull(bookmark) or Bookmarks.isNull(rater) then
-            valid = false
-        end
-        if valid then
-            query = "INSERT INTO rating(bookmark_ID, rater_ID, rating_value,
-                    rating_created)
+        if !Bookmarks.isInteger(bookmark) || !Bookmarks.isInteger(rater) || !Bookmarks.isInteger(value) then
+            return false
+        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(rater) || Bookmarks.isNull(value) then
+            return false
+        elsif  Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(rater,'user_ID','users') then
+            return false
+        elsif value < 1 || value > 5 then
+            return false
+        else
+            query = "INSERT INTO rating(bookmark_ID, rater_ID, rating_value, rating_created)
                     VALUES(?,?,?,?);"
             @@db.execute query, bookmark, rater, value, dateCreated
             return true
-        else
-            return false
         end
     end
     
     # Add details of a report to the db
     def Bookmarks.addReport (reportedPageID, reportType, reportDetails, reporterID, reportDate)
-        valid = true
         if !Bookmarks.isInteger(reportedPageID) or !Bookmarks.isInteger(reporterID) then
-            valid = false
-        elsif Bookmarks.isNull(reportedPageID) then
-            valid = false
-        end
-        if valid then
-            query = "INSERT INTO reports(reported_id, report_type, report_details, 
-                                        reporter_id, report_date)
-                    VALUES (?, ?, ?, ?, ?);"
-            @@db.execute query, reportedPageID, reportType, reportDetails, reporterID, reportDate
-            return true
-        else 
             return false
+        elsif Bookmarks.isNull(reportedPageID) then
+            return false
+        elsif Bookmarks.idOutOfRange(reportedPageID,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(reporterID,'user_id','users') then
+            return false
+        else
+            query = "INSERT INTO report(bookmark_ID, report_type, report_details, 
+                                        reporter_ID, report_date,report_resolved)
+                    VALUES (?, ?, ?, ?, ?, ?);"
+            @@db.execute query, reportedPageID, reportType, reportDetails, reporterID, reportDate, 0
+            return true
         end
     end
     
@@ -611,37 +640,35 @@ module Bookmarks
     
     # Add tag and bookmark ID's to the linking table
     def Bookmarks.addTagBookmarkLink(tag, bookmark)
-        valid = true
         if !Bookmarks.isInteger(tag) or !Bookmarks.isInteger(bookmark) then
-            valid = false
+            return false
         elsif Bookmarks.isNull(tag) or Bookmarks.isNull(bookmark) then
-            valid = false
-        end
-        if valid then
+            return false
+        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(tag,'tag_ID','tag') then
+            return false
+        else 
             query = "INSERT INTO tag_bookmark_link(tag_ID,bookmark_ID)
                     VALUES(?,?);"
             @@db.execute query, tag, bookmark
             return true
-        else
-            return false
         end 
     end
     
     # Add details of a view into the db
     def Bookmarks.addView(viewer, bookmark, dateViewed)
-        valid = true
         if !Bookmarks.isInteger(viewer) or !Bookmarks.isInteger(bookmark) then
-            valid = false
+            return false
         elsif Bookmarks.isNull(bookmark) then
-            valid = false
-        end
-        if valid then
+            return false
+        elsif Bookmarks.idOutOfRange(viewer,'user_id','users') && viewer != nil then
+            return false
+        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_id','bookmark') then
+            return false
+        else
             query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
                     VALUES(?,?,?);"
-            @@db.execute query, bookmark, dateViewed  
+            @@db.execute query, viewer, bookmark, dateViewed  
             return true
-        else 
-            return false
         end
     end 
 end

@@ -6,6 +6,7 @@ function openInNewTab(url) {
 }
 
 function openInNewTabAndRecordView(url, ID) {
+	var win = window.open(url, "_blank");
 	window.location = "bookmark-addView?bookmarkID=" + ID;
-	openInNewTab(url);
+	win.focus();
 }

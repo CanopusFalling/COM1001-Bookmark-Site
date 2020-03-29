@@ -147,7 +147,7 @@ end
 
 get '/bookmark-addView' do
     addView params[:bookmarkID], session[:userID]
-    redirect "http://#{params[:bookmarkLink]}"
+    redirect back
 end
 
 get '/msg' do

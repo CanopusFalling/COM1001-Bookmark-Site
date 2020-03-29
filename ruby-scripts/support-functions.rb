@@ -37,11 +37,11 @@ def isValidPassword password
 end
 
 def newUser displayName, email, password
-    Bookmarks.addRegisterDetails email, displayName, nil, password
+    return Bookmarks.addRegisterDetails email, displayName, nil, password
 end
 
 def newReport bookmarkId, reporterId, type, desc
-    Bookmarks.addReport bookmarkId, type, desc, reporterId, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addReport bookmarkId, type, desc, reporterId, Time.now.strftime("%d/%m/%Y")
 end
 
 def addView bookmarkId, userId
@@ -54,5 +54,5 @@ def newBookmark userID, title, link, desc
     link = nil if link == ""
     desc = nil if desc = ""
 
-    Bookmarks.addBookmark title, desc, link, userID,  Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addBookmark title, desc, link, userID,  Time.now.strftime("%d/%m/%Y")
 end

@@ -97,7 +97,7 @@ post '/report-bookmark' do
     @ID = params[:bookmarkID]
     @type = params[:category]
     @desc = params[:details]=="" ? nil : params[:details]
-    @reporterID = session[:userID] == -1 ? nil : session[:userID]
+    @reporterID = session[:userID]
 
     newReport @ID, @reporterID, @type, @desc
 

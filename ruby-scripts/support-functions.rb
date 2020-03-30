@@ -45,9 +45,7 @@ def newReport bookmarkId, reporterId, type, desc
 end
 
 def addView bookmarkId, userId
-    userId = userId.to_i
-    userId = nil if userId == -1;
-    Bookmarks.addView userId, bookmarkId.to_i, Time.now.strftime("%d/%m/%Y")
+    Bookmarks.addView userId.to_i, bookmarkId.to_i, Time.now.strftime("%d/%m/%Y")
 end
 
 def newBookmark userID, title, link, desc

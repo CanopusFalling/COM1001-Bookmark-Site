@@ -23,6 +23,7 @@ module Bookmarks
     #Returns: A array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData search
@@ -32,6 +33,13 @@ module Bookmarks
                     WHERE title LIKE ?;"  
             result = @@db.execute query, "%#{search}%"
             result.map{|row| row.transform_keys!(&:to_sym)}
+            result.each do |row|
+                row.each do |key,value|
+                    if row[key] == nil
+                        row[key] = 0
+                    end
+                end
+            end
         end
         return result
     end
@@ -62,12 +70,13 @@ module Bookmarks
     #Returns: A hash with following keys (or nil if input was incorrect):
     #   :id - user id
     #   :password - user password's hash
-    def Bookmarks.getPasswordHash email
+    def Bookmarks.getDetailsByEmail email
         result = nil
         if email
             query = "SELECT 
                     user_id AS id,
-                    user_password AS password
+                    user_password AS password,
+                    user_suspended AS susspended
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
@@ -270,6 +279,7 @@ module Bookmarks
     #Returns: An array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getFavouriteList id
@@ -346,6 +356,23 @@ module Bookmarks
         end
     end
 
+    #Returns true if given id was verified and false if not (or nil if input was incorrect)
+    def Bookmarks.isVerified userID
+        if userID.is_a? Integer
+            query = "SELECT user_type
+                    FROM users
+                    WHERE user_ID = ?;"
+            result = @@db.get_first_value query, userID
+            if result != UNVERIFIED_STRING
+                return true
+            else
+                return false
+            end
+        else
+            return nil
+        end
+    end
+
     #Returns a viewing history of specified user
     #Params: id (integer) - is of the specified user
     #Returns: An array of hashes with following keys (or nil if input was incorrect):
@@ -370,6 +397,7 @@ module Bookmarks
     #Returns: An array of hashes with following keys:
     #   :bookmark_ID - id of a bookmark reported 
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark  (nil if no ratings)
     #   :views - total view count of a bookmark
 

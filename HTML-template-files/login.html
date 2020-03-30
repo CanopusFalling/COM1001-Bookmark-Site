@@ -12,36 +12,41 @@
 <!-- Site Structure -->
 <body>
     <header>
-        <h1>Login</h1>
+        <h1>Bookmark Site</h1>
+        <nav>
+            <!-- Site search bar. -->
+            <form action="search.html" method="get">
+                <input type="text" name="search-query" placeholder="Search..">
+                <input type="submit" value="Search">
+            </form>
+            <!-- User spesific elements.-->
+            <ul>
+                <li onclick="window.location='registration.html'">Register</li>
+                <li onclick="window.location='login.html'">Login</li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-
-        <form name="myform" action="https://www.dcs.shef.ac.uk/cgi-intranet/public/FormMail.pl" method="get"> 
-
-            <input type="hidden" name="recipient" value="plin7@sheffield.ac.uk">
-            <section id="homepage-bookmarks-table">
-                <label for="email">Enter Your e-mail:</label>
-                <br><br>
-                <input name="email" type="email" class="size1" id="email" placeholder="enter your email..."> 
-                <br><br>
-                <label for="GET-name">Enter your password:</label> 
-                <br><br>
-                <input name="name" type="text" class="size2" id="GET-password" placeholder="Enter your password..." >
-                <br><br>
-                <input type="button" value="cancel" onclick="history.back()">
-                <input type="reset">  
-                <input type="submit" name="submit" id="submit" value="Submit">
-            </section>
-
-        </form>
-
+        <section class="central-form">
+            <form action="authenticate-user" method="post">
+                <div>
+                    <span class="form-label">Email </span>
+                    <input type="text" label="user-email">
+                </div>
+                <div>
+                    <span class="form-label">Password </span>
+                    <input class="form-input" type="password" label="user-password">
+                </div>
+                <input class="submission-button" type="submit" value="Login">
+            </form>
+        </section>
     </main>
 
+    <!-- Footer to be filled in once the site is finished. -->
     <footer>
-
+        Bookmark Orginisation Site - 2020
     </footer>
-
 </body>
 
 </html>

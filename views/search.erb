@@ -1,7 +1,7 @@
 <html>
     <head>
         <%= erb :head%>
-    </head>
+    <head>
     
     <!-- Site Structure -->
     <body>
@@ -9,6 +9,10 @@
         <%= erb :header %>
 
         <main>
+            <h2>
+                <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = '/'">
+                Search results for: '<%= erb @searchQuery %>'
+            </h2>
             <%= erb :resultsTable, :locals => {:results => @results}%>
         </main>
 

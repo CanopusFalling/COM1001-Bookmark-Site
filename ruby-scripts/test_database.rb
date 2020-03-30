@@ -144,5 +144,3 @@ puts Bookmarks.isVerified 0
 puts ""
 puts Bookmarks.isVerified 3
 puts ""
-
-puts ""

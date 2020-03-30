@@ -3,35 +3,63 @@
 <head>
     <!-- Setup HTML -->
     <meta charset="utf-8">
-    <title>Bookmark Detail Specifics</title>
-    <meta name="author" content="Yi Jing">
+    <title>Bookmark Site V1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/site-theme.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/images/favicon.png" />
 </head>
 
 <!-- Site Structure -->
+
 <body>
     <header>
-        <h1>Bookmark Name</h1>
+        <h1>Bookmark Site</h1>
         <nav>
+            <!-- Site search bar. -->
+            <form action="search.html" method="get">
+                <input type="text" name="search-query" placeholder="Search..">
+                <input type="submit" value="Search">
+            </form>
+            <!-- User spesific elements.-->
             <ul>
-                <li onclick="window.location='employee-report.html'">Report</li>
+                <li onclick="window.location='registration.html'">Register</li>
+                <li onclick="window.location='login.html'">Login</li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="basic-table" id="homepage-bookmarks-specifics">
-                <!-- Bookmark Details -->
-                <div class="bookmark-details">
-                    <span class="bookmark-details">[Bookmark Details]</span>
+        <section class="item-details" id="homepage-bookmarks-specifics">
+            <!-- Bookmark Details -->
+            <div class="bookmark-details">
+                <h2 class="bookmark-title">
+                    Title of bookmark
+                </h2>
+                <div class="bookmark-description">
+                    Lorem ipsum mit dolar sammet.
                 </div>
+                <div class="detailed-info">
+                    <span>Created on [date] by [user-email]</span>
+                </div>
+                <!-- Editing Buttons. -->
+                <div class="edit-buttons">
+                    <img class="edit-button" src="../assets/images/external-page-icon.png"
+                        onclick="window.location = '[bookmark link here]'">
+                    <img class="edit-button" src="../assets/images/bin-icon.png"
+                        onclick="window.location = 'delete-bookmark?bookmarkID=[bookmark ID]'">
+                    <img class="edit-button" src="../assets/images/report.png"
+                        onclick="window.location = 'report-bookmark?bookmarkID=[bookmark ID]'">
+                </div>
+            </div>
         </section>
-        <button Onclick="history.back()">Back</button> 
+        <button class="report-button" Onclick="history.back()">Back</button>
+        <button class="back-button" onclick="window.location = 'report-bookmark?bookmarkID=[bookmark ID]'">Report
+            Problem With Bookmark</button>
     </main>
 
+    <!-- Footer to be filled in once the site is finished. -->
     <footer>
-
+        Bookmark Orginisation Site - 2020
     </footer>
 </body>
 

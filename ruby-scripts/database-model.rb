@@ -530,7 +530,7 @@ module Bookmarks
             end
         end
 
-        if id > largest || id < 0 then
+        if id > largest || id < -1 then
             return true
         else
             return false
@@ -575,9 +575,9 @@ module Bookmarks
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
         if !Bookmarks.isUniqueValue('bookmark','bookmark_link', bookmarkLink) then
             return false      
-        elsif Bookmarks.isNull(bookmarkTitle) then
+        elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
-        elsif Bookmarks.idOutOfRange(creatorID,'user_ID','users') && creatorID != nil then
+        elsif Bookmarks.idOutOfRange(creatorID,'user_ID','users') then
             return false
         else
             query = "INSERT INTO bookmark(bookmark_title, bookmark_description, bookmark_link, date_created,
@@ -701,13 +701,11 @@ module Bookmarks
     
     # Add details of a view into the db
     def Bookmarks.addView(viewer, bookmark, dateViewed)
-        if !Bookmarks.isInteger(viewer) or !Bookmarks.isInteger(bookmark) then
+        if !Bookmarks.isInteger(viewer) || !Bookmarks.isInteger(bookmark) then
             return false
-        elsif Bookmarks.isNull(bookmark) then
+        elsif Bookmarks.isNull(viewer) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(viewer,'user_id','users') && viewer != nil then
-            return false
-        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_id','bookmark') then
+        elsif Bookmarks.idOutOfRange(viewer,'user_id','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_id','bookmark') then
             return false
         else
             query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)

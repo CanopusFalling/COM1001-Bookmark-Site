@@ -155,3 +155,9 @@ get '/msg' do
     erb :message
 end
 
+
+get '/testing' do
+    @tagList = Bookmarks.getTagNames
+    @checked = ['tag0']
+    erb :test
+end

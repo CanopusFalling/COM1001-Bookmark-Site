@@ -1,0 +1,13 @@
+/*
+ * File for all the styles of custon tagControl element
+ * Made for the COM1001 - Group Assesment.
+ */
+
+#tagList {
+	padding-left: 0;
+}
+
+.tagItem {
+	list-style-type: none;
+	display: none;
+}

@@ -1,0 +1,12 @@
+<section id = "tagControl">
+<input type = "search" id="tagSearch" onkeyup = "updateList()" placeholder = "Search for tags...">
+    <ul id="tagList">
+        <%@tagList.each do |name|%>
+            <li class = "tagItem">
+                <input type ="checkbox" id="<%="#{name}_tag"%>" onclick = "clickedTag(<%=name%>)" <%if @checked && (@checked.include? name)%>checked<%end%>>
+                <label for="<%="#{name}_tag"%>"><%=name%></label>
+            </li>
+        <%end%>
+    </ul>
+    <input type="hidden" name = "numOfTags" value = <%= @checked ? @checked.length : 0%>>
+<section>

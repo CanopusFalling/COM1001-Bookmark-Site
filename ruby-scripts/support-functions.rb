@@ -55,3 +55,15 @@ def newBookmark userID, title, link, desc
 
     return Bookmarks.addBookmark title, desc, link, userID,  Time.now.strftime("%d/%m/%Y")
 end
+
+def extractTagsFromParams params 
+    if params
+        number = params[:numOfTags].to_i
+        tags = []
+        (0..(number-1)).each do |i|
+            tags << params[("tagNo#{i}").to_sym]
+        end
+        return tags
+    end
+    return ""
+end

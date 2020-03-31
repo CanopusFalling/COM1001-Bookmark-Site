@@ -9,8 +9,13 @@
         <%= erb :header %>
 
         <main>
+        <form>
             <%= erb :tagControl%>
+            <input type="submit" value="GO">
+        </form>
         </main>
+
+        <%= @returnedTags%>
 
         <%= erb :footer %>
     </body>

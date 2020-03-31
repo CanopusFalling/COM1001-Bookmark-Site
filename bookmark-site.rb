@@ -159,5 +159,6 @@ end
 get '/testing' do
     @tagList = Bookmarks.getTagNames
     @checked = ['tag0']
+    @returnedTags = extractTagsFromParams params
     erb :test
 end

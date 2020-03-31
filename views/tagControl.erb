@@ -1,7 +1,7 @@
 <section id = "tagControl">
 
-    <input type = "search" id="tagSearch" onkeyup = "updateList()" placeholder = "Search for tags...">
-    <input type = "text" id = "proposedTagField"placeholder = "Add new tag" maxlength = 40> <input type="button" onclick = "addTag()" value = "Create Tag">
+    <input type = "search" id="tagSearch" onkeyup = "updateList()" placeholder = "Search or add tags..." maxlength = 40>
+    <input type="button" onclick = "addTag()" value = "Create Tag">
     
     <ul id="tagList">
         <%@tagList.each do |name|%>
@@ -17,7 +17,7 @@
     
     <!-- list of hidden inputs that wil be read by the server using numOfTags
          Representing the list of chosen tags-->
-    <%(0..(@checked.length-1)).each do |i|%>
+    <%(0..(@checked ? @checked.length-1 : -1)).each do |i|%>
     <input type="hidden" name = "tagNo<%=i%>" value = <%=@checked[i]%>>
     <%end%>
 

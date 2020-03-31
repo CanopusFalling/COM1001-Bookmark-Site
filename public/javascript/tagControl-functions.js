@@ -38,7 +38,7 @@ if not add a new item to the list
  */
 function addTag() {
 	var tagList = document.getElementById("tagList");
-	var proposedTagField = document.getElementById("proposedTagField");
+	var proposedTagField = document.getElementById("tagSearch");
 	var proposedTag = proposedTagField.value;
 	//check if proposed tag already exists if yes then tell user and return
 	if (document.getElementById(proposedTag + "_tag") != null) {
@@ -68,7 +68,7 @@ function addTag() {
 
 	tagList.appendChild(newItem);
 
-	proposedTagField.value = "";
+	updateList();
 }
 
 function clickedTag(name) {

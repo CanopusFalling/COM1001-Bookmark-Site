@@ -41,18 +41,19 @@ class TestInserts < Minitest::Test
         refute nullEmail
     end 
 
+
     def test_add_bookmark
         # Test with valid details
         valid1 = Bookmarks.addBookmark("Bookmark1","Description","www.bookmark.com",'1.01.2001',1)
         valid2 = Bookmarks.addBookmark("Bookmark2","Description","www.test.com",'1.01.2001',2)
         valid3 = Bookmarks.addBookmark("Bookmark3","Description","www.website.com",'1.01.2001',3)
-        
+
         # Test with link already in db
         sameLink = Bookmarks.addBookmark("Bookmark4","Description","www.bookmark.com",'5.01.2001',1)
         # null bookmark_title
         nullTitle = Bookmarks.addBookmark(nil,"Description","www.abc.com",'5.05.2005',1)
         # creator_id not a valid user_id
-        creatorOutOfRange = Bookmarks.addBookmark("Bookmark5","Description","www.aaaaa.com",'5.01.2001',150)
+        creatorOutOfRange = Bookmarks.addBookmark("Bookmark6","Description","www.aaaaa.com",'5.01.2001',150)
 
         assert valid1
         assert valid2
@@ -63,11 +64,13 @@ class TestInserts < Minitest::Test
         refute creatorOutOfRange
     end 
 
+
     def test_add_edit 
         # Test with valid details
         valid1 = Bookmarks.addBookmarkEdit(1,1,"1.1.2001")
         valid2 = Bookmarks.addBookmarkEdit(2,2,"1.3.2010")
         valid3 = Bookmarks.addBookmarkEdit(3,3,"19.4.2012")
+        valid4 = Bookmarks.addBookmarkEdit(-1,4,"19.4.2012")
 
         # non-integer editor_ID
         editorNotInt = Bookmarks.addBookmarkEdit("x",1,"1.1.2001")
@@ -78,15 +81,16 @@ class TestInserts < Minitest::Test
         # null bookmark_ID
         bookmarkNull = Bookmarks.addBookmarkEdit(1,nil,"1.1.2001")
         # editor_ID not in db
-        editorOutOfRange = Bookmarks.addBookmarkEdit(10,1,"1.1.2001")
+        editorOutOfRange = Bookmarks.addBookmarkEdit(100,1,"1.1.2001")
         # bookmark_ID not in db
-        bookmarkOutOfRange = Bookmarks.addBookmarkEdit(1,10,"1.1.2001")
-        # ID values are negative
-        negativeID = Bookmarks.addBookmarkEdit(-1,-1,"1.1.2001")
+        bookmarkOutOfRange = Bookmarks.addBookmarkEdit(1,100,"1.1.2001")
+        # ID values are negative (< -1)
+        negativeID = Bookmarks.addBookmarkEdit(-5,-5,"1.1.2001")
 
         assert valid1
         assert valid2
         assert valid3
+        assert valid4
 
         refute editorNotInt
         refute bookmarkNotInt
@@ -96,31 +100,33 @@ class TestInserts < Minitest::Test
         refute bookmarkOutOfRange
         refute negativeID
     end
- 
+
     def test_add_comment 
         # Test with valid details
-        valid1 = Bookmarks.addComment(1,1,"edit1","12.12.2012")
-        valid2 = Bookmarks.addComment(2,2,"edit2","21.9.2008")
-        valid3 = Bookmarks.addComment(3,3,"edit3","22.2.2002")
+        valid1 = Bookmarks.addComment(1,1,"comment...","12.12.2012")
+        valid2 = Bookmarks.addComment(2,2,"comment...","21.9.2008")
+        valid3 = Bookmarks.addComment(3,3,"comment...","22.2.2002")
+        valid4 = Bookmarks.addComment(3,-1,"comment...","22.2.2002")
 
         # non-integer bookmark_id
-        bookmarkNotInt = Bookmarks.addComment("x",1,"edit01","12.12.2012")
+        bookmarkNotInt = Bookmarks.addComment("x",1,"comment...","12.12.2012")
         # non-integer commenter_id
-        commenterNotInt = Bookmarks.addComment(2,"aaa","edit02","12.12.2012")
+        commenterNotInt = Bookmarks.addComment(2,"aaa","comment...","12.12.2012")
         # null bookmark_id
-        bookmarkNull = Bookmarks.addComment(nil,1,"edit03","12.12.2012")
+        bookmarkNull = Bookmarks.addComment(nil,1,"comment...","12.12.2012")
         # null commenter_id
-        commenterNull = Bookmarks.addComment(3,nil,"edit04","12.12.2012")
+        commenterNull = Bookmarks.addComment(3,nil,"comment...","12.12.2012")
         # bookmark_id not in db
-        bookmarkOutOfRange = Bookmarks.addComment(30,3,"edit05","12.12.2012")
+        bookmarkOutOfRange = Bookmarks.addComment(30,3,"comment...","12.12.2012")
         # commenter_id not in db
-        commentOutOfRange = Bookmarks.addComment(3,20,"edit06","12.12.2012")
-        # ID values are negative
-        negativeID = Bookmarks.addComment(-1,-1,"edit07","12.12.2012")
+        commentOutOfRange = Bookmarks.addComment(3,20,"comment...","12.12.2012")
+        # ID values are negative (< -1)
+        negativeID = Bookmarks.addComment(-10,-100,"comment...","12.12.2012")
 
         assert valid1
         assert valid2
         assert valid3
+        assert valid4
 
         refute bookmarkNotInt
         refute commenterNotInt
@@ -150,8 +156,8 @@ class TestInserts < Minitest::Test
         userOutOfRange = Bookmarks.addFavourite(25,1)
         # bookmark_id not in db
         bookmarkOutOfRange = Bookmarks.addFavourite(3,100)
-        # ID values are negative
-        negativeID = Bookmarks.addFavourite(-1,-10)
+        # ID values are negative (< -1)
+        negativeID = Bookmarks.addFavourite(-10,-10)
 
         assert valid1
         assert valid2
@@ -213,6 +219,8 @@ class TestInserts < Minitest::Test
         valid1 = Bookmarks.addReport(1,"Link doesn't work","error......",1,"2.02.2020")
         valid2 = Bookmarks.addReport(2,"Repetition","error......",2,"2.02.2020")
         valid3 = Bookmarks.addReport(3,"Wrong tags","error .......",3,"2.02.2020")
+        # guest report (id = -1)
+        valid4 = Bookmarks.addReport(4,"Wrong tags","error .......",-1,"2.02.2020")
 
         # non-integer bookmark_id
         bookmarkNotInt = Bookmarks.addReport(1.5,"Link doesn't work","error........",1,"2.02.2020")
@@ -225,7 +233,7 @@ class TestInserts < Minitest::Test
         # reporter_id not in db
         reporterOutOfRange = Bookmarks.addReport(1,"Link doesn't work","error......",55,"2.02.2020")
         # ID values are negative
-        negativeID = Bookmarks.addReport(-1,"Link doesn't work","error......",-1,"2.02.2020")
+        negativeID = Bookmarks.addReport(-3,"Link doesn't work","error......",-3,"2.02.2020")
 
         assert valid1
         assert valid2
@@ -238,6 +246,7 @@ class TestInserts < Minitest::Test
         refute reporterOutOfRange
         refute negativeID
     end
+
 
     def test_add_tag
         # Test with valid details
@@ -300,23 +309,25 @@ class TestInserts < Minitest::Test
         valid1 = Bookmarks.addView(1,1,"29.03.2020")
         valid2 = Bookmarks.addView(2,2,"29.03.2020")
         valid3 = Bookmarks.addView(3,3,"20.04.2020")
+        valid4 = Bookmarks.addView(-1,3,"20.04.2020")
 
         # non-integer viewer_id
         viewerNotInt = Bookmarks.addView("x",3,"20.04.2020")
         # non-integer bookmark_id
         bookmarkNotInt = Bookmarks.addView(2,2.99,"29.03.2020")
         # null bookmark_id
-        bookmarkNull = Bookmarks.addView(nil,5,"20.04.2020")
+        bookmarkNull = Bookmarks.addView(2,nil,"20.04.2020")
         # bookmark_id not in db
-        bookmarkOutOfRange = Bookmarks.addView(200,3,"29.03.2020")
+        bookmarkOutOfRange = Bookmarks.addView(2,200,"29.03.2020")
         # viewer_id not in db
-        viewerOutOfRange = Bookmarks.addView(2,200,"29.03.2020")
-        # ID values are negative
+        viewerOutOfRange = Bookmarks.addView(200,3,"29.03.2020")
+        # ID values are negative (< -1)
         negativeID = Bookmarks.addView(-2,-5,"29.03.2020")
 
         assert valid1
         assert valid2
         assert valid3
+        assert valid4
 
         refute viewerNotInt
         refute bookmarkNotInt

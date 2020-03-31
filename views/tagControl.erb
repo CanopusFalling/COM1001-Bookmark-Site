@@ -1,0 +1,24 @@
+<section id = "tagControl">
+
+    <input type = "search" id="tagSearch" onkeyup = "updateList()" placeholder = "Search for tags...">
+    <input type = "text" id = "proposedTagField"placeholder = "Add new tag" maxlength = 40> <input type="button" onclick = "addTag()" value = "Create Tag">
+    
+    <ul id="tagList">
+        <%@tagList.each do |name|%>
+            <li class = "tagItem">
+                <input type ="checkbox" id="<%="#{name}_tag"%>" onclick = "clickedTag('<%=name%>')" <%if @checked && (@checked.include? name)%>checked<%end%>>
+                <label for="<%="#{name}_tag"%>"><%=name%></label>
+            </li>
+        <%end%>
+    </ul>
+
+    <!-- number of tags the bookmark is tagged with -->
+    <input type="hidden" name = "numOfTags" value = <%= @checked ? @checked.length : 0%>>
+    
+    <!-- list of hidden inputs that wil be read by the server using numOfTags
+         Representing the list of chosen tags-->
+    <%(0..(@checked.length-1)).each do |i|%>
+    <input type="hidden" name = "tagNo<%=i%>" value = <%=@checked[i]%>>
+    <%end%>
+
+</section>

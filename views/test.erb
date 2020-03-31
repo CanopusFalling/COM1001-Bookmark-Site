@@ -1,7 +1,7 @@
 <html>
     <head>
         <%= erb :head%>
-    </head>
+    <head>
     
     <!-- Site Structure -->
     <body>
@@ -9,7 +9,7 @@
         <%= erb :header %>
 
         <main>
-            <%= erb :resultsTable, :locals => {:results => @results}%>
+            <%= erb :tagControl%>
         </main>
 
         <%= erb :footer %>

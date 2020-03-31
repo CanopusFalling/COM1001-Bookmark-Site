@@ -23,6 +23,7 @@ module Bookmarks
     #Returns: A array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData search
@@ -32,6 +33,13 @@ module Bookmarks
                     WHERE title LIKE ?;"  
             result = @@db.execute query, "%#{search}%"
             result.map{|row| row.transform_keys!(&:to_sym)}
+            result.each do |row|
+                row.each do |key,value|
+                    if row[key] == nil
+                        row[key] = 0
+                    end
+                end
+            end
         end
         return result
     end
@@ -62,12 +70,13 @@ module Bookmarks
     #Returns: A hash with following keys (or nil if input was incorrect):
     #   :id - user id
     #   :password - user password's hash
-    def Bookmarks.getPasswordHash email
+    def Bookmarks.getDetailsByEmail email
         result = nil
         if email
             query = "SELECT 
                     user_id AS id,
-                    user_password AS password
+                    user_password AS password,
+                    user_suspended AS susspended
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
@@ -270,6 +279,7 @@ module Bookmarks
     #Returns: An array of hashes with following keys (or nil if input was incorrect): 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark (nil if no ratings)
     #   :views - total view count of a bookmark
     def Bookmarks.getFavouriteList id
@@ -387,6 +397,7 @@ module Bookmarks
     #Returns: An array of hashes with following keys:
     #   :bookmark_ID - id of a bookmark reported 
     #   :title - title of a bookmark
+    #   :link - link to the bookmark
     #   :rating - avg rating of a bookmark  (nil if no ratings)
     #   :views - total view count of a bookmark
 
@@ -519,7 +530,7 @@ module Bookmarks
             end
         end
 
-        if id > largest || id < 0 then
+        if id > largest || id < -1 then
             return true
         else
             return false
@@ -564,9 +575,9 @@ module Bookmarks
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
         if !Bookmarks.isUniqueValue('bookmark','bookmark_link', bookmarkLink) then
             return false      
-        elsif Bookmarks.isNull(bookmarkTitle) then
+        elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
-        elsif Bookmarks.idOutOfRange(creatorID,'user_ID','users') && creatorID != nil then
+        elsif Bookmarks.idOutOfRange(creatorID,'user_ID','users') then
             return false
         else
             query = "INSERT INTO bookmark(bookmark_title, bookmark_description, bookmark_link, date_created,
@@ -690,13 +701,11 @@ module Bookmarks
     
     # Add details of a view into the db
     def Bookmarks.addView(viewer, bookmark, dateViewed)
-        if !Bookmarks.isInteger(viewer) or !Bookmarks.isInteger(bookmark) then
+        if !Bookmarks.isInteger(viewer) || !Bookmarks.isInteger(bookmark) then
             return false
-        elsif Bookmarks.isNull(bookmark) then
+        elsif Bookmarks.isNull(viewer) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(viewer,'user_id','users') && viewer != nil then
-            return false
-        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_id','bookmark') then
+        elsif Bookmarks.idOutOfRange(viewer,'user_id','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_id','bookmark') then
             return false
         else
             query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)

@@ -1,0 +1,42 @@
+<html>
+
+    <head>
+        <%= erb :head%>
+    </head>
+
+    <!-- Site Structure -->
+
+    <body>
+        
+        <%=erb :header%>
+
+        <main>
+            <div id="addBookmarkForm">
+
+                <h2>Create a bookmark</h3>
+                <form method="post">
+
+                    <label>
+                        Title: <input type="text" name="title" placeholder="Enter bookmark title...">
+                    </label><br>
+
+                    <label>
+                        Link: <span class="faded-italics">http://</span><input type="link" name="link" placeholder="Enter bookmark link...">
+                    </label><br>
+
+                    <label>
+                        Description:<br>
+                        <textarea name="desc" cols="50" rows="4" placeholder="Enter bookmark description..."></textarea>
+                    </label><br>
+
+                    <!-- TODO ad adding tags-->
+
+                    <input type="submit" class="submission-button" value="Create new bookmark">
+                    <input type="button" value="Cancel" onclick="history.back()">
+                </form>
+            </div>
+        </main>
+
+        <%= erb :footer%>
+    </body>
+</html>

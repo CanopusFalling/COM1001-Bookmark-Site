@@ -10,12 +10,19 @@ module UserAuthentication
         # checks password against hashed/salted value in db
         # returns userID if passwords match, -1 otherwise
         validUser = false
-        queryResult = Bookmarks.getPasswordHash(email)
-        userID = queryResult[:id]
-        hashCheck = BCrypt::Password.new(queryResult[:password])
-        validUser = hashCheck.is_password?(password)
+        queryResult = Bookmarks.getDetailsByEmail(email)
+        if queryResult
+            userID = queryResult[:id]
+            hashCheck = BCrypt::Password.new(queryResult[:password])
+            validUser = hashCheck.is_password?(password)
+        end
+        
         if validUser then
-            return userID
+            if queryResult[:suspended].to_i == 1
+                return "Suspended"
+            else
+                return userID
+            end
         else
             return -1
         end

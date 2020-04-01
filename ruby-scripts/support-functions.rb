@@ -59,13 +59,16 @@ end
 def extractTagsFromParams params 
     if params
         number = params[:numOfTags].to_i
+        currentTags = Bookmarks.getTagNames
         tags = []
         (0..(number-1)).each do |i|
-            tags << params[("tagNo#{i}").to_sym]
+            tag = params[("tagNo#{i}").to_sym]
+            Bookmarks.addTag tag, "rgba(0,0,0,255)", Time.now.strftime("%d/%m/%Y") if (!currentTags.include? tag)
+            tags << tag
         end
         return tags
     end
-    return ""
+    return Array.new
 end
 
 puts (isValidPassword "password44_")

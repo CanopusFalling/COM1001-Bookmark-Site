@@ -40,6 +40,7 @@ function addTag() {
 	var tagList = document.getElementById("tagList");
 	var proposedTagField = document.getElementById("tagSearch");
 	var proposedTag = proposedTagField.value;
+	if (proposedTag == "") return;
 	//check if proposed tag already exists if yes then tell user and return
 	if (document.getElementById(proposedTag + "_tag") != null) {
 		alert("This tag already exists");

@@ -17,7 +17,7 @@
                 <form method="post">
 
                     <label>
-                        Title: <input type="text" name="title" placeholder="Enter bookmark title...">
+                        Title: <input type="text" name="title" placeholder="Enter bookmark title..." required>
                     </label><br>
 
                     <label>
@@ -28,11 +28,12 @@
                         Description:<br>
                         <textarea name="desc" cols="50" rows="4" placeholder="Enter bookmark description..."></textarea>
                     </label><br>
-
-                    <!-- TODO ad adding tags-->
-
-                    <input type="submit" class="submission-button" value="Create new bookmark">
-                    <input type="button" value="Cancel" onclick="history.back()">
+                    <%= erb :tagControl%>
+                    <div>
+                        <input type="submit" class="submission-button" value="Create">
+                        <input type="button" value="Cancel" onclick="history.back()">
+                    </div>
+                    
                 </form>
             </div>
         </main>

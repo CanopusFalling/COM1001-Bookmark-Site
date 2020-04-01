@@ -20,15 +20,15 @@ puts ""
 puts Bookmarks.getHomepageData "lampa"
 puts ""
 
-puts "=== getPasswordHash ==="
+puts "=== getDetailsByEmail ==="
 
-puts Bookmarks.getPasswordHash nil
+puts Bookmarks.getDetailsByEmail nil
 puts ""
-puts Bookmarks.getPasswordHash 1
+puts Bookmarks.getDetailsByEmail 1
 puts ""
-puts Bookmarks.getPasswordHash "abs"
+puts Bookmarks.getDetailsByEmail "abs"
 puts ""
-puts Bookmarks.getPasswordHash "abc.com"
+puts Bookmarks.getDetailsByEmail "abc.com"
 puts ""
 
 puts "=== getGuestBookmarkDetails ==="
@@ -61,6 +61,16 @@ puts ""
 
 puts "=== getTagNames ==="
 puts Bookmarks.getTagNames
+puts ""
+
+puts "=== getTagId ==="
+puts Bookmarks.getTagId nil
+puts ""
+puts Bookmarks.getTagId 4
+puts ""
+puts Bookmarks.getTagId "ab"
+puts ""
+puts Bookmarks.getTagId "tag0"
 puts ""
 
 puts "=== geUserDetails ==="

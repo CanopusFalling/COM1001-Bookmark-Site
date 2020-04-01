@@ -584,7 +584,7 @@ module Bookmarks
                                         creator_ID)
                     VALUES (?, ?, ?, ?, ?);"
             @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID
-            return true
+            return @@db.last_insert_row_id
         end
     end
     

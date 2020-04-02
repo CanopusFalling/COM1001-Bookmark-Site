@@ -32,8 +32,12 @@ module Bookmarks
             query = "SELECT * FROM bookmark_list
                     WHERE title LIKE ?;"  
             result = @@db.execute query, "%#{search}%"
-            result.map{|row| row.transform_keys!(&:to_sym)}
+            #result.map{|row| row.transform_keys!(&:to_sym)}
             result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)
+                end
+                row.transform_keys!(&:to_sym)
                 row.each do |key,value|
                     if row[key] == nil
                         row[key] = 0
@@ -76,13 +80,16 @@ module Bookmarks
             query = "SELECT 
                     user_id AS id,
                     user_password AS password,
-                    user_suspended AS susspended
+                    user_suspended AS suspended
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
 
             if result.length > 0
                 result = result[0]
+                for i in 0..(result.length()/2)
+                    result.delete(i)
+                end
                 result.transform_keys!(&:to_sym)
             else
                 result = nil
@@ -128,6 +135,9 @@ module Bookmarks
 
             if result[:details].length() >0
                 result[:details] = result[:details][0]
+                for i in 0..(result[:details].length()/2)
+                    result[:details].delete(i)        
+                end
                 result[:details].transform_keys!(&:to_sym)
             else
                 result[:details] = nil
@@ -139,8 +149,16 @@ module Bookmarks
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
             result[:tags] = @@db.execute query, id.to_i
-            result[:tags].map{|row| row.transform_keys!(&:to_sym)}
-            
+            if result[:tags].length() > 0 then
+                result[:tags].each do |row|
+                    for i in 0..(row.length()/2)
+                        row.delete(i)        
+                    end
+                end
+                result[:tags].map{|row| row.transform_keys!(&:to_sym)}
+            else
+                result[:tags] = nil
+            end            
         end
 
         return result
@@ -225,6 +243,11 @@ module Bookmarks
             FROM comment JOIN users ON commenter_ID = user_ID
             WHERE bookmark_ID = ?;"
             result[:comments] = @@db.execute query,bookmark_ID.to_i
+            result[:comments].each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result[:comments].map{|row| row.transform_keys!(&:to_sym)}
             
             result[:liked] = Bookmarks.isLiked bookmark_ID, user_ID 
@@ -247,6 +270,20 @@ module Bookmarks
         return result
     end
 
+    #Returns tagId with the given name
+    def Bookmarks.getTagId name
+        if name
+            query = "SELECT tag_ID
+                    FROM tag
+                    WHERE tag_name = ?;"
+            result = @@db.get_first_value query, name
+
+            return result
+        end
+        return nil
+
+    end
+    
     #Returns details of a user with given id
     #Params: id(integer) - an id of a user 
     #Returns: A hash containing with following keys (or nil if input was incorrect):
@@ -265,6 +302,9 @@ module Bookmarks
 
             if(result.length()>0)
                 result = result[0]
+                for i in 0..(result.length()/2)
+                    result.delete(i)        
+                end
                 result.transform_keys!(&:to_sym)
             else
                 result = nil
@@ -289,6 +329,11 @@ module Bookmarks
                     FROM favourite JOIN bookmark_list ON bookmark_ID = ID
                     WHERE user_ID = ?;"
             result = @@db.execute query,id.to_i
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
@@ -310,6 +355,11 @@ module Bookmarks
                 FROM users
                 WHERE user_type = ?;"
         result = @@db.execute query, UNVERIFIED_STRING
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
         result.map{|row| row.transform_keys!(&:to_sym)}
         
         return result
@@ -334,6 +384,11 @@ module Bookmarks
                 FROM users
                 WHERE NOT user_type = ?;"
         result = @@db.execute query, UNVERIFIED_STRING
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
         result.map{|row| row.transform_keys!(&:to_sym)}
 
         return result
@@ -387,6 +442,11 @@ module Bookmarks
                     FROM views
                     WHERE viewer_ID = ?;"
             result = @@db.execute query, id.to_i
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
@@ -413,6 +473,11 @@ module Bookmarks
                     WHERE report_resolved = 0
                 ) ON ID = bookmark_ID;"
         result = @@db.execute query
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
         result.map{|row| row.transform_keys!(&:to_sym)}
                     
         return result
@@ -436,6 +501,11 @@ module Bookmarks
                     FROM bookmark JOIN report USING(bookmark_ID)
                     WHERE bookmark_ID = ?;"
             result = @@db.execute query,id
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
@@ -584,7 +654,7 @@ module Bookmarks
                                         creator_ID)
                     VALUES (?, ?, ?, ?, ?);"
             @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID
-            return true
+            return @@db.last_insert_row_id
         end
     end
     
@@ -714,5 +784,16 @@ module Bookmarks
             return true
         end
     end 
+
+    #Removes connection between given tag and bookmark form database
+    def Bookmarks.deleteTagBookmarkLink tagId, bookmarkId
+        if (tagId.is_a? Integer) && (bookmarkId.is_a? Integer) 
+            query = "DELETE FROM tag_bookmark_link
+                    WHERE tag_ID = ? AND bookmark_ID = ?;"
+            @@db = execute query, tagId, bookmarkId
+            return true
+        end
+        return false
+    end
 end
 

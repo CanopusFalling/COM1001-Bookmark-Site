@@ -1,16 +1,18 @@
-<section id = "tagControl">
-
-    <input type = "search" id="tagSearch" onkeyup = "updateList()" placeholder = "Search or add tags..." maxlength = 40>
-    <input type="button" onclick = "addTag()" value = "Create Tag">
-    
-    <ul id="tagList">
-        <%@tagList.each do |name|%>
-            <li class = "tagItem">
-                <input type ="checkbox" id="<%="#{name}_tag"%>" onclick = "clickedTag('<%=name%>')" <%if @checked && (@checked.include? name)%>checked<%end%>>
-                <label for="<%="#{name}_tag"%>"><%=name%></label>
-            </li>
-        <%end%>
-    </ul>
+<section id = "tagControl" >
+    <div onmouseout = "hideList()" onmouseover = "showList()">
+        <input type = "search" id="tagSearch" onkeyup = "updateList()" placeholder = "Search or add tags..." maxlength = 40 autocomplete="off">
+        <input type="button" onclick = "addTag()" value = "Create Tag">
+        <div id = "tagListWrapper">
+            <ul id="tagList">
+                <%@tagList.each do |name|%>
+                    <li class = "tagItem">
+                        <input type ="checkbox" id="<%="#{name}_tag"%>" onclick = "clickedTag('<%=name%>')" <%if @checked && (@checked.include? name)%>checked<%end%>>
+                        <label for="<%="#{name}_tag"%>"><%=name.length > 14 ? "#{name[0,14]}..." : name%></label>
+                    </li>
+                <%end%>
+            </ul>
+        </div>
+    </div>
 
     <!-- number of tags the bookmark is tagged with -->
     <input type="hidden" name = "numOfTags" value = <%= @checked ? @checked.length : 0%>>

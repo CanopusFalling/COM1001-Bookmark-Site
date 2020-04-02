@@ -17,7 +17,8 @@ function updateList() {
 
 	for (var i = 0; i < items.length; i++) {
 		var item = items[i];
-		var txtValue = item.getElementsByTagName("label")[0].innerText;
+		var txtValue = item.getElementsByTagName("label")[0].htmlFor;
+		txtValue = txtValue.substr(0, txtValue.length - 4);
 		if (
 			txtValue.toUpperCase().indexOf(searchVal) == -1 ||
 			searchVal == ""
@@ -30,6 +31,14 @@ function updateList() {
 			if (currentlyItems >= MAX_ITEMS) break;
 		}
 	}
+}
+
+function showList() {
+	document.getElementById("tagListWrapper").style.display = "block";
+}
+
+function hideList() {
+	document.getElementById("tagListWrapper").style.display = "none";
 }
 
 /*
@@ -58,7 +67,10 @@ function addTag() {
 
 	var newLabel = document.createElement("LABEL");
 	newLabel.htmlFor = proposedTag + "_tag";
-	newLabel.innerText = proposedTag;
+	newLabel.innerText =
+		proposedTag.length > 14
+			? proposedTag.substr(0, 14) + "..."
+			: proposedTag;
 
 	var newItem = document.createElement("LI");
 	newItem.classList = "tagItem";

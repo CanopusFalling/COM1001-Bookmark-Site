@@ -3,8 +3,17 @@
  * Made for the COM1001 - Group Assesment.
  */
 
+#tagListWrapper {
+	display: none;
+	position: relative;
+}
+
 #tagList {
+	position: absolute;
+	margin: 0;
 	padding-left: 0;
+	background-color: black;
+	width: 175px;
 }
 
 .tagItem {

@@ -569,7 +569,11 @@ module Bookmarks
 
     # Returns true if the value is an integer
     def Bookmarks.isInteger value
-        return value.is_a? Integer
+        if value.to_i == 0 && value != "0" then
+            return false
+        else
+            return true
+        end
     end 
     
     # Returns true if value is null
@@ -647,13 +651,13 @@ module Bookmarks
             return false      
         elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
-        elsif Bookmarks.idOutOfRange(creatorID,'user_ID','users') then
+        elsif Bookmarks.idOutOfRange(creatorID.to_i,'user_ID','users') then
             return false
         else
             query = "INSERT INTO bookmark(bookmark_title, bookmark_description, bookmark_link, date_created,
                                         creator_ID)
                     VALUES (?, ?, ?, ?, ?);"
-            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID
+            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID.to_i
             return @@db.last_insert_row_id
         end
     end
@@ -664,12 +668,12 @@ module Bookmarks
             return false 
         elsif Bookmarks.isNull(editor) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(editor,'user_ID','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') then
+        elsif Bookmarks.idOutOfRange(editor.to_i,'user_ID','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') then
             return false
         else
             query = "INSERT INTO edit(editor_ID, bookmark_edited_ID, edit_date)
                     VALUES(?,?,?);"
-            @@db.execute query, editor, bookmark, editDate
+            @@db.execute query, editor.to_i, bookmark.to_i, editDate
             return true
         end
     end
@@ -680,12 +684,12 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(commenter) then
             return false
-        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(commenter,'user_ID','users') then
+        elsif Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(commenter.to_i,'user_ID','users') then
             return false
         else
             query = "INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created)
                     VALUES(?,?,?,?);"
-            @@db.execute query, bookmark, commenter, details, dateCreated
+            @@db.execute query, bookmark.to_i, commenter.to_i, details, dateCreated
             return true
         end
     end
@@ -696,12 +700,12 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(user) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(user,'user_ID','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') then
+        elsif Bookmarks.idOutOfRange(user.to_i,'user_ID','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') then
             return false
         else
             query = "INSERT INTO favourite(user_ID,bookmark_ID)
                     VALUES(?,?);"
-            @@db.execute query, user, bookmark
+            @@db.execute query, user.to_i, bookmark.to_i
             return true
         end
     end
@@ -712,14 +716,14 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(rater) || Bookmarks.isNull(value) then
             return false
-        elsif  Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(rater,'user_ID','users') then
+        elsif  Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(rater.to_i,'user_ID','users') then
             return false
         elsif value < 1 || value > 5 then
             return false
         else
             query = "INSERT INTO rating(bookmark_ID, rater_ID, rating_value, rating_created)
                     VALUES(?,?,?,?);"
-            @@db.execute query, bookmark, rater, value, dateCreated
+            @@db.execute query, bookmark.to_i, rater.to_i, value, dateCreated
             return true
         end
     end
@@ -730,13 +734,13 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(reportedPageID) then
             return false
-        elsif Bookmarks.idOutOfRange(reportedPageID,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(reporterID,'user_id','users') then
+        elsif Bookmarks.idOutOfRange(reportedPageID.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(reporterID.to_i,'user_id','users') then
             return false
         else
             query = "INSERT INTO report(bookmark_ID, report_type, report_details, 
                                         reporter_ID, report_date,report_resolved)
                     VALUES (?, ?, ?, ?, ?, ?);"
-            @@db.execute query, reportedPageID, reportType, reportDetails, reporterID, reportDate, 0
+            @@db.execute query, reportedPageID.to_i, reportType, reportDetails, reporterID.to_i, reportDate, 0
             return true
         end
     end
@@ -759,12 +763,12 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(tag) or Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(tag,'tag_ID','tag') then
+        elsif Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(tag.to_i,'tag_ID','tag') then
             return false
         else 
             query = "INSERT INTO tag_bookmark_link(tag_ID,bookmark_ID)
                     VALUES(?,?);"
-            @@db.execute query, tag, bookmark
+            @@db.execute query, tag.to_i, bookmark.to_i
             return true
         end 
     end
@@ -775,12 +779,12 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(viewer) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(viewer,'user_id','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_id','bookmark') then
+        elsif Bookmarks.idOutOfRange(viewer.to_i,'user_id','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_id','bookmark') then
             return false
         else
             query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
                     VALUES(?,?,?);"
-            @@db.execute query, viewer, bookmark, dateViewed  
+            @@db.execute query, viewer.to_i, bookmark.to_i, dateViewed  
             return true
         end
     end 

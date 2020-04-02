@@ -512,6 +512,26 @@ module Bookmarks
         return result
     end
     
+    # Returns userID of the bookmark creator
+    # Params: bookmarkID - id of bookmark
+    # Returns: userID of bookmark creator
+    def Bookmarks.getBookmarkCreator bookmarkID
+        if Bookmarks.isInteger(bookmarkID)
+            query = "SELECT creator_ID as userID
+                    FROM bookmark
+                    WHERE bookmark_id = ?"
+            result = @@db.execute query, bookmarkID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            return result[:userID]
+        end
+    end
+
+
+
     #Returns table names in current database in an array
     def Bookmarks.getTableNames
         query = "SELECT 

@@ -15,3 +15,5 @@ gem 'rspec'
 gem 'simplecov'
 
 gem 'minitest'
+
+gem 'rake'

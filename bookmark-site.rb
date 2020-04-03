@@ -140,7 +140,7 @@ post '/newBookmark' do
     @desc = params[:desc]
     @userID = session[:userID]
 
-    newBookmark @userID, @title, @desc, @link
+    newBookmark @userID, @title, @link, @desc
     redirect '/msg?msg=newBookmarkMsg' 
    
 end
@@ -159,9 +159,9 @@ end
 
 post '/delete-bookmark' do
     @bookmarkID = params[:bookmarkID]
-    
+
     deleteBookmark @bookmarkID
-    redirect '/msg?msg=successfulDelete'
+    redirect '/msgGoHome?msg=successfulDelete'
 end
 
 get '/bookmark-addView' do
@@ -174,6 +174,10 @@ get '/msg' do
     erb :message
 end
 
+get '/msgGoHome' do
+    @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
+    erb :messageGoHome
+end
 
 get '/testing' do
     @tagList = Bookmarks.getTagNames

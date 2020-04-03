@@ -67,10 +67,7 @@ function addTag() {
 
 	var newLabel = document.createElement("LABEL");
 	newLabel.htmlFor = proposedTag + "_tag";
-	newLabel.innerText =
-		proposedTag.length > 14
-			? proposedTag.substr(0, 14) + "..."
-			: proposedTag;
+	newLabel.innerText = proposedTag;
 
 	var newItem = document.createElement("LI");
 	newItem.classList = "tagItem";

@@ -11,31 +11,34 @@
         <%=erb :header%>
 
         <main>
-            <div id="addBookmarkForm">
+            <section class="central-form">
 
                 <h2>Create a bookmark</h3>
                 <form method="post">
-
-                    <label>
-                        Title: <input type="text" name="title" placeholder="Enter bookmark title..." required>
-                    </label><br>
-
-                    <label>
-                        Link: <span class="faded-italics">http://</span><input type="link" name="link" placeholder="Enter bookmark link...">
-                    </label><br>
-
-                    <label>
-                        Description:<br>
-                        <textarea name="desc" cols="50" rows="4" placeholder="Enter bookmark description..."></textarea>
-                    </label><br>
-                    <%= erb :tagControl%>
                     <div>
-                        <input type="submit" class="submission-button" value="Create">
-                        <input type="button" value="Cancel" onclick="history.back()">
+                    
+                        <span class="form-label">Title:</span>
+                        <input class="form-input" type="text" name="title" placeholder="Enter bookmark title..." required>
+                    
                     </div>
+
+                    <div>
+                        <span class = "form-label">Link:</span> 
+                        <div class = "form-linkWrapper">http://<input class="form-input" type="link" name="link" placeholder="Enter bookmark link..."></div>
+                    </div>
+
+                    <div>
+                        <span class="form-label">Description:</span>
+                        <textarea class="form-input" name="desc" cols="50" rows="4" placeholder="Enter bookmark description..."></textarea>
+                    </div>
+                    <%= erb :tagControl%>
+                    
+                    <input type="submit" class="submission-button" value="Create">
+                    <input type="button" class="submission-button" value="Cancel" onclick="history.back()">
+
                     
                 </form>
-            </div>
+            </section>
         </main>
 
         <%= erb :footer%>

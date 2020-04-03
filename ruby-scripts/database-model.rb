@@ -534,7 +534,7 @@ module Bookmarks
         if Bookmarks.isInteger(bookmarkID)
             query = "SELECT tag_ID 
                     FROM tag_bookmark_link
-                    WHERE bookmark_ID = ?"
+                    WHERE bookmark_ID = ?;"
             result = @@db.execute query, bookmarkID
             result.each do |row|
                 for i in 0..(row.length()/2)
@@ -542,8 +542,6 @@ module Bookmarks
                 end
             end
             result.map{|row| row.transform_keys!(&:to_sym)}
-           
-           # result.transform_keys!(&:to_sym)
             return result
         end
     end
@@ -832,7 +830,7 @@ module Bookmarks
 
     #Removes connection between given tag and bookmark form database
     def Bookmarks.deleteTagBookmarkLink tagId, bookmarkId
-        if (tagId.is_a? Integer) && (bookmarkId.is_a? Integer) 
+        if Bookmarks.isInteger(tagId) && Bookmarks.isInteger(bookmarkId)
             query = "DELETE FROM tag_bookmark_link
                     WHERE tag_ID = ? AND bookmark_ID = ?;"
             @@db.execute query, tagId, bookmarkId
@@ -845,14 +843,13 @@ module Bookmarks
 
 
     # Removes bookmark's tags from the database
-    def Bookmarks.deleteAllBookmarkTags bookmarkID
+    def Bookmarks.deleteAllBookmarkTags tagList,bookmarkID
         if Bookmarks.isInteger bookmarkID then
-            tags = Bookmarks.getBookmarkTags(bookmarkID)
-            for i in 0..tags.length()
-                puts "#{tags[i][:tag_ID]}"
+            for i in 0...tagList.length()
                 query = "DELETE FROM tag
-                    WHERE tag_ID = ?"
-                @@db.execute query, tags[i][:tag_ID]
+                    WHERE tag_ID = ?;"
+                @@db.execute query, tagList[i][:tag_ID]
+
             end
             return true
         end
@@ -861,14 +858,25 @@ module Bookmarks
 
     def Bookmarks.deleteBookmark bookmarkID
         if Bookmarks.isInteger bookmarkID then
-            if Bookmarks.deleteTagBookmarkLink && Bookmarks.deleteAllBookmarkTags then
-                query = "DELETE FROM bookmark
-                    WHERE bookmark_ID = ?"
+            query = "DELETE FROM bookmark
+                    WHERE bookmark_ID = ?;"
+            tagList = Bookmarks.getBookmarkTags(bookmarkID)
+            if tagList.length() == 0 then
                 @@db.execute query, bookmarkID
                 return true
+            else 
+                for i in 0...tagList.length()
+                    if !Bookmarks.deleteTagBookmarkLink(tagList[i][:tag_ID],bookmarkID) then
+                        return false
+                    end
+                end
+                if Bookmarks.deleteAllBookmarkTags(tagList, bookmarkID) then
+                    @@db.execute query, bookmarkID
+                    return true
+                end
             end
         end
+        return false
     end
-
 end
 

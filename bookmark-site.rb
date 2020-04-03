@@ -140,9 +140,28 @@ post '/newBookmark' do
     @desc = params[:desc]
     @userID = session[:userID]
 
-    newBookmark @userID, @title, @link, @desc
-
+    newBookmark @userID, @title, @desc, @link
     redirect '/msg?msg=newBookmarkMsg' 
+   
+end
+
+get '/delete-bookmark' do 
+    @bookmarkID = params[:bookmarkID]
+    @userID = session[:userID]
+    @creator = Bookmarks.getBookmarkCreator(@bookmarkID)
+    puts "#{@userID}, #{@bookmarkID}"
+   if @userID == @creator then
+        erb :deleteBookmark
+   else
+        redirect '/msg?msg=deleteError'
+   end       
+end        
+
+post '/delete-bookmark' do
+    @bookmarkID = params[:bookmarkID]
+    
+    deleteBookmark @bookmarkID
+    redirect '/msg?msg=successfulDelete'
 end
 
 get '/bookmark-addView' do

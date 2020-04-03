@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <%= erb :head%>
+    <head>
+    
+    <!-- Site Structure -->
+    <body>
+        
+        <%= erb :header %>
+
+        <main>
+            <div id="deleteBookmarkForm">
+                <h2> Are you sure you want to delete this bookmark?</h2>
+                <form method="post">
+                    <input class="submission-button" type="submit" value="Yes">  
+                    <input class="submission-button" type="button" value="Cancel" onclick="history.back()"> 
+                </form>
+            </div>
+        </main>
+
+        <%= erb :footer %>
+
+    </body>
+
+</html>

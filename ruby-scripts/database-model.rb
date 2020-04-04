@@ -856,11 +856,24 @@ module Bookmarks
         return false
     end
 
+    # Removes all view records for bookmark
+    def Bookmarks.deleteAllBookmarkViews bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM views
+                    WHERE bookmark_viewed_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        else 
+            return false
+        end
+    end
+
     def Bookmarks.deleteBookmark bookmarkID
         if Bookmarks.isInteger bookmarkID then
             query = "DELETE FROM bookmark
                     WHERE bookmark_ID = ?;"
             tagList = Bookmarks.getBookmarkTags(bookmarkID)
+            Bookmarks.deleteAllBookmarkViews(bookmarkID)
             if tagList.length() == 0 then
                 @@db.execute query, bookmarkID
                 return true

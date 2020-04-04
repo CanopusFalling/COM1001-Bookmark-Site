@@ -149,7 +149,6 @@ get '/delete-bookmark' do
     @bookmarkID = params[:bookmarkID]
     @userID = session[:userID]
     @creator = Bookmarks.getBookmarkCreator(@bookmarkID)
-    puts "#{@userID}, #{@bookmarkID}"
    if @userID == @creator then
         erb :deleteBookmark
    else

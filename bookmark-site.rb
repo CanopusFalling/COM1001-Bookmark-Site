@@ -114,7 +114,9 @@ get '/bookmark-spesifics' do
     @date = @details[:details][:date]
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
+    @avgRating = Bookmarks.getAvgRating(@ID)
     @link = @details[:details][:link]
+
 
     addView @ID, session[:userID]
 

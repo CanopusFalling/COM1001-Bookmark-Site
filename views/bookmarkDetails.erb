@@ -21,6 +21,9 @@
                     <div class="detailed-info">
                         <span>Created on <%= @date%> by <%= @displayName%></span>
                     </div>
+                    <div class="rating">
+                        <span>Rating: <%= @avgRating%>/5</span>
+                    </div>
                     <!-- Editing Buttons. -->
                     <div class="edit-buttons">
                         <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="openInNewTab('http:\/\/<%= @link%>')">

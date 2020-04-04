@@ -17,7 +17,8 @@ function updateList() {
 
 	for (var i = 0; i < items.length; i++) {
 		var item = items[i];
-		var txtValue = item.getElementsByTagName("label")[0].innerText;
+		var txtValue = item.getElementsByTagName("label")[0].htmlFor;
+		txtValue = txtValue.substr(0, txtValue.length - 4);
 		if (
 			txtValue.toUpperCase().indexOf(searchVal) == -1 ||
 			searchVal == ""
@@ -32,6 +33,14 @@ function updateList() {
 	}
 }
 
+function showList() {
+	document.getElementById("tagListWrapper").style.display = "block";
+}
+
+function hideList() {
+	document.getElementById("tagListWrapper").style.display = "none";
+}
+
 /*
 When user tries to add new tag check if it already exists 
 if not add a new item to the list
@@ -40,6 +49,7 @@ function addTag() {
 	var tagList = document.getElementById("tagList");
 	var proposedTagField = document.getElementById("tagSearch");
 	var proposedTag = proposedTagField.value;
+	if (proposedTag == "") return;
 	//check if proposed tag already exists if yes then tell user and return
 	if (document.getElementById(proposedTag + "_tag") != null) {
 		alert("This tag already exists");

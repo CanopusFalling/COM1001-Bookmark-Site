@@ -41,7 +41,7 @@ def newUser displayName, email, password
 end
 
 def newReport bookmarkId, reporterId, type, desc
-    return Bookmarks.addReport bookmarkId, type, desc, reporterId, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addReport bookmarkId.to_i, type, desc, reporterId.to_i, Time.now.strftime("%d/%m/%Y")
 end
 
 def addView bookmarkId, userId
@@ -63,13 +63,38 @@ end
 def extractTagsFromParams params 
     if params
         number = params[:numOfTags].to_i
+        currentTags = Bookmarks.getTagNames
         tags = []
         (0..(number-1)).each do |i|
-            tags << params[("tagNo#{i}").to_sym]
+            tag = params[("tagNo#{i}").to_sym]
+            Bookmarks.addTag tag, "rgba(0,0,0,255)", Time.now.strftime("%d/%m/%Y") if (!currentTags.include? tag)
+            tags << tag
         end
         return tags
     end
-    return ""
+    return Array.new
 end
 
-puts (isValidPassword "password44_")
+def assignTags tags, bookmarkId
+    tags.each do |name|
+        tagId = Bookmarks.getTagId name
+        Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
+    end
+
+end
+
+def reAssignTags newTags, currentTags, bookmarkId   
+    currentTags.each do |name|
+        if !newTags.include? name
+            tagId = Bookmarks.getTagId name
+            Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
+        end
+    end
+
+    newTags.each do |name|
+        if !currentTags.include? name
+            tagId = Bookmarks.getTagId name
+            Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
+        end
+    end
+end

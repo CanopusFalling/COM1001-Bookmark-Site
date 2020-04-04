@@ -125,6 +125,7 @@ end
 get '/newBookmark' do
     if session[:userID] != -1 
         if Bookmarks.isVerified session[:userID]
+            @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
             redirect '/msg?msg=waitForVerification'
@@ -138,6 +139,7 @@ post '/newBookmark' do
     @title = params[:title]
     @link = params[:link]
     @desc = params[:desc]
+    @tags = extractTagsFromParams params
     @userID = session[:userID]
 
     newBookmark @userID, @title, @link, @desc

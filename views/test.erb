@@ -9,10 +9,12 @@
         <%= erb :header %>
 
         <main>
-        <form>
-            <%= erb :tagControl%>
-            <input type="submit" value="GO">
-        </form>
+            <section class = "central-form">
+                <form>
+                    <%= erb :tagControl%>
+                    <input class= "submission-button"type="submit" value="GO">
+                </form>
+            </section>
         </main>
 
         <%= @returnedTags%>

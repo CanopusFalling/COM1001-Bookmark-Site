@@ -247,6 +247,20 @@ module Bookmarks
         return result
     end
 
+    #Returns tagId with the given name
+    def Bookmarks.getTagId name
+        if name
+            query = "SELECT tag_ID
+                    FROM tag
+                    WHERE tag_name = ?;"
+            result = @@db.get_first_value query, name
+
+            return result
+        end
+        return nil
+
+    end
+    
     #Returns details of a user with given id
     #Params: id(integer) - an id of a user 
     #Returns: A hash containing with following keys (or nil if input was incorrect):
@@ -584,7 +598,7 @@ module Bookmarks
                                         creator_ID)
                     VALUES (?, ?, ?, ?, ?);"
             @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID
-            return true
+            return @@db.last_insert_row_id
         end
     end
     
@@ -714,5 +728,16 @@ module Bookmarks
             return true
         end
     end 
+
+    #Removes connection between given tag and bookmark form database
+    def Bookmarks.deleteTagBookmarkLink tagId, bookmarkId
+        if (tagId.is_a? Integer) && (bookmarkId.is_a? Integer) 
+            query = "DELETE FROM tag_bookmark_link
+                    WHERE tag_ID = ? AND bookmark_ID = ?;"
+            @@db = execute query, tagId, bookmarkId
+            return true
+        end
+        return false
+    end
 end
 

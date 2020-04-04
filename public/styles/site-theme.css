@@ -208,6 +208,12 @@
         height: 30px;
     }
 
+    main section.item-details div.bookmark-details div.rating div.choose-rating{
+        padding: 20px;
+        display: inline;
+    }
+
+
     /* ===== Central Form Styling ===== */
 
     main section.central-form{

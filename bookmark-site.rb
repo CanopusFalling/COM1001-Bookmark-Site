@@ -120,10 +120,38 @@ get '/bookmark-spesifics' do
 
     addView @ID, session[:userID]
 
-    erb :bookmarkDetails
-
+    if session[:userID] == -1 then 
+        erb :bookmarkDetails
+    else
+        if Bookmarks.isRated(@ID,session[:userID]) == nil
+            erb :bookmarkDetails_addRating
+        end
+    end
 end
 
+get '/add-rating' do
+    @ID = params[:bookmarkID]
+    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @title = @details[:details][:title]
+    @desc = @details[:details][:description]
+    @date = @details[:details][:date]
+    @displayName = @details[:details][:displayName]
+    @displayName = @details[:details][:email] if @displayName == nil
+    @avgRating = Bookmarks.getAvgRating(@ID)
+    @link = @details[:details][:link]
+    erb :addRating
+end
+
+
+post '/add-rating' do
+   @userID =  session[:userID] 
+   @bookmarkID = params[:bookmarkID]
+   @value = params[:selection] 
+
+   if addRating @bookmarkID, @userID, @value then
+        redirect '/msgGoHome?msg=ratingAdded'
+   end
+end
 get '/newBookmark' do
     if session[:userID] != -1 
         if Bookmarks.isVerified session[:userID]

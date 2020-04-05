@@ -1,0 +1,11 @@
+<form method="post" name="changeRatingForm">
+    <select class="option-input" name="selection">
+        <option value="" selected disabled hidden>select value</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <input class="setting-button" type="submit" value="Submit Rating" onclick="window.location = 'change-rating?bookmarkID=<%= @ID%>'">
+</form>  

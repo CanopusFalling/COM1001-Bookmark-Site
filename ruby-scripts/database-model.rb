@@ -528,8 +528,9 @@ module Bookmarks
             result.transform_keys!(&:to_sym)
             return result[:userID]
         end
+        return false
     end
-
+    # Returns all IDs for all tags of bookmark
     def Bookmarks.getBookmarkTags bookmarkID
         if Bookmarks.isInteger(bookmarkID)
             query = "SELECT tag_ID 
@@ -544,7 +545,66 @@ module Bookmarks
             result.map{|row| row.transform_keys!(&:to_sym)}
             return result
         end
+        return false
     end
+
+
+    # Calculate avergae rating for bookmark
+    def Bookmarks.getAvgRating bookmarkID
+        if Bookmarks.isInteger(bookmarkID)
+            query = "SELECT * 
+                FROM ratings_quantity
+                WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            
+            rates = Array.new(5)
+            rates[0] = result[:one]
+            rates[1] = result[:two] * 2
+            rates[2] = result[:three] * 3
+            rates [3] = result[:four] * 4
+            rates[4] = result[:five] * 5
+
+            total = 0
+            for i in 0...rates.length()
+                total += rates[i]
+            end
+
+            avg = total / result[:counts].to_f
+            if avg.nan? then
+                return 0
+            else
+                if avg % 1 == 0 then
+                    return avg.to_i
+                else
+                    return avg.round(2)
+                end
+            end
+        end
+        return false
+    end 
+
+    # Return amount of ratings for bookmark
+    def Bookmarks.getRatingCount bookmarkID
+        if Bookmarks.isInteger(bookmarkID) then
+            query = "SELECT counts
+                FROM ratings_quantity
+                WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            return result[:counts]
+        end
+        return false
+    end
+
 
 
     #Returns table names in current database in an array
@@ -578,6 +638,7 @@ module Bookmarks
         return Array.new
     end
 
+    
     #Checks if value passed exists in a database
     #Params tableName - name of the table in which to look for uniqness
     #       columnName - name of the column in which to check uniqness
@@ -863,9 +924,8 @@ module Bookmarks
                     WHERE bookmark_viewed_ID = ?;"
             @@db.execute query, bookmarkID
             return true
-        else 
-            return false
         end
+        return false
     end
 
     def Bookmarks.deleteBookmark bookmarkID
@@ -891,5 +951,20 @@ module Bookmarks
         end
         return false
     end
+
+    # =========== Update Statements =================
+    # Change value for user's rating of bookmark 
+    def Bookmarks.changeRating bookmarkID, userID, newValue, newDate
+        if Bookmarks.isInteger(bookmarkID) &&  Bookmarks.isInteger(userID) then
+            query = "UPDATE rating
+                SET rating_value = ?,
+                rating_created = ?
+                WHERE bookmark_ID = ? AND rater_ID = ?;"
+            @@db.execute query, newValue, newDate, bookmarkID, userID
+            return true
+        end
+        return false
+    end
+
 end
 

@@ -53,7 +53,11 @@ def newBookmark userID, title, link, desc
     link = nil if link == ""
     desc = nil if desc == ""
 
-    return Bookmarks.addBookmark title, desc, link, Time.now.strftime("%d/%m/%Y"),  userID.to_i
+    return Bookmarks.addBookmark title, desc, link, Time.now.strftime("%d/%m/%Y"), userID
+end
+
+def deleteBookmark bookmarkID
+    return Bookmarks.deleteBookmark(bookmarkID)
 end
 
 def extractTagsFromParams params 

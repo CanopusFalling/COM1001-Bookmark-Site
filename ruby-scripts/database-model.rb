@@ -32,8 +32,12 @@ module Bookmarks
             query = "SELECT * FROM bookmark_list
                     WHERE title LIKE ?;"  
             result = @@db.execute query, "%#{search}%"
-            result.map{|row| row.transform_keys!(&:to_sym)}
+            #result.map{|row| row.transform_keys!(&:to_sym)}
             result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)
+                end
+                row.transform_keys!(&:to_sym)
                 row.each do |key,value|
                     if row[key] == nil
                         row[key] = 0
@@ -76,13 +80,16 @@ module Bookmarks
             query = "SELECT 
                     user_id AS id,
                     user_password AS password,
-                    user_suspended AS susspended
+                    user_suspended AS suspended
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
 
             if result.length > 0
                 result = result[0]
+                for i in 0..(result.length()/2)
+                    result.delete(i)
+                end
                 result.transform_keys!(&:to_sym)
             else
                 result = nil
@@ -128,6 +135,9 @@ module Bookmarks
 
             if result[:details].length() >0
                 result[:details] = result[:details][0]
+                for i in 0..(result[:details].length()/2)
+                    result[:details].delete(i)        
+                end
                 result[:details].transform_keys!(&:to_sym)
             else
                 result[:details] = nil
@@ -139,8 +149,16 @@ module Bookmarks
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
             result[:tags] = @@db.execute query, id.to_i
-            result[:tags].map{|row| row.transform_keys!(&:to_sym)}
-            
+            if result[:tags].length() > 0 then
+                result[:tags].each do |row|
+                    for i in 0..(row.length()/2)
+                        row.delete(i)        
+                    end
+                end
+                result[:tags].map{|row| row.transform_keys!(&:to_sym)}
+            else
+                result[:tags] = nil
+            end            
         end
 
         return result
@@ -225,6 +243,11 @@ module Bookmarks
             FROM comment JOIN users ON commenter_ID = user_ID
             WHERE bookmark_ID = ?;"
             result[:comments] = @@db.execute query,bookmark_ID.to_i
+            result[:comments].each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result[:comments].map{|row| row.transform_keys!(&:to_sym)}
             
             result[:liked] = Bookmarks.isLiked bookmark_ID, user_ID 
@@ -279,6 +302,9 @@ module Bookmarks
 
             if(result.length()>0)
                 result = result[0]
+                for i in 0..(result.length()/2)
+                    result.delete(i)        
+                end
                 result.transform_keys!(&:to_sym)
             else
                 result = nil
@@ -303,6 +329,11 @@ module Bookmarks
                     FROM favourite JOIN bookmark_list ON bookmark_ID = ID
                     WHERE user_ID = ?;"
             result = @@db.execute query,id.to_i
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
@@ -324,6 +355,11 @@ module Bookmarks
                 FROM users
                 WHERE user_type = ?;"
         result = @@db.execute query, UNVERIFIED_STRING
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
         result.map{|row| row.transform_keys!(&:to_sym)}
         
         return result
@@ -348,6 +384,11 @@ module Bookmarks
                 FROM users
                 WHERE NOT user_type = ?;"
         result = @@db.execute query, UNVERIFIED_STRING
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
         result.map{|row| row.transform_keys!(&:to_sym)}
 
         return result
@@ -401,6 +442,11 @@ module Bookmarks
                     FROM views
                     WHERE viewer_ID = ?;"
             result = @@db.execute query, id.to_i
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
@@ -427,6 +473,11 @@ module Bookmarks
                     WHERE report_resolved = 0
                 ) ON ID = bookmark_ID;"
         result = @@db.execute query
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
         result.map{|row| row.transform_keys!(&:to_sym)}
                     
         return result
@@ -450,12 +501,52 @@ module Bookmarks
                     FROM bookmark JOIN report USING(bookmark_ID)
                     WHERE bookmark_ID = ?;"
             result = @@db.execute query,id
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
             result.map{|row| row.transform_keys!(&:to_sym)}
         end
 
         return result
     end
     
+    # Returns userID of the bookmark creator
+    # Params: bookmarkID - id of bookmark
+    # Returns: userID of bookmark creator
+    def Bookmarks.getBookmarkCreator bookmarkID
+        if Bookmarks.isInteger(bookmarkID)
+            query = "SELECT creator_ID AS userID
+                    FROM bookmark
+                    WHERE bookmark_id = ?;"
+            result = @@db.execute query, bookmarkID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            return result[:userID]
+        end
+    end
+
+    def Bookmarks.getBookmarkTags bookmarkID
+        if Bookmarks.isInteger(bookmarkID)
+            query = "SELECT tag_ID 
+                    FROM tag_bookmark_link
+                    WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
+            result.map{|row| row.transform_keys!(&:to_sym)}
+            return result
+        end
+    end
+
+
     #Returns table names in current database in an array
     def Bookmarks.getTableNames
         query = "SELECT 
@@ -513,7 +604,13 @@ module Bookmarks
 
     # Returns true if the value is an integer
     def Bookmarks.isInteger value
-        return value.is_a? Integer
+        if (value == "0" || value == 0)  then
+            return true
+        elsif value.to_i == 0 then
+            return false
+        else
+            return true
+        end
     end 
     
     # Returns true if value is null
@@ -591,13 +688,13 @@ module Bookmarks
             return false      
         elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
-        elsif Bookmarks.idOutOfRange(creatorID,'user_ID','users') then
+        elsif Bookmarks.idOutOfRange(creatorID.to_i,'user_ID','users') then
             return false
         else
             query = "INSERT INTO bookmark(bookmark_title, bookmark_description, bookmark_link, date_created,
                                         creator_ID)
                     VALUES (?, ?, ?, ?, ?);"
-            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID
+            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID.to_i
             return @@db.last_insert_row_id
         end
     end
@@ -608,12 +705,12 @@ module Bookmarks
             return false 
         elsif Bookmarks.isNull(editor) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(editor,'user_ID','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') then
+        elsif Bookmarks.idOutOfRange(editor.to_i,'user_ID','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') then
             return false
         else
             query = "INSERT INTO edit(editor_ID, bookmark_edited_ID, edit_date)
                     VALUES(?,?,?);"
-            @@db.execute query, editor, bookmark, editDate
+            @@db.execute query, editor.to_i, bookmark.to_i, editDate
             return true
         end
     end
@@ -624,12 +721,12 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(commenter) then
             return false
-        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(commenter,'user_ID','users') then
+        elsif Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(commenter.to_i,'user_ID','users') then
             return false
         else
             query = "INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created)
                     VALUES(?,?,?,?);"
-            @@db.execute query, bookmark, commenter, details, dateCreated
+            @@db.execute query, bookmark.to_i, commenter.to_i, details, dateCreated
             return true
         end
     end
@@ -640,12 +737,12 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(user) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(user,'user_ID','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') then
+        elsif Bookmarks.idOutOfRange(user.to_i,'user_ID','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') then
             return false
         else
             query = "INSERT INTO favourite(user_ID,bookmark_ID)
                     VALUES(?,?);"
-            @@db.execute query, user, bookmark
+            @@db.execute query, user.to_i, bookmark.to_i
             return true
         end
     end
@@ -656,14 +753,14 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(rater) || Bookmarks.isNull(value) then
             return false
-        elsif  Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(rater,'user_ID','users') then
+        elsif  Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(rater.to_i,'user_ID','users') then
             return false
         elsif value < 1 || value > 5 then
             return false
         else
             query = "INSERT INTO rating(bookmark_ID, rater_ID, rating_value, rating_created)
                     VALUES(?,?,?,?);"
-            @@db.execute query, bookmark, rater, value, dateCreated
+            @@db.execute query, bookmark.to_i, rater.to_i, value, dateCreated
             return true
         end
     end
@@ -674,13 +771,13 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(reportedPageID) then
             return false
-        elsif Bookmarks.idOutOfRange(reportedPageID,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(reporterID,'user_id','users') then
+        elsif Bookmarks.idOutOfRange(reportedPageID.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(reporterID.to_i,'user_id','users') then
             return false
         else
             query = "INSERT INTO report(bookmark_ID, report_type, report_details, 
                                         reporter_ID, report_date,report_resolved)
                     VALUES (?, ?, ?, ?, ?, ?);"
-            @@db.execute query, reportedPageID, reportType, reportDetails, reporterID, reportDate, 0
+            @@db.execute query, reportedPageID.to_i, reportType, reportDetails, reporterID.to_i, reportDate, 0
             return true
         end
     end
@@ -703,12 +800,12 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(tag) or Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(bookmark,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(tag,'tag_ID','tag') then
+        elsif Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(tag.to_i,'tag_ID','tag') then
             return false
         else 
             query = "INSERT INTO tag_bookmark_link(tag_ID,bookmark_ID)
                     VALUES(?,?);"
-            @@db.execute query, tag, bookmark
+            @@db.execute query, tag.to_i, bookmark.to_i
             return true
         end 
     end
@@ -719,23 +816,78 @@ module Bookmarks
             return false
         elsif Bookmarks.isNull(viewer) || Bookmarks.isNull(bookmark) then
             return false
-        elsif Bookmarks.idOutOfRange(viewer,'user_id','users') || Bookmarks.idOutOfRange(bookmark,'bookmark_id','bookmark') then
+        elsif Bookmarks.idOutOfRange(viewer.to_i,'user_id','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_id','bookmark') then
             return false
         else
             query = "INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)
                     VALUES(?,?,?);"
-            @@db.execute query, viewer, bookmark, dateViewed  
+            @@db.execute query, viewer.to_i, bookmark.to_i, dateViewed  
             return true
         end
     end 
 
+    # ========= Deletion ==============
+
     #Removes connection between given tag and bookmark form database
     def Bookmarks.deleteTagBookmarkLink tagId, bookmarkId
-        if (tagId.is_a? Integer) && (bookmarkId.is_a? Integer) 
+        if Bookmarks.isInteger(tagId) && Bookmarks.isInteger(bookmarkId)
             query = "DELETE FROM tag_bookmark_link
                     WHERE tag_ID = ? AND bookmark_ID = ?;"
-            @@db = execute query, tagId, bookmarkId
+            @@db.execute query, tagId, bookmarkId
             return true
+        end
+        return false
+    end
+
+    
+
+
+    # Removes bookmark's tags from the database
+    def Bookmarks.deleteAllBookmarkTags tagList,bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            for i in 0...tagList.length()
+                query = "DELETE FROM tag
+                    WHERE tag_ID = ?;"
+                @@db.execute query, tagList[i][:tag_ID]
+
+            end
+            return true
+        end
+        return false
+    end
+
+    # Removes all view records for bookmark
+    def Bookmarks.deleteAllBookmarkViews bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM views
+                    WHERE bookmark_viewed_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        else 
+            return false
+        end
+    end
+
+    def Bookmarks.deleteBookmark bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM bookmark
+                    WHERE bookmark_ID = ?;"
+            tagList = Bookmarks.getBookmarkTags(bookmarkID)
+            Bookmarks.deleteAllBookmarkViews(bookmarkID)
+            if tagList.length() == 0 then
+                @@db.execute query, bookmarkID
+                return true
+            else 
+                for i in 0...tagList.length()
+                    if !Bookmarks.deleteTagBookmarkLink(tagList[i][:tag_ID],bookmarkID) then
+                        return false
+                    end
+                end
+                if Bookmarks.deleteAllBookmarkTags(tagList, bookmarkID) then
+                    @@db.execute query, bookmarkID
+                    return true
+                end
+            end
         end
         return false
     end

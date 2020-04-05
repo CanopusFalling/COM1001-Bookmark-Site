@@ -142,11 +142,27 @@ post '/newBookmark' do
     @tags = extractTagsFromParams params
     @userID = session[:userID]
 
-    @newId = newBookmark @userID, @title, @link, @desc
-    if @newId 
-        assignTags @tags, @newId 
-        redirect '/msg?msg=newBookmarkMsg' 
-    end
+    newBookmark @userID, @title, @link, @desc
+    redirect '/msg?msg=newBookmarkMsg' 
+   
+end
+
+get '/delete-bookmark' do 
+    @bookmarkID = params[:bookmarkID]
+    @userID = session[:userID]
+    @creator = Bookmarks.getBookmarkCreator(@bookmarkID)
+   if @userID == @creator then
+        erb :deleteBookmark
+   else
+        redirect '/msg?msg=deleteError'
+   end       
+end        
+
+post '/delete-bookmark' do
+    @bookmarkID = params[:bookmarkID]
+
+    deleteBookmark @bookmarkID
+    redirect '/msgGoHome?msg=successfulDelete'
 end
 
 get '/bookmark-addView' do
@@ -159,6 +175,10 @@ get '/msg' do
     erb :message
 end
 
+get '/msgGoHome' do
+    @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
+    erb :messageGoHome
+end
 
 get '/testing' do
     @tagList = Bookmarks.getTagNames

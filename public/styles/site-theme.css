@@ -213,6 +213,16 @@
         display: inline;
     }
 
+    /*Styling for the ratings system.*/
+    main section.item-details div input.setting-button, main section.item-details div .option-input{
+        border: none;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    main section.item-details div input.setting-button:hover, main section.item-details div .option-input:hover{
+        background-color: rgba(100, 100, 100, 0.7);
+    }
 
     /* ===== Central Form Styling ===== */
 

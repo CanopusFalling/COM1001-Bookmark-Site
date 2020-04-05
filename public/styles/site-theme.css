@@ -55,6 +55,14 @@
         margin: 0px auto;
     }
 
+    a{
+        text-decoration: none;
+        color: inherit;
+        margin: inherit;
+        width: inherit;
+        padding: inherit;
+    }
+
     /*--------------- Header ---------------*/
     header {
         margin: 0px;
@@ -193,17 +201,17 @@
         background-color: rgba(0, 0, 0, 0.3);
     }
 
-    main section.item-details div.bookmark-details h2, main section.item-details div.bookmark-details div{
+    main section.item-details .bookmark-details h2, main section.item-details .bookmark-details div{
         background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) , rgba(0, 0, 0, 0.0));
         margin: 10px 0px;
         padding: 4px;
     }
 
-    main section.item-details div.bookmark-details div.edit-buttons{
+    main section.item-details .bookmark-details div.edit-buttons{
         justify-content: flex-start;
     }
 
-    main section.item-details div.bookmark-details div.edit-buttons img.edit-button{
+    main section.item-details .bookmark-details div.edit-buttons img.edit-button{
         width: 30px;
         height: 30px;
     }

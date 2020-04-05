@@ -3,10 +3,10 @@
     <%results.each do |entry|%>
     <div id="<%= entry[:ID]%>">
         <!-- Bookmark Details -->
-        <div class="bookmark-details" onclick="window.location = 'bookmark-spesifics?bookmarkID=<%=entry[:ID]%>'">
+        <a class="bookmark-details" href="bookmark-spesifics?bookmarkID=<%=entry[:ID]%>">
             <span class="bookmark-title"><%= entry[:title]%></span>
             <span class="bookmark-views"><%= entry[:views]%></span>
-        </div>
+        </a>
 
         <!-- Editing Buttons. -->
         <div class="edit-buttons">

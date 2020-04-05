@@ -114,13 +114,84 @@ get '/bookmark-spesifics' do
     @date = @details[:details][:date]
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
+    @avgRating = Bookmarks.getAvgRating(@ID)
     @link = @details[:details][:link]
+    @addRating = nil
+    @changeRating = nil
+    @rateCount = Bookmarks.getRatingCount(@ID)
+
+    if session[:userID] != -1 then
+        if Bookmarks.isRated(@ID.to_i,session[:userID].to_i) == nil then
+            @ratingButton = erb :add_rating_button
+        else 
+            @ratingButton = erb :change_rating_button
+        end
+    else 
+        @ratingButton = nil
+    end
 
     addView @ID, session[:userID]
 
     erb :bookmarkDetails
-
+    
 end
+
+get '/add-rating' do
+    @ID = params[:bookmarkID]
+    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @title = @details[:details][:title]
+    @desc = @details[:details][:description]
+    @date = @details[:details][:date]
+    @displayName = @details[:details][:displayName]
+    @displayName = @details[:details][:email] if @displayName == nil
+    @avgRating = Bookmarks.getAvgRating(@ID)
+    @link = @details[:details][:link]
+    @addRating = erb :addRating
+    @changeRating = nil
+    @rateCount = Bookmarks.getRatingCount(@ID)
+
+    erb :bookmarkDetails
+end
+
+
+post '/add-rating' do
+   @userID =  session[:userID] 
+   @bookmarkID = params[:bookmarkID]
+   @value = params[:selection] 
+
+   if addRating @bookmarkID, @userID, @value then
+        redirect '/msgGoHome?msg=ratingAddedMsg'
+   end
+end
+
+
+get '/change-rating' do
+    @ID = params[:bookmarkID]
+    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @title = @details[:details][:title]
+    @desc = @details[:details][:description]
+    @date = @details[:details][:date]
+    @displayName = @details[:details][:displayName]
+    @displayName = @details[:details][:email] if @displayName == nil
+    @avgRating = Bookmarks.getAvgRating(@ID)
+    @link = @details[:details][:link]
+    @addRating = nil
+    @changeRating = erb :changeRating
+    @rateCount = Bookmarks.getRatingCount(@ID)
+
+    erb :bookmarkDetails
+end
+
+post '/change-rating' do
+   @userID =  session[:userID] 
+   @bookmarkID = params[:bookmarkID]
+   @value = params[:selection] 
+
+   if changeRating @bookmarkID, @userID, @value then
+        redirect '/msgGoHome?msg=ratingChangedMsg'
+   end
+end
+
 
 get '/newBookmark' do
     if session[:userID] != -1 
@@ -142,11 +213,27 @@ post '/newBookmark' do
     @tags = extractTagsFromParams params
     @userID = session[:userID]
 
-    @newId = newBookmark @userID, @title, @link, @desc
-    if @newId 
-        assignTags @tags, @newId 
-        redirect '/msg?msg=newBookmarkMsg' 
-    end
+    newBookmark @userID, @title, @link, @desc
+    redirect '/msg?msg=newBookmarkMsg' 
+   
+end
+
+get '/delete-bookmark' do 
+    @bookmarkID = params[:bookmarkID]
+    @userID = session[:userID]
+    @creator = Bookmarks.getBookmarkCreator(@bookmarkID)
+   if @userID == @creator then
+        erb :deleteBookmark
+   else
+        redirect '/msg?msg=deleteError'
+   end       
+end        
+
+post '/delete-bookmark' do
+    @bookmarkID = params[:bookmarkID]
+
+    deleteBookmark @bookmarkID
+    redirect '/msgGoHome?msg=successfulDelete'
 end
 
 get '/bookmark-addView' do
@@ -159,6 +246,10 @@ get '/msg' do
     erb :message
 end
 
+get '/msgGoHome' do
+    @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
+    erb :messageGoHome
+end
 
 get '/testing' do
     @tagList = Bookmarks.getTagNames

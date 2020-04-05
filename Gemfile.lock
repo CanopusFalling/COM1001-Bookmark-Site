@@ -37,6 +37,7 @@ GEM
     json (2.3.0)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
+    minitest (5.14.0)
     multi_json (1.14.1)
     multi_test (0.1.2)
     mustermann (1.1.1)
@@ -49,6 +50,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rake (13.0.1)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -88,10 +90,12 @@ DEPENDENCIES
   bcrypt
   capybara
   cucumber
+  minitest
+  rake
   rspec
   simplecov
   sinatra
   thin
 
 BUNDLED WITH
-   1.16.6
+   1.17.2

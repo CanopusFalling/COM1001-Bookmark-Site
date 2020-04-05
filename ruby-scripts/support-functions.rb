@@ -48,12 +48,24 @@ def addView bookmarkId, userId
     Bookmarks.addView userId.to_i, bookmarkId.to_i, Time.now.strftime("%d/%m/%Y")
 end
 
+def addRating bookmarkID, userID, value 
+    return Bookmarks.addRating bookmarkID, userID, value.to_i, Time.now.strftime("%d/%m/%Y")
+end 
+
+def changeRating bookmarkID, userID, value
+    return Bookmarks.changeRating bookmarkID, userID, value.to_i, Time.now.strftime("%d/%m/%Y")
+end 
+
 def newBookmark userID, title, link, desc
     title = nil if title == ""
     link = nil if link == ""
     desc = nil if desc == ""
 
-    return Bookmarks.addBookmark title, desc, link, Time.now.strftime("%d/%m/%Y"),  userID.to_i
+    return Bookmarks.addBookmark title, desc, link, Time.now.strftime("%d/%m/%Y"), userID
+end
+
+def deleteBookmark bookmarkID
+    return Bookmarks.deleteBookmark(bookmarkID)
 end
 
 def extractTagsFromParams params 

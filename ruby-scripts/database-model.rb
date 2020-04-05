@@ -578,7 +578,7 @@ module Bookmarks
             if avg.nan? then
                 return 0
             else
-                if avg % 1 == 0then
+                if avg % 1 == 0 then
                     return avg.to_i
                 else
                     return avg.round(2)
@@ -586,8 +586,24 @@ module Bookmarks
             end
         end
         return false
-    end
+    end 
 
+    # Return amount of ratings for bookmark
+    def Bookmarks.getRatingCount bookmarkID
+        if Bookmarks.isInteger(bookmarkID) then
+            query = "SELECT counts
+                FROM ratings_quantity
+                WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            return result[:counts]
+        end
+        return false
+    end
 
 
 
@@ -622,6 +638,7 @@ module Bookmarks
         return Array.new
     end
 
+    
     #Checks if value passed exists in a database
     #Params tableName - name of the table in which to look for uniqness
     #       columnName - name of the column in which to check uniqness
@@ -934,5 +951,20 @@ module Bookmarks
         end
         return false
     end
+
+    # =========== Update Statements =================
+    # Change value for user's rating of bookmark 
+    def Bookmarks.changeRating bookmarkID, userID, newValue, newDate
+        if Bookmarks.isInteger(bookmarkID) &&  Bookmarks.isInteger(userID) then
+            query = "UPDATE rating
+                SET rating_value = ?,
+                rating_created = ?
+                WHERE bookmark_ID = ? AND rater_ID = ?;"
+            @@db.execute query, newValue, newDate, bookmarkID, userID
+            return true
+        end
+        return false
+    end
+
 end
 

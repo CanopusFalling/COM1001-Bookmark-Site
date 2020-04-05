@@ -22,7 +22,10 @@
                         <span>Created on <%= @date%> by <%= @displayName%></span>
                     </div>
                     <div class="rating">
-                        <span>Rating: <%= @avgRating%>/5</span>
+                        <span>Rating: <%= @avgRating%>/5     (<%=@rateCount%>)</span> 
+                        <%= @ratingButton%>  
+                        <%= @addRating%>
+                        <%= @changeRating%>
                     </div>
                     <!-- Editing Buttons. -->
                     <div class="edit-buttons">

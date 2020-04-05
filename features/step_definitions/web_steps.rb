@@ -29,6 +29,12 @@ When /^(?:|I )follow "([^\"]*)"(?: within "([^\"]*)")?$/ do |link, selector|
   end
 end
 
+When /^(?:|I )click "([^\"]*)"(?: within "([^\"]*)")?$/ do |item, selector|
+  with_scope(selector) do
+    page.find(item).click
+  end
+end
+
 When /^(?:|I )fill in "([^\"]*)" with "([^\"]*)"(?: within "([^\"]*)")?$/ do |field, value, selector|
   with_scope(selector) do
     fill_in(field, :with => value)

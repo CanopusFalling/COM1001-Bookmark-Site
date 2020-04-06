@@ -34,8 +34,10 @@
                         <img class="edit-button" src="../assets/images/report.png" onclick="window.location = 'report-bookmark?bookmarkID=<%= @ID%>'">
                     </div>
                     <div class="display-comments">
-                        <h4>Comments</h4>
-                        <%= @commentButton%>
+                        <div class="comment-section-header">
+                            <span id="comment-title">Comments</span>
+                            <span class="setting-button"> <%= @commentButton%></span>
+                        </div>
                         <%= @displayComments%>
                     </div>
                 </div>

@@ -16,6 +16,13 @@ module Bookmarks
         @@db.results_as_hash = true
     end 
 
+    #===Execute Override===
+    #(Only to be used for the testing and database resets.)
+
+    def Bookmarks.execute query
+        return @@db.execute query
+    end
+
     #===Queries methods===
 
     #Retursns list of bookmarks with titles containing param search

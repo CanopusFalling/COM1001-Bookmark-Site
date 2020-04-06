@@ -73,6 +73,22 @@ puts ""
 puts Bookmarks.getTagId "tag0"
 puts ""
 
+puts "=== getTagName ==="
+puts Bookmarks.getTagName nil
+puts ""
+puts Bookmarks.getTagName "hi"
+puts ""
+puts Bookmarks.getTagName 3
+puts ""
+
+puts "=== getBookmarkTagsNames ==="
+puts Bookmarks.getBookmarkTagsNames nil
+puts ""
+puts Bookmarks.getBookmarkTagsNames "hi"
+puts ""
+puts Bookmarks.getBookmarkTagsNames 1
+puts ""
+
 puts "=== geUserDetails ==="
 puts Bookmarks.getUserDetails 0
 puts ""

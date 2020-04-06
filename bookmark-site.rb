@@ -79,11 +79,12 @@ get '/search' do
     req.post?
     @searchQuery = req.params["search_query"]
 
-    @results = Bookmarks.getHomepageData @searchQuery
-
+    @fullResults = Bookmarks.getHomepageData @searchQuery
     @tagList = Bookmarks.getTagNames
+    @checked = extractTagsFromParams params
     
-    if(@results.length != 0) then
+    if(@fullResults.length != 0) then
+        @results = filterAgainstTags @fullResults, @checked
         erb :search
     else
         erb :noResults
@@ -215,8 +216,11 @@ post '/newBookmark' do
     @tags = extractTagsFromParams params
     @userID = session[:userID]
 
-    newBookmark @userID, @title, @link, @desc
-    redirect '/msg?msg=newBookmarkMsg' 
+    @newId = newBookmark @userID, @title, @link, @desc
+    if @newId 
+        assignTags @tags, @newId 
+        redirect '/msg?msg=newBookmarkMsg' 
+    end
    
 end
 

@@ -24,6 +24,11 @@ task :testdb => :wipedb do
     puts "Test data added"
 end
 
+desc "Lauch with test data."
+task :testrun => :testdb do
+    Sinatra::Application.run!
+  end
+
 desc "Run the Sinatra app locally"
 task :run do
   Sinatra::Application.run!

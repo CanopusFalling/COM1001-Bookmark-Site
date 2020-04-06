@@ -10,7 +10,7 @@
 
         <main>
             <h2>
-                <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = '/'">
+                <a id="home-link" href="/"><img class="edit-button" src="../assets/images/bin-icon.png"></a>
                 Search results for: '<%= erb @searchQuery %>'
             </h2>
             <%= erb :resultsTable, :locals => {:results => @results}%>

@@ -119,8 +119,11 @@ get '/bookmark-spesifics' do
     @addRating = nil
     @changeRating = nil
     @rateCount = Bookmarks.getRatingCount(@ID)
+    @comments = Bookmarks.getComments(@ID)
 
+    # if user logged in display add or change rating button depending on isRated
     if session[:userID] != -1 then
+        @commentButton = erb :add_comment_button
         if Bookmarks.isRated(@ID.to_i,session[:userID].to_i) == nil then
             @ratingButton = erb :add_rating_button
         else 
@@ -128,6 +131,14 @@ get '/bookmark-spesifics' do
         end
     else 
         @ratingButton = nil
+        @commentButton = nil
+    end
+
+    # Display comments if they exist
+    if @comments.length() > 0 then
+        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+    else
+        @displayComments = nil
     end
 
     addView @ID, session[:userID]
@@ -192,6 +203,21 @@ post '/change-rating' do
    end
 end
 
+get '/add-comment' do
+    @bookmarkID = params[:bookmarkID]
+    @userID = session[:userID]
+    erb :addComment
+end
+
+post '/add-comment' do
+    @comment = params[:comment]
+    @bookmarkID = params[:bookmarkID]
+    @userID = session[:userID]
+
+    if addComment @bookmarkID, @userID, @comment then
+        redirect '/msg?msg=commentAddedMsg'
+    end
+end
 
 get '/newBookmark' do
     if session[:userID] != -1 

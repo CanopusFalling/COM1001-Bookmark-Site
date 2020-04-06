@@ -14,12 +14,14 @@ end
 
 desc "Adds the basic config data to the database"
 task :resetdb => :wipedb do
-    
+
 end
 
 desc "Sets up database for testing with cucumber"
 task :testdb => :wipedb do
-    
+    puts "Adding test data to database"
+    Deployment.testData
+    puts "Test data added"
 end
 
 desc "Run the Sinatra app locally"

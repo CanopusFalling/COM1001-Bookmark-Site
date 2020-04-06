@@ -59,7 +59,7 @@ end
 
 post '/registration' do
 
-    @error_msg = getErrorMessage params
+    @error_msg = ""
     @displayName = params[:displayName]
     @email = params[:email]
     @email_valid = params[:email_validation]

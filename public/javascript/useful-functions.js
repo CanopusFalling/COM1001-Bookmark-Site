@@ -10,3 +10,25 @@ function openInNewTabAndRecordView(url, ID) {
 	window.location = "bookmark-addView?bookmarkID=" + ID;
 	win.focus();
 }
+
+function showAdvancedOptions() {
+	var advancedSearch = document.getElementById("advanced-search-form");
+	advancedSearch.style.display = "block";
+
+	var dropdownButton = document.getElementById("advancedSearch-button");
+	dropdownButton.onclick = function() {
+		hideAdvancedOptions();
+	};
+	dropdownButton.src = "assets/images/minus.png";
+}
+
+function hideAdvancedOptions() {
+	var advancedSearch = document.getElementById("advanced-search-form");
+	advancedSearch.style.display = "none";
+
+	var dropdownButton = document.getElementById("advancedSearch-button");
+	dropdownButton.onclick = function() {
+		showAdvancedOptions();
+	};
+	dropdownButton.src = "assets/images/plus.png";
+}

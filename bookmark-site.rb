@@ -80,6 +80,8 @@ get '/search' do
     @searchQuery = req.params["search_query"]
 
     @results = Bookmarks.getHomepageData @searchQuery
+
+    @tagList = Bookmarks.getTagNames
     
     if(@results.length != 0) then
         erb :search

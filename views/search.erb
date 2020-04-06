@@ -9,10 +9,20 @@
         <%= erb :header %>
 
         <main>
-            <h2>
+            <h3>
                 <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = '/'">
                 Search results for: '<%= erb @searchQuery %>'
-            </h2>
+            </h3>
+            <h4>
+                Advanced search: <img class = "edit-button" id="advancedSearch-button" src= "assets/images/plus.png" onclick = "showAdvancedOptions()">
+            </h4>
+
+            <section class = "central-form" id="advanced-search-form">
+                <form action="refineSearch">
+                    <%= erb :tagControl%>
+                </form>
+            </section>
+
             <%= erb :resultsTable, :locals => {:results => @results}%>
         </main>
 

@@ -54,9 +54,17 @@ Feature: Searching by keyword
         Then I should not see "title2" within "section"
         Then I should not see "Google" within "section"
 
-    Scenario: Exit a search and head back to the homepage
+    Scenario: Exit a blank search and head back to the homepage
         Given I am on the homepage
         When I press "Search" within "form"
         Then I should see "Search results for: ''" within "h2"
+        When I follow "home-link" within "h2"
+        Then I should be on the homepage
+
+    Scenario: Exit a search and head back to the homepage
+        Given I am on the homepage
+        When I fill in "search_query" with "title" within "form"
+        When I press "Search" within "form"
+        Then I should see "Search results for: 'title'" within "h2"
         When I follow "home-link" within "h2"
         Then I should be on the homepage

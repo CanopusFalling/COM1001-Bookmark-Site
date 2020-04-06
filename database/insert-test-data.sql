@@ -25,3 +25,29 @@ INSERT INTO bookmark (bookmark_title, bookmark_description, bookmark_link, date_
 ('Circuit Laundry - Ranmoor', 'Links to the status of all the washers and dryers in ranmoor, no real reason for this other than I am starting to run out of ideas for bookmarks.', 'www.circuit.co.uk/circuit-view/laundry-site/?site=6482', '2020-04-06', 4),
 ('Google', 'Link to the popular search engine google. (Deliberate test repeat bookmark.)', 'google.com', '2020-04-06', 5),
 ('RSI - NHS', 'This is the website I now need after making all this test data.', 'www.nhs.uk/conditions/repetitive-strain-injury-rsi/treatment/', '2020-04-06', 5);
+
+INSERT INTO report(bookmark_id, reporter_id, report_type, report_details, report_date, report_resolved) VALUES
+(0, 1, "broken link", "The link is broken, it keeps on saying can't connect to internet.", '2020-02-06', '2020-02-08'),
+(0, 1, "broken link", "I've reported this before but it's still not gone", '2020-02-09', '2020-02-10'),
+(0, 1, "broken link", "Does anyone check these reports, I will be emailing HR about this if this bookmark is not taken down.", '2020-02-20', '2020-02-22'),
+(0, 1, "broken link", "Nevermind, I hadn't plugged in the ethernet cable.", '2020-02-22', '2020-02-22'),
+(2, 1, "not funny", "This is not a funny, please remove with immediet effect.", CURRENT_TIMESTAMP, null),
+(6, 2, "broken link", "its broke", CURRENT_TIMESTAMP, null),
+(5, 2, "broken link", "lol, the link broke", CURRENT_TIMESTAMP, null),
+(8, 3, "broken link", "I'm running out of ideas for comments.", CURRENT_TIMESTAMP, null),
+(11, 3, "broken link", "Right well the rest will be blank.", CURRENT_TIMESTAMP, null),
+(13, 4, "broken link", "", CURRENT_TIMESTAMP, null),
+(12, 3, "broken link", "", CURRENT_TIMESTAMP, null),
+(7, 5, "broken link", "", CURRENT_TIMESTAMP, null);
+
+INSERT INTO tag(tag_name, tag_colour, tag_date_created) VALUES
+("Search engines", "rgba(0, 0, 160, 0.3)", CURRENT_TIMESTAMP),
+("Bad search engines", "rgba(255, 0, 0, 0.6)", CURRENT_TIMESTAMP),
+("Tree", "rgba(0, 255, 0, 0.5)", CURRENT_TIMESTAMP),
+("Medical", "rgba(0, 0, 200, 0.9)", CURRENT_TIMESTAMP);
+
+INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created, date_deleted) VALUES
+(0, 0, "Google", '2020-02-03', '2020-02-04'),
+(0, 0, "It's google, use as you see fit.", CURRENT_TIMESTAMP, null),
+(0, 1, "Can't load the page", CURRENT_TIMESTAMP, null),
+(1, 1, "I prefer this search engine", CURRENT_TIMESTAMP, null);

@@ -16,6 +16,13 @@
                         <a href="/registration"><li>Register</li></a>
                         <a href="/login"><li>Login</li></a>
                     </ul>
+
+                <% elsif Bookmarks.getUserType(session[:userID]) == Bookmarks::ADMIN_STRING%>
+                 <ul>
+                        <a href="/adminMenu"><li>Admin Menu</li></a>
+                        <a href="/profilePage"><li>Profile</li></a>
+                        <a href="/newBookmark"><li>Create Bookmark</li></a>
+                    </ul>
                 <% else %>
                     <ul>
                         <a href="/profilePage"><li>Profile</li></a>

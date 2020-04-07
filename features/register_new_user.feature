@@ -1,12 +1,11 @@
 Feature: register new user
-    Scenario: register user with new email and new name.
+    Scenario: register user with valid credentials.
         Given I am on the homepage.
-        When I click "Register" within "header"
-        When I fill in the following:
-            |Display name|"Added By Testing User"|
-            |Email|"addnew@user.com"|
-            |Confirm email|"addnew@user.com"|
-            |Password|"addnew@user.com"|
-            |Confirm password|"addnew@user.com"|
-        When I press "Create" within "form"
-        Then I should see "Thank you for registration in our system. Your aplication is now being processed. In the meantime you can view and report bookmarks as well as view your profile details." within "h4"
+        When I follow "Register" within "header"
+        When I fill in "display-name" with "Added By Testing User" within "section"
+        When I fill in "user-email" with "addnew@user.com" within "section"
+        When I fill in "confirm-user-email" with "addnew@user.com" within "section"
+        When I fill in "user-password" with "NewUserPa55word!" within "section"
+        When I fill in "confirm-user-password" with "NewUserPa55word!" within "section"
+        When I press "register-user" within "section"
+        Then I should see "Thank you for registration in our system. Your aplication is now being processed. In the meantime you can view and report bookmarks as well as view your profile details." within "main"

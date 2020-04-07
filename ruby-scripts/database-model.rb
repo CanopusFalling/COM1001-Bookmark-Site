@@ -632,6 +632,23 @@ module Bookmarks
         return false
     end
 
+    def Bookmarks.getUserType userID
+        if Bookmarks.isInteger(userID) then
+            query = "SELECT user_type AS type
+                FROM users
+                WHERE user_ID = ?"
+            result = @@db.execute query, userID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            return result[:type]
+        end
+        return false
+    end
+
+
     #Returns table names in current database in an array
     def Bookmarks.getTableNames
         query = "SELECT 

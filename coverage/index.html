@@ -14,7 +14,7 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2020-04-06T22:33:35+01:00">2020-04-06T22:33:35+01:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2020-04-07T08:25:01+01:00">2020-04-07T08:25:01+01:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -25,7 +25,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         5.91
+         6.23
        </span>
     </span> hits/line)
   </h2>
@@ -63,11 +63,11 @@
       <tr>
         <td class="strong"><a href="#703ecdb1f4b684a00a12a165224c5049c8a7afad" class="src_link" title="ruby-scripts/database-model.rb">ruby-scripts/database-model.rb</a></td>
         <td class="red strong">31.31 %</td>
-        <td>977</td>
+        <td>978</td>
         <td>428</td>
         <td>134</td>
         <td>294</td>
-        <td>8.8</td>
+        <td>9.3</td>
       </tr>
       
       <tr>
@@ -198,14 +198,14 @@
           <code class="ruby">before do</code>
         </li>
       
-        <li class="covered" data-hits="22" data-linenumber="14">
-          <span class="hits">22</span>
+        <li class="covered" data-hits="23" data-linenumber="14">
+          <span class="hits">23</span>
           
           <code class="ruby">    if !session[:userID] </code>
         </li>
       
-        <li class="covered" data-hits="10" data-linenumber="15">
-          <span class="hits">10</span>
+        <li class="covered" data-hits="11" data-linenumber="15">
+          <span class="hits">11</span>
           
           <code class="ruby">        session[:userID] = -1</code>
         </li>
@@ -252,14 +252,14 @@
           <code class="ruby">    </code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="23">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="14" data-linenumber="23">
+          <span class="hits">14</span>
           
           <code class="ruby">    @results = Bookmarks.getHomepageDataAll</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="24">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="14" data-linenumber="24">
+          <span class="hits">14</span>
           
           <code class="ruby">    erb :index</code>
         </li>
@@ -1909,20 +1909,20 @@
           <code class="ruby">    def Bookmarks.getHomepageData search</code>
         </li>
       
-        <li class="covered" data-hits="21" data-linenumber="37">
-          <span class="hits">21</span>
+        <li class="covered" data-hits="22" data-linenumber="37">
+          <span class="hits">22</span>
           
           <code class="ruby">        result = nil</code>
         </li>
       
-        <li class="covered" data-hits="21" data-linenumber="38">
-          <span class="hits">21</span>
+        <li class="covered" data-hits="22" data-linenumber="38">
+          <span class="hits">22</span>
           
           <code class="ruby">        if search</code>
         </li>
       
-        <li class="covered" data-hits="21" data-linenumber="39">
-          <span class="hits">21</span>
+        <li class="covered" data-hits="22" data-linenumber="39">
+          <span class="hits">22</span>
           
           <code class="ruby">            query = &quot;SELECT * FROM bookmark_list</code>
         </li>
@@ -1933,8 +1933,8 @@
           <code class="ruby">                    WHERE title LIKE ?;&quot;  </code>
         </li>
       
-        <li class="covered" data-hits="21" data-linenumber="41">
-          <span class="hits">21</span>
+        <li class="covered" data-hits="22" data-linenumber="41">
+          <span class="hits">22</span>
           
           <code class="ruby">            result = @@db.execute query, &quot;%#{search}%&quot;</code>
         </li>
@@ -1945,20 +1945,20 @@
           <code class="ruby">            #result.map{|row| row.transform_keys!(&amp;:to_sym)}</code>
         </li>
       
-        <li class="covered" data-hits="21" data-linenumber="43">
-          <span class="hits">21</span>
+        <li class="covered" data-hits="22" data-linenumber="43">
+          <span class="hits">22</span>
           
           <code class="ruby">            result.each do |row|</code>
         </li>
       
-        <li class="covered" data-hits="286" data-linenumber="44">
-          <span class="hits">286</span>
+        <li class="covered" data-hits="304" data-linenumber="44">
+          <span class="hits">304</span>
           
           <code class="ruby">                for i in 0..(row.length()/2)</code>
         </li>
       
-        <li class="covered" data-hits="858" data-linenumber="45">
-          <span class="hits">858</span>
+        <li class="covered" data-hits="912" data-linenumber="45">
+          <span class="hits">912</span>
           
           <code class="ruby">                    row.delete(i)</code>
         </li>
@@ -1969,26 +1969,26 @@
           <code class="ruby">                end</code>
         </li>
       
-        <li class="covered" data-hits="286" data-linenumber="47">
-          <span class="hits">286</span>
+        <li class="covered" data-hits="304" data-linenumber="47">
+          <span class="hits">304</span>
           
           <code class="ruby">                row.transform_keys!(&amp;:to_sym)</code>
         </li>
       
-        <li class="covered" data-hits="286" data-linenumber="48">
-          <span class="hits">286</span>
+        <li class="covered" data-hits="304" data-linenumber="48">
+          <span class="hits">304</span>
           
           <code class="ruby">                row.each do |key,value|</code>
         </li>
       
-        <li class="covered" data-hits="1430" data-linenumber="49">
-          <span class="hits">1430</span>
+        <li class="covered" data-hits="1520" data-linenumber="49">
+          <span class="hits">1520</span>
           
           <code class="ruby">                    if row[key] == nil</code>
         </li>
       
-        <li class="covered" data-hits="284" data-linenumber="50">
-          <span class="hits">284</span>
+        <li class="covered" data-hits="302" data-linenumber="50">
+          <span class="hits">302</span>
           
           <code class="ruby">                        row[key] = 0</code>
         </li>
@@ -2017,8 +2017,8 @@
           <code class="ruby">        end</code>
         </li>
       
-        <li class="covered" data-hits="21" data-linenumber="55">
-          <span class="hits">21</span>
+        <li class="covered" data-hits="22" data-linenumber="55">
+          <span class="hits">22</span>
           
           <code class="ruby">        return result</code>
         </li>
@@ -2077,8 +2077,8 @@
           <code class="ruby">    def Bookmarks.getHomepageDataAll</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="65">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="14" data-linenumber="65">
+          <span class="hits">14</span>
           
           <code class="ruby">        return Bookmarks.getHomepageData &quot;&quot;</code>
         </li>
@@ -6088,7 +6088,7 @@
         <li class="missed" data-hits="0" data-linenumber="733">
           
           
-          <code class="ruby">            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password),USER_STRING,0</code>
+          <code class="ruby">            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password), UNVERIFIED_STRING, 0</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="734">
@@ -6112,1051 +6112,1051 @@
         <li class="never" data-hits="" data-linenumber="737">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="738">
+          
+          
           <code class="ruby">    # Insert admin user&#39;s details when registering account</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="738">
+        <li class="covered" data-hits="1" data-linenumber="739">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="739">
+        <li class="missed" data-hits="0" data-linenumber="740">
           
           
           <code class="ruby">        if !Bookmarks.isUniqueValue(&#39;users&#39;,&#39;user_email&#39;,uEmail) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="740">
+        <li class="missed" data-hits="0" data-linenumber="741">
           
           
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="741">
+        <li class="never" data-hits="" data-linenumber="742">
           
           
           <code class="ruby">         </code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="742">
+        <li class="missed" data-hits="0" data-linenumber="743">
           
           
           <code class="ruby">        elsif Bookmarks.isNull(uEmail) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="743">
+        <li class="missed" data-hits="0" data-linenumber="744">
           
           
           <code class="ruby">            return false         </code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="744">
+        <li class="never" data-hits="" data-linenumber="745">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="745">
+        <li class="missed" data-hits="0" data-linenumber="746">
           
           
           <code class="ruby">            query = &quot;INSERT INTO users(user_email, user_displayName, user_department,</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="746">
+        <li class="never" data-hits="" data-linenumber="747">
           
           
           <code class="ruby">                                    user_password, user_type, user_suspended)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="747">
+        <li class="never" data-hits="" data-linenumber="748">
           
           
           <code class="ruby">                    VALUES (?, ?, ?, ?, ?,?);&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="748">
+        <li class="missed" data-hits="0" data-linenumber="749">
           
           
           <code class="ruby">            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password),ADMIN_STRING,0</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="749">
+        <li class="missed" data-hits="0" data-linenumber="750">
           
           
           <code class="ruby">            return true</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="750">
-          
-          
-          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="751">
           
           
-          <code class="ruby">    end </code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="752">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end </code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="753">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="754">
+          
+          
           <code class="ruby">    # Add bookmark details to the db</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="754">
+        <li class="covered" data-hits="1" data-linenumber="755">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="755">
+        <li class="missed" data-hits="0" data-linenumber="756">
           
           
           <code class="ruby">        if !Bookmarks.isUniqueValue(&#39;bookmark&#39;,&#39;bookmark_link&#39;, bookmarkLink) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="756">
+        <li class="missed" data-hits="0" data-linenumber="757">
           
           
           <code class="ruby">            return false      </code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="757">
+        <li class="missed" data-hits="0" data-linenumber="758">
           
           
           <code class="ruby">        elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="758">
-          
-          
-          <code class="ruby">            return false</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="759">
           
           
-          <code class="ruby">        elsif Bookmarks.idOutOfRange(creatorID.to_i,&#39;user_ID&#39;,&#39;users&#39;) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="760">
           
           
+          <code class="ruby">        elsif Bookmarks.idOutOfRange(creatorID.to_i,&#39;user_ID&#39;,&#39;users&#39;) then</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="761">
+          
+          
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="761">
+        <li class="never" data-hits="" data-linenumber="762">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="762">
+        <li class="missed" data-hits="0" data-linenumber="763">
           
           
           <code class="ruby">            query = &quot;INSERT INTO bookmark(bookmark_title, bookmark_description, bookmark_link, date_created,</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="763">
+        <li class="never" data-hits="" data-linenumber="764">
           
           
           <code class="ruby">                                        creator_ID)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="764">
+        <li class="never" data-hits="" data-linenumber="765">
           
           
           <code class="ruby">                    VALUES (?, ?, ?, ?, ?);&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="765">
+        <li class="missed" data-hits="0" data-linenumber="766">
           
           
           <code class="ruby">            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID.to_i</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="766">
+        <li class="missed" data-hits="0" data-linenumber="767">
           
           
           <code class="ruby">            return @@db.last_insert_row_id</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="767">
-          
-          
-          <code class="ruby">        end</code>
-        </li>
-      
         <li class="never" data-hits="" data-linenumber="768">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="769">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="770">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="771">
+          
+          
           <code class="ruby">    # Adding details of edit made to bookmark</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="771">
+        <li class="covered" data-hits="1" data-linenumber="772">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addBookmarkEdit(editor, bookmark, editDate)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="772">
+        <li class="missed" data-hits="0" data-linenumber="773">
           
           
           <code class="ruby">        if !Bookmarks.isInteger(editor) || !Bookmarks.isInteger(bookmark) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="773">
+        <li class="missed" data-hits="0" data-linenumber="774">
           
           
           <code class="ruby">            return false </code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="774">
+        <li class="missed" data-hits="0" data-linenumber="775">
           
           
           <code class="ruby">        elsif Bookmarks.isNull(editor) || Bookmarks.isNull(bookmark) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="775">
-          
-          
-          <code class="ruby">            return false</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="776">
           
           
-          <code class="ruby">        elsif Bookmarks.idOutOfRange(editor.to_i,&#39;user_ID&#39;,&#39;users&#39;) || Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="777">
           
           
+          <code class="ruby">        elsif Bookmarks.idOutOfRange(editor.to_i,&#39;user_ID&#39;,&#39;users&#39;) || Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) then</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="778">
+          
+          
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="778">
+        <li class="never" data-hits="" data-linenumber="779">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="779">
+        <li class="missed" data-hits="0" data-linenumber="780">
           
           
           <code class="ruby">            query = &quot;INSERT INTO edit(editor_ID, bookmark_edited_ID, edit_date)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="780">
+        <li class="never" data-hits="" data-linenumber="781">
           
           
           <code class="ruby">                    VALUES(?,?,?);&quot;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="781">
-          
-          
-          <code class="ruby">            @@db.execute query, editor.to_i, bookmark.to_i, editDate</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="782">
           
           
-          <code class="ruby">            return true</code>
+          <code class="ruby">            @@db.execute query, editor.to_i, bookmark.to_i, editDate</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="783">
+        <li class="missed" data-hits="0" data-linenumber="783">
           
           
-          <code class="ruby">        end</code>
+          <code class="ruby">            return true</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="784">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="785">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="786">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="787">
+          
+          
           <code class="ruby">    # Add comment details to db</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="787">
+        <li class="covered" data-hits="1" data-linenumber="788">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addComment(bookmark, commenter, details, dateCreated)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="788">
+        <li class="missed" data-hits="0" data-linenumber="789">
           
           
           <code class="ruby">        if !Bookmarks.isInteger(bookmark) || !Bookmarks.isInteger(commenter) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="789">
-          
-          
-          <code class="ruby">            return false</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="790">
           
           
-          <code class="ruby">        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(commenter) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="791">
           
           
-          <code class="ruby">            return false</code>
+          <code class="ruby">        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(commenter) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="792">
           
           
-          <code class="ruby">        elsif Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(commenter.to_i,&#39;user_ID&#39;,&#39;users&#39;) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="793">
           
           
+          <code class="ruby">        elsif Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(commenter.to_i,&#39;user_ID&#39;,&#39;users&#39;) then</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="794">
+          
+          
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="794">
+        <li class="never" data-hits="" data-linenumber="795">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="795">
+        <li class="missed" data-hits="0" data-linenumber="796">
           
           
           <code class="ruby">            query = &quot;INSERT INTO comment(bookmark_ID, commenter_ID, comment_details, date_created)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="796">
+        <li class="never" data-hits="" data-linenumber="797">
           
           
           <code class="ruby">                    VALUES(?,?,?,?);&quot;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="797">
-          
-          
-          <code class="ruby">            @@db.execute query, bookmark.to_i, commenter.to_i, details, dateCreated</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="798">
           
           
-          <code class="ruby">            return true</code>
+          <code class="ruby">            @@db.execute query, bookmark.to_i, commenter.to_i, details, dateCreated</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="799">
+        <li class="missed" data-hits="0" data-linenumber="799">
           
           
-          <code class="ruby">        end</code>
+          <code class="ruby">            return true</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="800">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="801">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="802">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="803">
+          
+          
           <code class="ruby">    # Add details of favourite into db</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="803">
+        <li class="covered" data-hits="1" data-linenumber="804">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addFavourite(user,bookmark)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="804">
+        <li class="missed" data-hits="0" data-linenumber="805">
           
           
           <code class="ruby">        if !Bookmarks.isInteger(user) || !Bookmarks.isInteger(bookmark) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="805">
-          
-          
-          <code class="ruby">            return false</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="806">
           
           
-          <code class="ruby">        elsif Bookmarks.isNull(user) || Bookmarks.isNull(bookmark) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="807">
           
           
-          <code class="ruby">            return false</code>
+          <code class="ruby">        elsif Bookmarks.isNull(user) || Bookmarks.isNull(bookmark) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="808">
           
           
-          <code class="ruby">        elsif Bookmarks.idOutOfRange(user.to_i,&#39;user_ID&#39;,&#39;users&#39;) || Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="809">
           
           
+          <code class="ruby">        elsif Bookmarks.idOutOfRange(user.to_i,&#39;user_ID&#39;,&#39;users&#39;) || Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) then</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="810">
+          
+          
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="810">
+        <li class="never" data-hits="" data-linenumber="811">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="811">
+        <li class="missed" data-hits="0" data-linenumber="812">
           
           
           <code class="ruby">            query = &quot;INSERT INTO favourite(user_ID,bookmark_ID)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="812">
+        <li class="never" data-hits="" data-linenumber="813">
           
           
           <code class="ruby">                    VALUES(?,?);&quot;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="813">
-          
-          
-          <code class="ruby">            @@db.execute query, user.to_i, bookmark.to_i</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="814">
           
           
-          <code class="ruby">            return true</code>
+          <code class="ruby">            @@db.execute query, user.to_i, bookmark.to_i</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="815">
+        <li class="missed" data-hits="0" data-linenumber="815">
           
           
-          <code class="ruby">        end</code>
+          <code class="ruby">            return true</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="816">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="817">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="818">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="819">
+          
+          
           <code class="ruby">    # Adds details of a rating to the db</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="819">
+        <li class="covered" data-hits="1" data-linenumber="820">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addRating(bookmark, rater, value, dateCreated)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="820">
+        <li class="missed" data-hits="0" data-linenumber="821">
           
           
           <code class="ruby">        if !Bookmarks.isInteger(bookmark) || !Bookmarks.isInteger(rater) || !Bookmarks.isInteger(value) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="821">
-          
-          
-          <code class="ruby">            return false</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="822">
           
           
-          <code class="ruby">        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(rater) || Bookmarks.isNull(value) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="823">
           
           
-          <code class="ruby">            return false</code>
+          <code class="ruby">        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(rater) || Bookmarks.isNull(value) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="824">
           
           
-          <code class="ruby">        elsif  Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(rater.to_i,&#39;user_ID&#39;,&#39;users&#39;) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="825">
           
           
-          <code class="ruby">            return false</code>
+          <code class="ruby">        elsif  Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(rater.to_i,&#39;user_ID&#39;,&#39;users&#39;) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="826">
           
           
-          <code class="ruby">        elsif value &lt; 1 || value &gt; 5 then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="827">
           
           
+          <code class="ruby">        elsif value &lt; 1 || value &gt; 5 then</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="828">
+          
+          
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="828">
+        <li class="never" data-hits="" data-linenumber="829">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="829">
+        <li class="missed" data-hits="0" data-linenumber="830">
           
           
           <code class="ruby">            query = &quot;INSERT INTO rating(bookmark_ID, rater_ID, rating_value, rating_created)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="830">
+        <li class="never" data-hits="" data-linenumber="831">
           
           
           <code class="ruby">                    VALUES(?,?,?,?);&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="831">
+        <li class="missed" data-hits="0" data-linenumber="832">
           
           
           <code class="ruby">            @@db.execute query, bookmark.to_i, rater.to_i, value, dateCreated</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="832">
+        <li class="missed" data-hits="0" data-linenumber="833">
           
           
           <code class="ruby">            return true</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="833">
-          
-          
-          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="834">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="835">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="836">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="837">
+          
+          
           <code class="ruby">    # Add details of a report to the db</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="837">
+        <li class="covered" data-hits="1" data-linenumber="838">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addReport (reportedPageID, reportType, reportDetails, reporterID, reportDate)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="838">
+        <li class="missed" data-hits="0" data-linenumber="839">
           
           
           <code class="ruby">        if !Bookmarks.isInteger(reportedPageID) or !Bookmarks.isInteger(reporterID) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="839">
-          
-          
-          <code class="ruby">            return false</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="840">
           
           
-          <code class="ruby">        elsif Bookmarks.isNull(reportedPageID) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="841">
           
           
-          <code class="ruby">            return false</code>
+          <code class="ruby">        elsif Bookmarks.isNull(reportedPageID) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="842">
           
           
-          <code class="ruby">        elsif Bookmarks.idOutOfRange(reportedPageID.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(reporterID.to_i,&#39;user_id&#39;,&#39;users&#39;) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="843">
           
           
+          <code class="ruby">        elsif Bookmarks.idOutOfRange(reportedPageID.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(reporterID.to_i,&#39;user_id&#39;,&#39;users&#39;) then</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="844">
+          
+          
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="844">
+        <li class="never" data-hits="" data-linenumber="845">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="845">
+        <li class="missed" data-hits="0" data-linenumber="846">
           
           
           <code class="ruby">            query = &quot;INSERT INTO report(bookmark_ID, report_type, report_details, </code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="846">
+        <li class="never" data-hits="" data-linenumber="847">
           
           
           <code class="ruby">                                        reporter_ID, report_date,report_resolved)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="847">
+        <li class="never" data-hits="" data-linenumber="848">
           
           
           <code class="ruby">                    VALUES (?, ?, ?, ?, ?, ?);&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="848">
+        <li class="missed" data-hits="0" data-linenumber="849">
           
           
           <code class="ruby">            @@db.execute query, reportedPageID.to_i, reportType, reportDetails, reporterID.to_i, reportDate, 0</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="849">
+        <li class="missed" data-hits="0" data-linenumber="850">
           
           
           <code class="ruby">            return true</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="850">
-          
-          
-          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="851">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="852">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="853">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="854">
+          
+          
           <code class="ruby">    # Adds tag to db</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="854">
+        <li class="covered" data-hits="1" data-linenumber="855">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addTag(name, colour, dateCreated)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="855">
+        <li class="missed" data-hits="0" data-linenumber="856">
           
           
           <code class="ruby">        if !Bookmarks.isNull(name) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="856">
+        <li class="missed" data-hits="0" data-linenumber="857">
           
           
           <code class="ruby">            query = &quot;INSERT INTO tag(tag_name, tag_colour, tag_date_created)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="857">
+        <li class="never" data-hits="" data-linenumber="858">
           
           
           <code class="ruby">                    VALUES(?,?,?);&quot;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="858">
-          
-          
-          <code class="ruby">            @@db.execute query, name, colour, dateCreated</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="859">
           
           
+          <code class="ruby">            @@db.execute query, name, colour, dateCreated</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="860">
+          
+          
           <code class="ruby">            return true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="860">
+        <li class="never" data-hits="" data-linenumber="861">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="861">
+        <li class="missed" data-hits="0" data-linenumber="862">
           
           
           <code class="ruby">            return false</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="862">
-          
-          
-          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="863">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="864">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="865">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="866">
+          
+          
           <code class="ruby">    # Add tag and bookmark ID&#39;s to the linking table</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="866">
+        <li class="covered" data-hits="1" data-linenumber="867">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.addTagBookmarkLink(tag, bookmark)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="867">
+        <li class="missed" data-hits="0" data-linenumber="868">
           
           
           <code class="ruby">        if !Bookmarks.isInteger(tag) or !Bookmarks.isInteger(bookmark) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="868">
-          
-          
-          <code class="ruby">            return false</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="869">
           
           
-          <code class="ruby">        elsif Bookmarks.isNull(tag) or Bookmarks.isNull(bookmark) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="870">
           
           
-          <code class="ruby">            return false</code>
+          <code class="ruby">        elsif Bookmarks.isNull(tag) or Bookmarks.isNull(bookmark) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="871">
           
           
-          <code class="ruby">        elsif Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(tag.to_i,&#39;tag_ID&#39;,&#39;tag&#39;) then</code>
+          <code class="ruby">            return false</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="872">
           
           
+          <code class="ruby">        elsif Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_ID&#39;,&#39;bookmark&#39;) || Bookmarks.idOutOfRange(tag.to_i,&#39;tag_ID&#39;,&#39;tag&#39;) then</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="873">
+          
+          
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="873">
+        <li class="never" data-hits="" data-linenumber="874">
           
           
           <code class="ruby">        else </code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="874">
+        <li class="missed" data-hits="0" data-linenumber="875">
           
           
           <code class="ruby">            query = &quot;INSERT INTO tag_bookmark_link(tag_ID,bookmark_ID)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="875">
+        <li class="never" data-hits="" data-linenumber="876">
           
           
           <code class="ruby">                    VALUES(?,?);&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="876">
+        <li class="missed" data-hits="0" data-linenumber="877">
           
           
           <code class="ruby">            @@db.execute query, tag.to_i, bookmark.to_i</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="877">
+        <li class="missed" data-hits="0" data-linenumber="878">
           
           
           <code class="ruby">            return true</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="878">
-          
-          
-          <code class="ruby">        end </code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="879">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        end </code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="880">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="881">
           
           
-          <code class="ruby">    # Add details of a view into the db</code>
+          <code class="ruby">    </code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="882">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="882">
           
-          <code class="ruby">    def Bookmarks.addView(viewer, bookmark, dateViewed)</code>
+          
+          <code class="ruby">    # Add details of a view into the db</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="883">
           <span class="hits">1</span>
           
+          <code class="ruby">    def Bookmarks.addView(viewer, bookmark, dateViewed)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="884">
+          <span class="hits">1</span>
+          
           <code class="ruby">        if !Bookmarks.isInteger(viewer) || !Bookmarks.isInteger(bookmark) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="884">
+        <li class="missed" data-hits="0" data-linenumber="885">
           
           
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="885">
+        <li class="covered" data-hits="1" data-linenumber="886">
           <span class="hits">1</span>
           
           <code class="ruby">        elsif Bookmarks.isNull(viewer) || Bookmarks.isNull(bookmark) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="886">
+        <li class="missed" data-hits="0" data-linenumber="887">
           
           
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="887">
+        <li class="covered" data-hits="1" data-linenumber="888">
           <span class="hits">1</span>
           
           <code class="ruby">        elsif Bookmarks.idOutOfRange(viewer.to_i,&#39;user_id&#39;,&#39;users&#39;) || Bookmarks.idOutOfRange(bookmark.to_i,&#39;bookmark_id&#39;,&#39;bookmark&#39;) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="888">
+        <li class="missed" data-hits="0" data-linenumber="889">
           
           
           <code class="ruby">            return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="889">
+        <li class="never" data-hits="" data-linenumber="890">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="890">
+        <li class="covered" data-hits="1" data-linenumber="891">
           <span class="hits">1</span>
           
           <code class="ruby">            query = &quot;INSERT INTO views(viewer_ID, bookmark_viewed_ID, view_date)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="891">
+        <li class="never" data-hits="" data-linenumber="892">
           
           
           <code class="ruby">                    VALUES(?,?,?);&quot;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="892">
+        <li class="covered" data-hits="1" data-linenumber="893">
           <span class="hits">1</span>
           
           <code class="ruby">            @@db.execute query, viewer.to_i, bookmark.to_i, dateViewed  </code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="893">
+        <li class="covered" data-hits="1" data-linenumber="894">
           <span class="hits">1</span>
           
           <code class="ruby">            return true</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="894">
-          
-          
-          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="895">
           
           
-          <code class="ruby">    end </code>
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="896">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    end </code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="897">
           
           
-          <code class="ruby">    # ========= Deletion ==============</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="898">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    # ========= Deletion ==============</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="899">
           
           
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="900">
+          
+          
           <code class="ruby">    #Removes connection between given tag and bookmark form database</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="900">
+        <li class="covered" data-hits="1" data-linenumber="901">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.deleteTagBookmarkLink tagId, bookmarkId</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="901">
+        <li class="missed" data-hits="0" data-linenumber="902">
           
           
           <code class="ruby">        if Bookmarks.isInteger(tagId) &amp;&amp; Bookmarks.isInteger(bookmarkId)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="902">
+        <li class="missed" data-hits="0" data-linenumber="903">
           
           
           <code class="ruby">            query = &quot;DELETE FROM tag_bookmark_link</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="903">
+        <li class="never" data-hits="" data-linenumber="904">
           
           
           <code class="ruby">                    WHERE tag_ID = ? AND bookmark_ID = ?;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="904">
+        <li class="missed" data-hits="0" data-linenumber="905">
           
           
           <code class="ruby">            @@db.execute query, tagId, bookmarkId</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="905">
+        <li class="missed" data-hits="0" data-linenumber="906">
           
           
           <code class="ruby">            return true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="906">
+        <li class="never" data-hits="" data-linenumber="907">
           
           
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="907">
+        <li class="missed" data-hits="0" data-linenumber="908">
           
           
           <code class="ruby">        return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="908">
+        <li class="never" data-hits="" data-linenumber="909">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="909">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
         <li class="never" data-hits="" data-linenumber="910">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="911">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    </code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="912">
@@ -7168,388 +7168,394 @@
         <li class="never" data-hits="" data-linenumber="913">
           
           
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="914">
+          
+          
           <code class="ruby">    # Removes bookmark&#39;s tags from the database</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="914">
+        <li class="covered" data-hits="1" data-linenumber="915">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.deleteAllBookmarkTags tagList,bookmarkID</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="915">
-          
-          
-          <code class="ruby">        if Bookmarks.isInteger bookmarkID then</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="916">
           
           
-          <code class="ruby">            for i in 0...tagList.length()</code>
+          <code class="ruby">        if Bookmarks.isInteger bookmarkID then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="917">
           
           
+          <code class="ruby">            for i in 0...tagList.length()</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="918">
+          
+          
           <code class="ruby">                query = &quot;DELETE FROM tag</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="918">
+        <li class="never" data-hits="" data-linenumber="919">
           
           
           <code class="ruby">                    WHERE tag_ID = ?;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="919">
+        <li class="missed" data-hits="0" data-linenumber="920">
           
           
           <code class="ruby">                @@db.execute query, tagList[i][:tag_ID]</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="920">
+        <li class="never" data-hits="" data-linenumber="921">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="921">
+        <li class="never" data-hits="" data-linenumber="922">
           
           
           <code class="ruby">            end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="922">
+        <li class="missed" data-hits="0" data-linenumber="923">
           
           
           <code class="ruby">            return true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="923">
+        <li class="never" data-hits="" data-linenumber="924">
           
           
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="924">
+        <li class="missed" data-hits="0" data-linenumber="925">
           
           
           <code class="ruby">        return false</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="925">
-          
-          
-          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="926">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="927">
           
           
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="928">
+          
+          
           <code class="ruby">    # Removes all view records for bookmark</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="928">
+        <li class="covered" data-hits="1" data-linenumber="929">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.deleteAllBookmarkViews bookmarkID</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="929">
+        <li class="missed" data-hits="0" data-linenumber="930">
           
           
           <code class="ruby">        if Bookmarks.isInteger bookmarkID then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="930">
+        <li class="missed" data-hits="0" data-linenumber="931">
           
           
           <code class="ruby">            query = &quot;DELETE FROM views</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="931">
+        <li class="never" data-hits="" data-linenumber="932">
           
           
           <code class="ruby">                    WHERE bookmark_viewed_ID = ?;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="932">
+        <li class="missed" data-hits="0" data-linenumber="933">
           
           
           <code class="ruby">            @@db.execute query, bookmarkID</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="933">
+        <li class="missed" data-hits="0" data-linenumber="934">
           
           
           <code class="ruby">            return true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="934">
+        <li class="never" data-hits="" data-linenumber="935">
           
           
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="935">
+        <li class="missed" data-hits="0" data-linenumber="936">
           
           
           <code class="ruby">        return false</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="936">
-          
-          
-          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="937">
           
           
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="938">
+          
+          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="938">
+        <li class="covered" data-hits="1" data-linenumber="939">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.deleteBookmark bookmarkID</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="939">
+        <li class="missed" data-hits="0" data-linenumber="940">
           
           
           <code class="ruby">        if Bookmarks.isInteger bookmarkID then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="940">
+        <li class="missed" data-hits="0" data-linenumber="941">
           
           
           <code class="ruby">            query = &quot;DELETE FROM bookmark</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="941">
+        <li class="never" data-hits="" data-linenumber="942">
           
           
           <code class="ruby">                    WHERE bookmark_ID = ?;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="942">
+        <li class="missed" data-hits="0" data-linenumber="943">
           
           
           <code class="ruby">            tagList = Bookmarks.getBookmarkTags(bookmarkID)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="943">
+        <li class="missed" data-hits="0" data-linenumber="944">
           
           
           <code class="ruby">            Bookmarks.deleteAllBookmarkViews(bookmarkID)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="944">
+        <li class="missed" data-hits="0" data-linenumber="945">
           
           
           <code class="ruby">            if tagList.length() == 0 then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="945">
+        <li class="missed" data-hits="0" data-linenumber="946">
           
           
           <code class="ruby">                @@db.execute query, bookmarkID</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="946">
+        <li class="missed" data-hits="0" data-linenumber="947">
           
           
           <code class="ruby">                return true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="947">
+        <li class="never" data-hits="" data-linenumber="948">
           
           
           <code class="ruby">            else </code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="948">
+        <li class="missed" data-hits="0" data-linenumber="949">
           
           
           <code class="ruby">                for i in 0...tagList.length()</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="949">
+        <li class="missed" data-hits="0" data-linenumber="950">
           
           
           <code class="ruby">                    if !Bookmarks.deleteTagBookmarkLink(tagList[i][:tag_ID],bookmarkID) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="950">
+        <li class="missed" data-hits="0" data-linenumber="951">
           
           
           <code class="ruby">                        return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="951">
+        <li class="never" data-hits="" data-linenumber="952">
           
           
           <code class="ruby">                    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="952">
+        <li class="never" data-hits="" data-linenumber="953">
           
           
           <code class="ruby">                end</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="953">
-          
-          
-          <code class="ruby">                if Bookmarks.deleteAllBookmarkTags(tagList, bookmarkID) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="954">
           
           
-          <code class="ruby">                    @@db.execute query, bookmarkID</code>
+          <code class="ruby">                if Bookmarks.deleteAllBookmarkTags(tagList, bookmarkID) then</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="955">
           
           
-          <code class="ruby">                    return true</code>
+          <code class="ruby">                    @@db.execute query, bookmarkID</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="956">
+        <li class="missed" data-hits="0" data-linenumber="956">
           
           
-          <code class="ruby">                end</code>
+          <code class="ruby">                    return true</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="957">
           
           
-          <code class="ruby">            end</code>
+          <code class="ruby">                end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="958">
           
           
+          <code class="ruby">            end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="959">
+          
+          
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="959">
+        <li class="missed" data-hits="0" data-linenumber="960">
           
           
           <code class="ruby">        return false</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="960">
-          
-          
-          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="961">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="962">
           
           
-          <code class="ruby">    # =========== Update Statements =================</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="963">
           
           
+          <code class="ruby">    # =========== Update Statements =================</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="964">
+          
+          
           <code class="ruby">    # Change value for user&#39;s rating of bookmark </code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="964">
+        <li class="covered" data-hits="1" data-linenumber="965">
           <span class="hits">1</span>
           
           <code class="ruby">    def Bookmarks.changeRating bookmarkID, userID, newValue, newDate</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="965">
+        <li class="missed" data-hits="0" data-linenumber="966">
           
           
           <code class="ruby">        if Bookmarks.isInteger(bookmarkID) &amp;&amp;  Bookmarks.isInteger(userID) then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="966">
+        <li class="missed" data-hits="0" data-linenumber="967">
           
           
           <code class="ruby">            query = &quot;UPDATE rating</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="967">
+        <li class="never" data-hits="" data-linenumber="968">
           
           
           <code class="ruby">                SET rating_value = ?,</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="968">
+        <li class="never" data-hits="" data-linenumber="969">
           
           
           <code class="ruby">                rating_created = ?</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="969">
+        <li class="never" data-hits="" data-linenumber="970">
           
           
           <code class="ruby">                WHERE bookmark_ID = ? AND rater_ID = ?;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="970">
+        <li class="missed" data-hits="0" data-linenumber="971">
           
           
           <code class="ruby">            @@db.execute query, newValue, newDate, bookmarkID, userID</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="971">
+        <li class="missed" data-hits="0" data-linenumber="972">
           
           
           <code class="ruby">            return true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="972">
+        <li class="never" data-hits="" data-linenumber="973">
           
           
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="973">
+        <li class="missed" data-hits="0" data-linenumber="974">
           
           
           <code class="ruby">        return false</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="974">
+        <li class="never" data-hits="" data-linenumber="975">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="975">
+        <li class="never" data-hits="" data-linenumber="976">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="976">
+        <li class="never" data-hits="" data-linenumber="977">
           
           
           <code class="ruby">end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="977">
+        <li class="never" data-hits="" data-linenumber="978">
           
           
           <code class="ruby"></code>

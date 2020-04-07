@@ -12,14 +12,14 @@
                 <form action="authenticate-user" method="post">
                     <div>
                         <span class="form-label">Email </span>
-                        <input class="form-input" type="email" name="user_email" required>
+                        <input id="user-email" class="form-input" type="text" name="user_email" required>
                     </div>
                     <div>
                         <span class="form-label">Password </span>
-                        <input class="form-input" type="password" name="user_password" required>
+                        <input id="user-password" class="form-input" type="password" name="user_password" required>
                         
                     </div>
-                    <input class="submission-button" type="submit" value="Login"><%if(!@error.nil?) then%><span class="login-error-message"><%= @error%> <span><%end%>
+                    <input id="submit-login" class="submission-button" type="submit" value="Login"><%if(!@error.nil?) then%><span class="login-error-message"><%= @error%> <span><%end%>
                 </form>
             </section>
         </main>

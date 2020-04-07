@@ -13,13 +13,13 @@
             <div> 
                 <% if session[:userID] == -1 %>
                     <ul>
-                        <li onclick="window.location='registration'">Register</li>
-                        <li onclick="window.location='login'">Login</li>
+                        <a href="/registration"><li>Register</li></a>
+                        <a href="/login"><li>Login</li></a>
                     </ul>
                 <% else %>
                     <ul>
-                        <li onclick="window.location='profilePage'">Profile</li>
-                        <li onclick="window.location='newBookmark'">Create Bookmark</li>
+                        <a href="/profilePage"><li>Profile</li></a>
+                        <a href="/newBookmark"><li>Create Bookmark</li></a>
                     </ul>
                 <% end %>
             </div>

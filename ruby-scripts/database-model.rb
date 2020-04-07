@@ -16,6 +16,13 @@ module Bookmarks
         @@db.results_as_hash = true
     end 
 
+    #===Execute Override===
+    #(Only to be used for the testing and database resets.)
+
+    def Bookmarks.execute query
+        return @@db.execute query
+    end
+
     #===Queries methods===
 
     #Retursns list of bookmarks with titles containing param search
@@ -723,10 +730,11 @@ module Bookmarks
             query = "INSERT INTO users(user_email, user_displayName, user_department,
                     user_password, user_type, user_suspended)
                     VALUES (?, ?, ?, ?, ?, ?);"
-            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password),USER_STRING,0
+            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password), UNVERIFIED_STRING, 0
             return true
         end 
     end
+    
     # Insert admin user's details when registering account
     def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password)
         if !Bookmarks.isUniqueValue('users','user_email',uEmail) then

@@ -56,6 +56,10 @@ def changeRating bookmarkID, userID, value
     return Bookmarks.changeRating bookmarkID, userID, value.to_i, Time.now.strftime("%d/%m/%Y")
 end 
 
+def addComment bookmarkID, userID, comment
+    return Bookmarks.addComment bookmarkID, userID, comment, Time.now.strftime("%d/%m/%Y")
+end
+
 def newBookmark userID, title, link, desc
     title = nil if title == ""
     link = nil if link == ""

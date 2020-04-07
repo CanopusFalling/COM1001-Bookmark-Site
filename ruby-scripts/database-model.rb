@@ -612,7 +612,25 @@ module Bookmarks
         return false
     end
 
-
+    def Bookmarks.getComments bookmarkID 
+        if Bookmarks.isInteger(bookmarkID) then
+            query = "SELECT comment_details AS details,
+                    date_created AS date,
+                    user_displayName AS displayName
+                    FROM comment JOIN users
+                    ON commenter_ID = user_ID
+                    WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID 
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
+            result.map{|row| row.transform_keys!(&:to_sym)}
+            return result
+        end
+        return false
+    end
 
     #Returns table names in current database in an array
     def Bookmarks.getTableNames

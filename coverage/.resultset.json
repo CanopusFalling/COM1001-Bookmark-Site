@@ -1,7 +1,7 @@
 {
   "Cucumber Features": {
     "coverage": {
-      "/Users/kent_sam/Documents/COM1001-group-project/bookmark-site.rb": [
+      "/home/codio/workspace/project/bookmark-site.rb": [
         null,
         1,
         1,
@@ -262,7 +262,7 @@
         0,
         null
       ],
-      "/Users/kent_sam/Documents/COM1001-group-project/ruby-scripts/database-model.rb": [
+      "/home/codio/workspace/project/ruby-scripts/database-model.rb": [
         1,
         1,
         null,
@@ -1242,7 +1242,7 @@
         null,
         null
       ],
-      "/Users/kent_sam/Documents/COM1001-group-project/user-authentication.rb": [
+      "/home/codio/workspace/project/user-authentication.rb": [
         1,
         1,
         1,
@@ -1274,7 +1274,7 @@
         null,
         null
       ],
-      "/Users/kent_sam/Documents/COM1001-group-project/ruby-scripts/support-functions.rb": [
+      "/home/codio/workspace/project/ruby-scripts/support-functions.rb": [
         1,
         1,
         1,
@@ -1385,6 +1385,6 @@
         null
       ]
     },
-    "timestamp": 1586256086
+    "timestamp": 1586266009
   }
 }

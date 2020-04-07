@@ -11,7 +11,7 @@
 
         <main>
             <%= erb @message %>
-            <button  onclick = "history.go(-2)">Go back</button>
+            <a href="/"><button id="back-button">Go back</button></a>
         </main>
 
         <%= erb :footer %>

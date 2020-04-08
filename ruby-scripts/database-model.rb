@@ -767,9 +767,7 @@ module Bookmarks
     
     # Add bookmark details to the db
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
-        if !Bookmarks.isUniqueValue('bookmark','bookmark_link', bookmarkLink) then
-            return false      
-        elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
+        if Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
         elsif Bookmarks.idOutOfRange(creatorID.to_i,'user_ID','users') then
             return false

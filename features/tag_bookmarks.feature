@@ -20,7 +20,7 @@ Feature: Tagging Bookmarks
         Then I should see "Search for trees on google." within ".bookmark-description"
         Then I should see "by Testing User" within ".detailed-info"
         Then I should see "Rating: 0/5 (0)" within ".rating"
-        Then I should see "Search engines" within "main"
+        Then I should see "#Search engines" within ".tagDisplay"
 
     Scenario: Admin adds a google bookmark with the tag search engine
         Given I am on the homepage
@@ -43,7 +43,7 @@ Feature: Tagging Bookmarks
         Then I should see "Search for bees on google." within ".bookmark-description"
         Then I should see "by Testing User" within ".detailed-info"
         Then I should see "Rating: 0/5 (0)" within ".rating"
-        Then I should see "Search engines" within "main"
+        Then I should see "#Search engines" within ".tagDisplay"
 
     Scenario: User adds a bing bookmark with 2 tags
         Given I am on the homepage
@@ -67,5 +67,5 @@ Feature: Tagging Bookmarks
         Then I should see "Search for trees on bing." within ".bookmark-description"
         Then I should see "by Testing User" within ".detailed-info"
         Then I should see "Rating: 0/5 (0)" within ".rating"
-        Then I should see "Search engines" within "main"
-        Then I should see "Bearch engines" within "main"
+        Then I should see "#Search engines" within ".tagDisplay"
+        Then I should see "#Bad search engines" within ".tagDisplay"

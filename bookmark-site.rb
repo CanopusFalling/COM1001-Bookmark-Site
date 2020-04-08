@@ -157,6 +157,7 @@ get '/add-rating' do
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = erb :addRating
     @changeRating = nil
@@ -186,6 +187,7 @@ get '/change-rating' do
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = nil
     @changeRating = erb :changeRating

@@ -290,6 +290,32 @@ module Bookmarks
         return nil
 
     end
+
+    #Returns a name of a given tag
+    def Bookmarks.getTagName tagID
+        if tagID.is_a? Integer
+            query = "SELECT tag_name
+                    FROM tag
+                    WHERE tag_ID = ?;"
+            result = @@db.get_first_value query, tagID
+            
+            return result
+        end
+        return nil
+    end
+
+    #Returns names of tags the bookmark is tagged with
+    def Bookmarks.getBookmarkTagsNames bookmarkID
+        
+        if bookmarkID.is_a? Integer
+            tags = Bookmarks.getBookmarkTags bookmarkID
+            (0..(tags.length-1)).each do |i| 
+                tags[i] = Bookmarks.getTagName tags[i][:tag_ID]
+            end
+            return tags
+        end
+        return nil
+    end
     
     #Returns details of a user with given id
     #Params: id(integer) - an id of a user 

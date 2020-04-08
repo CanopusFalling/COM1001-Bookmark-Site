@@ -113,3 +113,7 @@ def reAssignTags newTags, currentTags, bookmarkId
         end
     end
 end
+
+def h(text)
+    Rack::Utils.escape_html(text)
+end

@@ -75,9 +75,8 @@ end
 
 # Search handling.
 get '/search' do
-    req = Rack::Request.new(env)
-    req.post?
-    @searchQuery = req.params["search_query"]
+
+    @searchQuery = params["search_query"]
 
     @results = Bookmarks.getHomepageData @searchQuery
     
@@ -269,9 +268,38 @@ post '/newBookmark' do
     @tags = extractTagsFromParams params
     @userID = session[:userID]
 
-    newBookmark @userID, @title, @link, @desc
-    redirect '/msg?msg=newBookmarkMsg' 
+    @newId = newBookmark @userID, @title, @link, @desc
+    if @newId 
+        assignTags @tags, @newId 
+        redirect '/msg?msg=newBookmarkMsg' 
+    end 
    
+end
+
+get '/edit-bookmark' do
+    if session[:userID] != -1 
+        @ID = params[:bookmarkID].to_i
+        if Bookmarks.isVerified session[:userID] 
+            if session[:userID] ==(Bookmarks.getBookmarkCreator @ID)
+                @details = Bookmarks.getGuestBookmarkDetails @ID
+                @title = @details[:details][:title]
+                @desc = @details[:details][:description]
+                @desc = "" if @desc.nil?
+                @desc.sub! '<', '\<'
+                @desc.sub! '>', '\>'
+                @link = @details[:details][:link]
+                @tagList = Bookmarks.getTagNames
+                @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
+                erb :editBookmark
+            else
+                redirect '/'
+            end
+        else
+            redirect '/'
+        end
+    else
+        redirect '/'
+    end
 end
 
 get '/delete-bookmark' do 

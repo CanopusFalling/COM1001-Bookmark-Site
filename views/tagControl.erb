@@ -10,8 +10,8 @@
                 <ul id = "tagList">
                     <%@tagList.each do |name|%>
                         <li class = "tagItem">
-                            <input type ="checkbox" id="<%="#{name}_tag"%>" onclick = "clickedTag('<%=name%>')" <%if @checked && (@checked.include? name)%>checked<%end%>>
-                            <label for="<%="#{name}_tag"%>"><%=name%></label>
+                            <input type ="checkbox" id="<%=h "#{name}_tag"%>" onclick = "clickedTag('<%=h name%>')" <%if @checked && (@checked.include? name)%>checked<%end%>>
+                            <label for="<%="#{name}_tag"%>"><%=h name%></label>
                         </li>
                     <%end%>
                 </ul>
@@ -27,7 +27,7 @@
     <!-- list of hidden inputs that wil be read by the server using numOfTags
          Representing the list of chosen tags-->
     <%(0..(@checked ? @checked.length-1 : -1)).each do |i|%>
-    <input type="hidden" name = "tagNo<%=i%>" value = <%=@checked[i]%>>
+    <input type="hidden" name = "tagNo<%=i%>" value = <%=h @checked[i]%>>
     <%end%>
 
 </section>

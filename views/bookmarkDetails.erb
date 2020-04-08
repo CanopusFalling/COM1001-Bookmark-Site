@@ -27,6 +27,14 @@
                         <%= @addRating%>
                         <%= @changeRating%>
                     </div>
+                    <!-- If bookmark what tagged with any tags display them-->
+                    <%if @tags.length >0%>
+                    <div class="tagDisplay">
+                        <%@tags.each do |tag|%>
+                            <a class = "tagLink" href="/search?search_query=''&showTag='<%= tag[:name]%>'">#<%= tag[:name]%></a>
+                        <%end%>
+                    </div>
+                    <%end%>
                     <!-- Editing Buttons. -->
                     <div class="edit-buttons">
                         <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="openInNewTab('http:\/\/<%= @link%>')">

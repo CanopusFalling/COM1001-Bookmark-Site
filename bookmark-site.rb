@@ -249,17 +249,21 @@ end
 get '/edit-bookmark' do
     if session[:userID] != -1 
         @ID = params[:bookmarkID].to_i
-        if Bookmarks.isVerified session[:userID] #&& session[:userID] == (Bookmarks.getBookmarkCreator @ID)
-            @details = Bookmarks.getGuestBookmarkDetails @ID
-            @title = @details[:details][:title]
-            @desc = @details[:details][:description]
-            @desc = "" if @desc.nil?
-            @desc.sub! '<', '\<'
-            @desc.sub! '>', '\>'
-            @link = @details[:details][:link]
-            @tagList = Bookmarks.getTagNames
-            @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
-            erb :editBookmark
+        if Bookmarks.isVerified session[:userID] 
+            if session[:userID] ==(Bookmarks.getBookmarkCreator @ID)
+                @details = Bookmarks.getGuestBookmarkDetails @ID
+                @title = @details[:details][:title]
+                @desc = @details[:details][:description]
+                @desc = "" if @desc.nil?
+                @desc.sub! '<', '\<'
+                @desc.sub! '>', '\>'
+                @link = @details[:details][:link]
+                @tagList = Bookmarks.getTagNames
+                @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
+                erb :editBookmark
+            else
+                redirect '/'
+            end
         else
             redirect '/'
         end

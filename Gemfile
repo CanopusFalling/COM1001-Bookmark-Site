@@ -17,3 +17,5 @@ gem 'simplecov'
 gem 'minitest'
 
 gem 'rake'
+
+gem 'sqlite3'

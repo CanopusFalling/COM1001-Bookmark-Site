@@ -614,8 +614,11 @@ module Bookmarks
 
     def Bookmarks.getComments bookmarkID 
         if Bookmarks.isInteger(bookmarkID) then
-            query = "SELECT comment_details AS details,
+            query = "SELECT comment_ID AS ID,
+                    commenter_ID AS commenter,
+                    comment_details AS details,
                     date_created AS date,
+                    date_deleted AS deleted,
                     user_displayName AS displayName
                     FROM comment JOIN users
                     ON commenter_ID = user_ID
@@ -991,6 +994,18 @@ module Bookmarks
                     return true
                 end
             end
+        end
+        return false
+    end
+
+    # Mark comment as deleted
+    def Bookmarks.deleteComment commentID, date
+        if Bookmarks.isInteger commentID then
+            query = "UPDATE comment
+                    SET date_deleted = ?
+                    WHERE comment_ID = ?;"
+            @@db.execute query, date, commentID
+            return true
         end
         return false
     end

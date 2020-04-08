@@ -1,8 +1,10 @@
 <div class="comment-box">
     <%comments.each do |comment|%>
     <div class="individual-comment">
-        <h4 class="comment-header"><%= comment[:displayName]%> - <%= comment[:date]%></h4>
-        <p class="comment-details"><%= comment[:details]%></p>
+        <% if comment[:deleted] == nil %>
+            <h4 class="comment-header"><%= comment[:displayName]%> - <%= comment[:date]%></h4>
+            <p class="comment-details"><%= comment[:details]%></p>
+        <%end%>
     </div>
     <%end%>
 </div>

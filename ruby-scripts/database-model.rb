@@ -616,6 +616,7 @@ module Bookmarks
         if Bookmarks.isInteger(bookmarkID) then
             query = "SELECT comment_details AS details,
                     date_created AS date,
+                    date_deleted AS deleted,
                     user_displayName AS displayName
                     FROM comment JOIN users
                     ON commenter_ID = user_ID

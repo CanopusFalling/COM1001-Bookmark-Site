@@ -81,7 +81,7 @@ get '/search' do
 
     @fullResults = Bookmarks.getHomepageData @searchQuery
     @tagList = Bookmarks.getTagNames
-    @checked = extractTagsFromParams params
+    @checked = params[:showTag] ? [params[:showTag]] : (extractTagsFromParams params)
     
     if(@fullResults.length != 0) then
         @results = filterAgainstTags @fullResults, @checked

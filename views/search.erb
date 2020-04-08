@@ -19,7 +19,7 @@
 
             <section class = "central-form" id="advanced-search-form">
                 <form>
-                    <%= erb :tagControl%>
+                    <%= erb :tagControlOnlyList%>
                     <input type = "hidden" name="search_query" value = <%=params[:search_query]%>>
                     <input type = "submit" class = "submission-button" value = "Refine Search">
                 </form>

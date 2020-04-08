@@ -19,7 +19,7 @@
                         <input id="user-password" class="form-input" type="password" name="user_password" required>
                         
                     </div>
-                    <input id="submit-login" class="submission-button" type="submit" value="Login"><%if(!@error.nil?) then%><span class="login-error-message"><%= @error%> <span><%end%>
+                    <input id="submit-login" class="submission-button" type="submit" value="Login"><%if(!@error.nil?) then%><span class="login-error-message"><%=h @error%> <span><%end%>
                 </form>
             </section>
         </main>

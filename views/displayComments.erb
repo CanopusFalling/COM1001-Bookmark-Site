@@ -1,8 +1,8 @@
 <div class="comment-box">
     <%comments.each do |comment|%>
     <div class="individual-comment">
-        <h4 class="comment-header"><%= comment[:displayName]%> - <%= comment[:date]%></h4>
-        <p class="comment-details"><%= comment[:details]%></p>
+        <h4 class="comment-header"><%=h comment[:displayName]%> - <%=h comment[:date]%></h4>
+        <p class="comment-details"><%=h comment[:details]%></p>
     </div>
     <%end%>
 </div>

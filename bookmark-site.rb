@@ -75,9 +75,8 @@ end
 
 # Search handling.
 get '/search' do
-    req = Rack::Request.new(env)
-    req.post?
-    @searchQuery = req.params["search_query"]
+
+    @searchQuery = params["search_query"]
 
     @results = Bookmarks.getHomepageData @searchQuery
     

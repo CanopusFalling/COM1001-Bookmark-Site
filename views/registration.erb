@@ -12,19 +12,19 @@
             <section class="central-form" id="frame_container">
                 <!-- the action needs to be defined -->
                 <form method="post">
-                    <div class="login-error-message" id="error_message"><%= @error_msg%></div>
+                    <div class="login-error-message" id="error_message"><%=h @error_msg%></div>
                     <div>
                         <span class="form-label">Display name:</span>
-                        <input id="display-name" class="form-input" type="text" placeholder="Enter your preferred name.."  value="<%= @displayName%>" name="displayName">
+                        <input id="display-name" class="form-input" type="text" placeholder="Enter your preferred name.."  value="<%=h @displayName%>" name="displayName">
                     </div>
                     <div>
                     
                         <span class="form-label">Email*:</span>
-                        <input id="user-email" class="form-input" type="email" placeholder="Enter your email.." value="<%= @email%>" name="email" required>
+                        <input id="user-email" class="form-input" type="email" placeholder="Enter your email.." value="<%=h @email%>" name="email" required>
                     </div>
                     <div>
                         <span class="form-label">Confirm email*:</span>
-                        <input id="confirm-user-email" class="form-input" type="email" placeholder="Confirm your email.." value="<%= @email_valid%>" name="email_validation" required>
+                        <input id="confirm-user-email" class="form-input" type="email" placeholder="Confirm your email.." value="<%=h @email_valid%>" name="email_validation" required>
 
                     </div>
 

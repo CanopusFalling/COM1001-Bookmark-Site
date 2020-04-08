@@ -160,6 +160,13 @@ get '/add-rating' do
     @addRating = erb :addRating
     @changeRating = nil
     @rateCount = Bookmarks.getRatingCount(@ID)
+    @comments = Bookmarks.getComments(@ID)
+    # Display comments if they exist
+    if @comments.length() > 0 then
+        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+    else
+        @displayComments = nil
+    end
 
     erb :bookmarkDetails
 end
@@ -189,6 +196,13 @@ get '/change-rating' do
     @addRating = nil
     @changeRating = erb :changeRating
     @rateCount = Bookmarks.getRatingCount(@ID)
+    @comments = Bookmarks.getComments(@ID)
+    # Display comments if they exist
+    if @comments.length() > 0 then
+        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+    else
+        @displayComments = nil
+    end
 
     erb :bookmarkDetails
 end
@@ -282,4 +296,8 @@ get '/testing' do
     @checked = ['tag0']
     @returnedTags = extractTagsFromParams params
     erb :test
+end 
+
+get '/adminMenu' do
+    erb :adminMenu
 end

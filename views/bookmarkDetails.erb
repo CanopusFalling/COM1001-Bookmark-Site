@@ -31,7 +31,7 @@
                     <%if @tags.length >0%>
                     <div class="tagDisplay">
                         <%@tags.each do |tag|%>
-                            <a class = "tagLink" href="/search?search_query=''&showTag='<%= tag[:name]%>'">#<%= tag[:name]%></a>
+                            <a class = "tagLink" href="/search?search_query=&showTag='<%= tag[:name]%>'">#<%= tag[:name]%></a>
                         <%end%>
                     </div>
                     <%end%>

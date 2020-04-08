@@ -239,8 +239,11 @@ post '/newBookmark' do
     @tags = extractTagsFromParams params
     @userID = session[:userID]
 
-    newBookmark @userID, @title, @link, @desc
-    redirect '/msg?msg=newBookmarkMsg' 
+    @newId = newBookmark @userID, @title, @link, @desc
+    if @newId 
+        assignTags @tags, @newId 
+        redirect '/msg?msg=newBookmarkMsg' 
+    end 
    
 end
 

@@ -1,8 +1,15 @@
 <div class="comment-box">
     <%comments.each do |comment|%>
     <div class="individual-comment">
-        <h4 class="comment-header"><%= comment[:displayName]%> - <%= comment[:date]%></h4>
-        <p class="comment-details"><%= comment[:details]%></p>
+        <% if comment[:deleted] == nil %>
+            <div class="comment-header">
+                <h4><%= comment[:displayName]%> - <%= comment[:date]%></h4>
+                <% if comment[:commenter] == session[:userID] %>
+                    <img class= "edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-comment?commentID=<%= comment[:ID]%>'">
+                <%end%>
+            </div>
+            <p class="comment-details"><%= comment[:details]%></p>
+        <%end%>
     </div>
     <%end%>
 </div>

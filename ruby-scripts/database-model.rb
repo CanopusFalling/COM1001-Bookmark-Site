@@ -681,7 +681,7 @@ module Bookmarks
             return result
         end
         return Array.new
-    end
+    end 
 
     
     #Checks if value passed exists in a database

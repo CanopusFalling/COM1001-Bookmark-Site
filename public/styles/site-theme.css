@@ -188,6 +188,43 @@
         text-align: end;
     }
 
+    /* ===== Verify user table ====== */
+    .user-displayName{
+        margin: 0px;
+        padding: 4px 4px;
+        min-width: 60%;
+    }
+
+    .user-email{
+        margin: 0px;
+        padding: 2px 6px;
+        justify-content: center;
+        border-left: 1px solid white;
+        min-width: 50%;
+    }
+
+    .user-department{
+        border-left: 1px solid white;
+        min-width: 40%;
+    }
+
+    .verify-buttons{
+        display: flex;
+        justify-content: flex-end;
+        right: 0px;
+        text-align: end;
+    }
+
+    .verify-buttons input{
+        border: none;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .verify-buttons input:hover{
+        background-color: rgba(100, 100, 100, 0.7);
+    }
+
     /* ===== bookmark spesifics ===== */
     main section.item-details{
         width: 60%;

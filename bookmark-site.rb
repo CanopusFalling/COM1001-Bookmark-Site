@@ -317,3 +317,13 @@ end
 get '/adminMenu' do
     erb :adminMenu
 end
+
+get '/approve-users' do
+    @userList = Bookmarks.getUnverifiedList
+    if @userList.length() > 0 then
+        @unverifiedTable = erb :unverifiedTable, :locals => {:userList => @userList}
+        erb :approveUsers
+    else
+        redirect '/msg?msg=noUnverifiedMsg'
+    end
+end

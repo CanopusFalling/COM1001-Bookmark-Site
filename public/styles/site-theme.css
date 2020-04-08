@@ -252,6 +252,16 @@
         padding: 0px;
         background-image: none;
     }
+    main .item-details .bookmark-details .display-comments .comment-box .individual-comment .comment-header{
+        background-image: none;
+        display: flex;
+        flex-direction: row;
+        padding: 0px;
+    }
+    main .item-details .bookmark-details .display-comments .comment-box .individual-comment .comment-header img{
+        padding: 15px;
+    }
+
 
     /* Scrollbar style */
     ::-webkit-scrollbar {

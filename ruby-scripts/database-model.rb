@@ -614,7 +614,9 @@ module Bookmarks
 
     def Bookmarks.getComments bookmarkID 
         if Bookmarks.isInteger(bookmarkID) then
-            query = "SELECT comment_details AS details,
+            query = "SELECT comment_ID AS ID,
+                    commenter_ID AS commenter,
+                    comment_details AS details,
                     date_created AS date,
                     date_deleted AS deleted,
                     user_displayName AS displayName

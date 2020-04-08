@@ -243,6 +243,7 @@ post '/newBookmark' do
     @userID = session[:userID]
 
     @newId = newBookmark @userID, @title, @link, @desc
+    
     if @newId 
         assignTags @tags, @newId 
         redirect '/msg?msg=newBookmarkMsg' 

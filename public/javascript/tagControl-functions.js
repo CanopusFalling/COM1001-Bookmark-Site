@@ -84,7 +84,7 @@ function addTag() {
 function clickedTag(name) {
 	var counter = document.getElementsByName("numOfTags")[0];
 	var count = counter.value;
-	var tagControl = document.getElementById("tagControl");
+	var tagControl = document.getElementsByClassName("tagControl")[0];
 
 	var found = false;
 	//check if tag was on the list

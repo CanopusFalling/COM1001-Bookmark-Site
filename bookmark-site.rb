@@ -233,6 +233,22 @@ post '/add-comment' do
     end
 end
 
+get '/delete-comment' do
+    @commentID = params[:commentID]
+    @userID = session[:userID]
+    erb :deleteComment
+end
+
+post '/delete-comment' do
+    @commentID = params[:commentID]
+    @userID = session[:userID]
+
+    if deleteComment @commentID then
+        redirect '/msg?msg=commentDeleted'
+    end
+end
+
+
 get '/newBookmark' do
     if session[:userID] != -1 
         if Bookmarks.isVerified session[:userID]

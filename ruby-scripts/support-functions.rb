@@ -60,6 +60,9 @@ def addComment bookmarkID, userID, comment
     return Bookmarks.addComment bookmarkID, userID, comment, Time.now.strftime("%d/%m/%Y")
 end
 
+def deleteComment commentID
+    return Bookmarks.deleteComment commentID, Time.now.strftime("%d/%m/%Y")
+end
 def newBookmark userID, title, link, desc
     title = nil if title == ""
     link = nil if link == ""

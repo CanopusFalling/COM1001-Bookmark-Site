@@ -981,6 +981,18 @@ module Bookmarks
         return false
     end
 
+    # Mark comment as deleted
+    def Bookmarks.deleteComment commentID, date
+        if Bookmarks.isInteger commentID then
+            query = "UPDATE comment
+                    SET date_deleted = ?
+                    WHERE comment_ID = ?;"
+            @@db.execute query, date, commentID
+            return true
+        end
+        return false
+    end
+
     # =========== Update Statements =================
     # Change value for user's rating of bookmark 
     def Bookmarks.changeRating bookmarkID, userID, newValue, newDate

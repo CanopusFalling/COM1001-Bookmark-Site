@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <%= erb :head%>
+    </head> 
+
+    <body>
+        
+        <%= erb :header %>
+
+        <main>
+            <section class="central-form">
+                <div class="admin-menu">
+                    <ul>
+                        <a href="/adminMenu"><li>Approve Users</li></a>
+                        <a href="/reportedBookmarks"><li>Reported Bookmarks</li></a>
+                        <a href="/suspendedAccounts"><li>Suspended Accounts</li></a>
+                        <a href="/suspendedUsers"><li>Suspended Users</li></a>
+                        <a href="/resetPasswords"><li>Reset User Passwords</li></a>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+
+         <%= erb :footer %>
+    </body>
+
+</html>

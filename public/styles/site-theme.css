@@ -343,4 +343,33 @@
         align-items: center;
         color: red;
     }
+
+    /* ========= Admin Menu Styles ========= */
+    main .admin-menu{
+        width: 50%;
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    main .admin-menu ul {
+        padding: 15px 50px;
+        margin: auto;
+        list-style: none;
+        width: 100%;
+        text-align:center;
+    }
+
+    main .admin-menu ul li {
+        padding: 6px 8px;
+        margin: auto 2px;
+        background-color: rgba(0, 0, 0, 0.7);
+        font-size: 1.6em;
+        width: 100%;
+        margin: auto;
+    }
+
+    main .admin-menu ul li:hover{
+        background-color: rgba(100, 100,100, 0.9);
+    }
 }

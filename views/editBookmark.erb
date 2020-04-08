@@ -1,0 +1,46 @@
+<html>
+
+    <head>
+        <%= erb :head%>
+    </head>
+
+    <!-- Site Structure -->
+
+    <body>
+        
+        <%=erb :header%>
+
+        <main>
+            <section class="central-form">
+
+                <h2>Edit <%=@title %> bookmark</h3>
+                <form method="post">
+                    <div>
+                    
+                        <span class="form-label">Title:</span>
+                        <input id="bookmark-title" class="form-input" type="text" name="title" placeholder="Enter bookmark title..." value=<%=@title %> required>
+                    
+                    </div>
+
+                    <div>
+                        <span class = "form-label">Link:</span> 
+                        <input id="bookmark-link" class="form-input" type="link" name="link" placeholder="Enter bookmark link..." value=<%=@link %>>
+                    </div>
+
+                    <div>
+                        <span class="form-label">Description:</span>
+                        <textarea id="bookmark-description" class="form-input" name="desc" cols="50" rows="4" placeholder="Enter bookmark description..." ><%=@desc%></textarea>
+                    </div>
+                    <%= erb :tagControl%>
+                    
+                    <input id="edit-bookmark" type="submit" class="submission-button" value="Edit">
+                    <input type="button" class="submission-button" value="Cancel" onclick="history.back()">
+
+                    
+                </form>
+            </section>
+        </main>
+
+        <%= erb :footer%>
+    </body>
+</html>

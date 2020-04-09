@@ -1,5 +1,6 @@
 Feature: register new user
     Scenario: register user with valid credentials.
+        Given database is reset
         Given I am on the homepage.
         When I follow "Register" within "header"
         When I fill in "display-name" with "Added By Testing User" within "section"

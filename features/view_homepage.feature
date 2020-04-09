@@ -1,4 +1,5 @@
 Feature: view homepage
-    Scenario: openes website
+    Scenario: opens website
+        Given database is reset
         Given I am on the homepage
         Then I should be on the homepage

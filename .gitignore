@@ -1,2 +1,3 @@
-database/bookmark-website.db
-database/test.db
+/database/bookmark-website.db
+/database/test.db
+coverage/*

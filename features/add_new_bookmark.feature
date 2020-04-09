@@ -1,5 +1,6 @@
 Feature: Adding bookmarks
     Scenario: Adding bookmarks as default user
+        Given database is reset
         Given I am on the homepage
         When I follow "Login" within "header"
         When I fill in "user-email" with "user" within "section"

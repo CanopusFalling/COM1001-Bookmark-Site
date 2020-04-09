@@ -212,18 +212,18 @@
         padding: 2px 6px;
     }
 
-    .verify-buttons{
+    .verify-buttons, #unverified-users-table a{
         display: flex;
         justify-content: flex-end;
         right: 0px;
         text-align: end;
-    }
+	}
 
     .verify-buttons input{
         border: none;
         color: white;
         background-color: rgba(0, 0, 0, 0.7);
-    }
+	}
 
     .verify-buttons input:hover{
         background-color: rgba(100, 100, 100, 0.7);

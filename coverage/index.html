@@ -14,18 +14,18 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2020-04-09T14:00:07+01:00">2020-04-09T14:00:07+01:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2020-04-09T22:03:31+01:00">2020-04-09T22:03:31+01:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">50.33%</span></span>
+    (<span class="covered_percent"><span class="red">52.84%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         15.89
+         17.85
        </span>
     </span> hits/line)
   </h2>
@@ -33,8 +33,8 @@
   <div>
     <b>4</b> files in total.
     <b>757</b> relevant lines. 
-    <span class="green"><b>381</b> lines covered</span> and
-    <span class="red"><b>376</b> lines missed </span>
+    <span class="green"><b>400</b> lines covered</span> and
+    <span class="red"><b>357</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -52,22 +52,22 @@
       
       <tr>
         <td class="strong"><a href="#d89de5df4852d322d3de5bda618474fd39263144" class="src_link" title="bookmark-site.rb">bookmark-site.rb</a></td>
-        <td class="red strong">51.44 %</td>
+        <td class="red strong">55.77 %</td>
         <td>344</td>
         <td>208</td>
-        <td>107</td>
-        <td>101</td>
-        <td>2.7</td>
+        <td>116</td>
+        <td>92</td>
+        <td>3.1</td>
       </tr>
       
       <tr>
         <td class="strong"><a href="#703ecdb1f4b684a00a12a165224c5049c8a7afad" class="src_link" title="ruby-scripts/database-model.rb">ruby-scripts/database-model.rb</a></td>
-        <td class="red strong">45.87 %</td>
+        <td class="red strong">48.04 %</td>
         <td>1040</td>
         <td>460</td>
-        <td>211</td>
-        <td>249</td>
-        <td>24.4</td>
+        <td>221</td>
+        <td>239</td>
+        <td>27.4</td>
       </tr>
       
       <tr>
@@ -87,7 +87,7 @@
         <td>20</td>
         <td>18</td>
         <td>2</td>
-        <td>4.9</td>
+        <td>5.9</td>
       </tr>
       
     </tbody>
@@ -109,11 +109,11 @@
         <div class="source_table" id="d89de5df4852d322d3de5bda618474fd39263144">
   <div class="header">
     <h3>bookmark-site.rb</h3>
-    <h4><span class="red">51.44 %</span> covered</h4>
+    <h4><span class="red">55.77 %</span> covered</h4>
     <div>
       <b>208</b> relevant lines. 
-      <span class="green"><b>107</b> lines covered</span> and
-      <span class="red"><b>101</b> lines missed.</span>
+      <span class="green"><b>116</b> lines covered</span> and
+      <span class="red"><b>92</b> lines missed.</span>
     </div>
   </div>
   
@@ -198,14 +198,14 @@
           <code class="ruby">before do</code>
         </li>
       
-        <li class="covered" data-hits="97" data-linenumber="14">
-          <span class="hits">97</span>
+        <li class="covered" data-hits="116" data-linenumber="14">
+          <span class="hits">116</span>
           
           <code class="ruby">    if !session[:userID] </code>
         </li>
       
-        <li class="covered" data-hits="26" data-linenumber="15">
-          <span class="hits">26</span>
+        <li class="covered" data-hits="28" data-linenumber="15">
+          <span class="hits">28</span>
           
           <code class="ruby">        session[:userID] = -1</code>
         </li>
@@ -252,14 +252,14 @@
           <code class="ruby">    </code>
         </li>
       
-        <li class="covered" data-hits="38" data-linenumber="23">
-          <span class="hits">38</span>
+        <li class="covered" data-hits="43" data-linenumber="23">
+          <span class="hits">43</span>
           
           <code class="ruby">    @results = Bookmarks.getHomepageDataAll</code>
         </li>
       
-        <li class="covered" data-hits="38" data-linenumber="24">
-          <span class="hits">38</span>
+        <li class="covered" data-hits="43" data-linenumber="24">
+          <span class="hits">43</span>
           
           <code class="ruby">    erb :index</code>
         </li>
@@ -282,14 +282,14 @@
           <code class="ruby">get &#39;/login&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="28">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="28">
+          <span class="hits">11</span>
           
           <code class="ruby">    if session[:userID] == -1 </code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="29">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="29">
+          <span class="hits">11</span>
           
           <code class="ruby">        erb :loginpage</code>
         </li>
@@ -342,26 +342,26 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="38">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="38">
+          <span class="hits">11</span>
           
           <code class="ruby">    @login = params[:user_email]</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="39">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="39">
+          <span class="hits">11</span>
           
           <code class="ruby">    @password = params[:user_password]</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="40">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="40">
+          <span class="hits">11</span>
           
           <code class="ruby">    @result = UserAuthentication.check @login , @password</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="41">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="41">
+          <span class="hits">11</span>
           
           <code class="ruby">    @error=&quot;&quot;</code>
         </li>
@@ -372,8 +372,8 @@
           <code class="ruby">    </code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="43">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="43">
+          <span class="hits">11</span>
           
           <code class="ruby">    if @result == -1</code>
         </li>
@@ -384,8 +384,8 @@
           <code class="ruby">        @error = &quot;Invalid login or password&quot;</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="45">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="45">
+          <span class="hits">11</span>
           
           <code class="ruby">    elsif @result == &quot;Suspended&quot;</code>
         </li>
@@ -396,8 +396,8 @@
           <code class="ruby">        redirect &#39;/msg?msg=suspended&#39;</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="47">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="47">
+          <span class="hits">11</span>
           
           <code class="ruby">    elsif @result == &quot;Unverified&quot;</code>
         </li>
@@ -414,14 +414,14 @@
           <code class="ruby">    else</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="50">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="8" data-linenumber="50">
+          <span class="hits">8</span>
           
           <code class="ruby">        session[:userID] = @result</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="51">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="8" data-linenumber="51">
+          <span class="hits">8</span>
           
           <code class="ruby">        redirect &#39;/&#39;</code>
         </li>
@@ -2040,8 +2040,8 @@
           <code class="ruby">get &#39;/adminMenu&#39; do</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="321">
-          
+        <li class="covered" data-hits="3" data-linenumber="321">
+          <span class="hits">3</span>
           
           <code class="ruby">    erb :adminMenu</code>
         </li>
@@ -2064,26 +2064,26 @@
           <code class="ruby">get &#39;/approve-users&#39; do</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="325">
-          
+        <li class="covered" data-hits="3" data-linenumber="325">
+          <span class="hits">3</span>
           
           <code class="ruby">    @userList = Bookmarks.getUnverifiedList</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="326">
-          
+        <li class="covered" data-hits="3" data-linenumber="326">
+          <span class="hits">3</span>
           
           <code class="ruby">    if @userList.length() &gt; 0 then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="327">
-          
+        <li class="covered" data-hits="3" data-linenumber="327">
+          <span class="hits">3</span>
           
           <code class="ruby">        @unverifiedTable = erb :unverifiedTable, :locals =&gt; {:userList =&gt; @userList}</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="328">
-          
+        <li class="covered" data-hits="3" data-linenumber="328">
+          <span class="hits">3</span>
           
           <code class="ruby">        erb :approveUsers</code>
         </li>
@@ -2124,14 +2124,14 @@
           <code class="ruby">get &#39;/verify-user&#39; do</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="335">
-          
+        <li class="covered" data-hits="2" data-linenumber="335">
+          <span class="hits">2</span>
           
           <code class="ruby">    @userID = params[:userID]</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="336">
-          
+        <li class="covered" data-hits="2" data-linenumber="336">
+          <span class="hits">2</span>
           
           <code class="ruby">    erb :confirmVerification</code>
         </li>
@@ -2154,14 +2154,14 @@
           <code class="ruby">post &#39;/verify-user&#39; do</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="340">
-          
+        <li class="covered" data-hits="2" data-linenumber="340">
+          <span class="hits">2</span>
           
           <code class="ruby">    @userID = params[:userID]</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="341">
-          
+        <li class="covered" data-hits="2" data-linenumber="341">
+          <span class="hits">2</span>
           
           <code class="ruby">    if Bookmarks.verifyUser(@userID) then</code>
         </li>
@@ -2192,11 +2192,11 @@
         <div class="source_table" id="703ecdb1f4b684a00a12a165224c5049c8a7afad">
   <div class="header">
     <h3>ruby-scripts/database-model.rb</h3>
-    <h4><span class="red">45.87 %</span> covered</h4>
+    <h4><span class="red">48.04 %</span> covered</h4>
     <div>
       <b>460</b> relevant lines. 
-      <span class="green"><b>211</b> lines covered</span> and
-      <span class="red"><b>249</b> lines missed.</span>
+      <span class="green"><b>221</b> lines covered</span> and
+      <span class="red"><b>239</b> lines missed.</span>
     </div>
   </div>
   
@@ -2419,20 +2419,20 @@
           <code class="ruby">    def Bookmarks.getHomepageData search</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="37">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="51" data-linenumber="37">
+          <span class="hits">51</span>
           
           <code class="ruby">        result = nil</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="38">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="51" data-linenumber="38">
+          <span class="hits">51</span>
           
           <code class="ruby">        if search</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="39">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="51" data-linenumber="39">
+          <span class="hits">51</span>
           
           <code class="ruby">            query = &quot;SELECT * FROM bookmark_list</code>
         </li>
@@ -2443,8 +2443,8 @@
           <code class="ruby">                    WHERE title LIKE ?;&quot;  </code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="41">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="51" data-linenumber="41">
+          <span class="hits">51</span>
           
           <code class="ruby">            result = @@db.execute query, &quot;%#{search}%&quot;</code>
         </li>
@@ -2455,20 +2455,20 @@
           <code class="ruby">            #result.map{|row| row.transform_keys!(&amp;:to_sym)}</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="43">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="51" data-linenumber="43">
+          <span class="hits">51</span>
           
           <code class="ruby">            result.each do |row|</code>
         </li>
       
-        <li class="covered" data-hits="774" data-linenumber="44">
-          <span class="hits">774</span>
+        <li class="covered" data-hits="869" data-linenumber="44">
+          <span class="hits">869</span>
           
           <code class="ruby">                for i in 0..(row.length()/2)</code>
         </li>
       
-        <li class="covered" data-hits="2322" data-linenumber="45">
-          <span class="hits">2322</span>
+        <li class="covered" data-hits="2607" data-linenumber="45">
+          <span class="hits">2607</span>
           
           <code class="ruby">                    row.delete(i)</code>
         </li>
@@ -2479,26 +2479,26 @@
           <code class="ruby">                end</code>
         </li>
       
-        <li class="covered" data-hits="774" data-linenumber="47">
-          <span class="hits">774</span>
+        <li class="covered" data-hits="869" data-linenumber="47">
+          <span class="hits">869</span>
           
           <code class="ruby">                row.transform_keys!(&amp;:to_sym)</code>
         </li>
       
-        <li class="covered" data-hits="774" data-linenumber="48">
-          <span class="hits">774</span>
+        <li class="covered" data-hits="869" data-linenumber="48">
+          <span class="hits">869</span>
           
           <code class="ruby">                row.each do |key,value|</code>
         </li>
       
-        <li class="covered" data-hits="3870" data-linenumber="49">
-          <span class="hits">3870</span>
+        <li class="covered" data-hits="4345" data-linenumber="49">
+          <span class="hits">4345</span>
           
           <code class="ruby">                    if row[key] == nil</code>
         </li>
       
-        <li class="covered" data-hits="773" data-linenumber="50">
-          <span class="hits">773</span>
+        <li class="covered" data-hits="868" data-linenumber="50">
+          <span class="hits">868</span>
           
           <code class="ruby">                        row[key] = 0</code>
         </li>
@@ -2527,8 +2527,8 @@
           <code class="ruby">        end</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="55">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="51" data-linenumber="55">
+          <span class="hits">51</span>
           
           <code class="ruby">        return result</code>
         </li>
@@ -2587,8 +2587,8 @@
           <code class="ruby">    def Bookmarks.getHomepageDataAll</code>
         </li>
       
-        <li class="covered" data-hits="38" data-linenumber="65">
-          <span class="hits">38</span>
+        <li class="covered" data-hits="43" data-linenumber="65">
+          <span class="hits">43</span>
           
           <code class="ruby">        return Bookmarks.getHomepageData &quot;&quot;</code>
         </li>
@@ -2707,20 +2707,20 @@
           <code class="ruby">    def Bookmarks.getDetailsByEmail email</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="85">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="85">
+          <span class="hits">11</span>
           
           <code class="ruby">        result = nil</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="86">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="86">
+          <span class="hits">11</span>
           
           <code class="ruby">        if email</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="87">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="87">
+          <span class="hits">11</span>
           
           <code class="ruby">            query = &quot;SELECT </code>
         </li>
@@ -2761,8 +2761,8 @@
           <code class="ruby">                    WHERE user_email=?;&quot;</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="94">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="94">
+          <span class="hits">11</span>
           
           <code class="ruby">            result = @@db.execute query,email</code>
         </li>
@@ -2773,26 +2773,26 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="96">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="96">
+          <span class="hits">11</span>
           
           <code class="ruby">            if result.length &gt; 0</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="97">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="97">
+          <span class="hits">11</span>
           
           <code class="ruby">                result = result[0]</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="98">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="98">
+          <span class="hits">11</span>
           
           <code class="ruby">                for i in 0..(result.length()/2)</code>
         </li>
       
-        <li class="covered" data-hits="27" data-linenumber="99">
-          <span class="hits">27</span>
+        <li class="covered" data-hits="33" data-linenumber="99">
+          <span class="hits">33</span>
           
           <code class="ruby">                    result.delete(i)</code>
         </li>
@@ -2803,8 +2803,8 @@
           <code class="ruby">                end</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="101">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="101">
+          <span class="hits">11</span>
           
           <code class="ruby">                result.transform_keys!(&amp;:to_sym)</code>
         </li>
@@ -2833,8 +2833,8 @@
           <code class="ruby">        end</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="106">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="106">
+          <span class="hits">11</span>
           
           <code class="ruby">        return result</code>
         </li>
@@ -4345,8 +4345,8 @@
           <code class="ruby">    def Bookmarks.getUnverifiedList </code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="358">
-          
+        <li class="covered" data-hits="3" data-linenumber="358">
+          <span class="hits">3</span>
           
           <code class="ruby">        query = &quot;SELECT </code>
         </li>
@@ -4387,26 +4387,26 @@
           <code class="ruby">                WHERE user_type = ?;&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="365">
-          
+        <li class="covered" data-hits="3" data-linenumber="365">
+          <span class="hits">3</span>
           
           <code class="ruby">        result = @@db.execute query, UNVERIFIED_STRING</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="366">
-          
+        <li class="covered" data-hits="3" data-linenumber="366">
+          <span class="hits">3</span>
           
           <code class="ruby">        result.each do |row|</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="367">
-          
+        <li class="covered" data-hits="6" data-linenumber="367">
+          <span class="hits">6</span>
           
           <code class="ruby">            for i in 0..(row.length()/2)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="368">
-          
+        <li class="covered" data-hits="18" data-linenumber="368">
+          <span class="hits">18</span>
           
           <code class="ruby">                row.delete(i)        </code>
         </li>
@@ -4423,8 +4423,8 @@
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="371">
-          
+        <li class="covered" data-hits="9" data-linenumber="371">
+          <span class="hits">9</span>
           
           <code class="ruby">        result.map{|row| row.transform_keys!(&amp;:to_sym)}</code>
         </li>
@@ -4435,8 +4435,8 @@
           <code class="ruby">        </code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="373">
-          
+        <li class="covered" data-hits="3" data-linenumber="373">
+          <span class="hits">3</span>
           
           <code class="ruby">        return result</code>
         </li>
@@ -6037,14 +6037,14 @@
           <code class="ruby">    def Bookmarks.getUserType userID</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="640">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="640">
+          <span class="hits">29</span>
           
           <code class="ruby">        if Bookmarks.isInteger(userID) then</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="641">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="641">
+          <span class="hits">29</span>
           
           <code class="ruby">            query = &quot;SELECT user_type AS type</code>
         </li>
@@ -6061,26 +6061,26 @@
           <code class="ruby">                WHERE user_ID = ?&quot;</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="644">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="644">
+          <span class="hits">29</span>
           
           <code class="ruby">            result = @@db.execute query, userID</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="645">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="645">
+          <span class="hits">29</span>
           
           <code class="ruby">            result = result[0]</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="646">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="646">
+          <span class="hits">29</span>
           
           <code class="ruby">            for i in 0..(result.length()/2)</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="647">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="647">
+          <span class="hits">29</span>
           
           <code class="ruby">                result.delete(i)        </code>
         </li>
@@ -6091,14 +6091,14 @@
           <code class="ruby">            end</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="649">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="649">
+          <span class="hits">29</span>
           
           <code class="ruby">            result.transform_keys!(&amp;:to_sym)</code>
         </li>
       
-        <li class="covered" data-hits="18" data-linenumber="650">
-          <span class="hits">18</span>
+        <li class="covered" data-hits="29" data-linenumber="650">
+          <span class="hits">29</span>
           
           <code class="ruby">            return result[:type]</code>
         </li>
@@ -6481,8 +6481,8 @@
           <code class="ruby">    def Bookmarks.isInteger value</code>
         </li>
       
-        <li class="covered" data-hits="38" data-linenumber="714">
-          <span class="hits">38</span>
+        <li class="covered" data-hits="51" data-linenumber="714">
+          <span class="hits">51</span>
           
           <code class="ruby">        if (value == &quot;0&quot; || value == 0)  then</code>
         </li>
@@ -6493,14 +6493,14 @@
           <code class="ruby">            return true</code>
         </li>
       
-        <li class="covered" data-hits="38" data-linenumber="716">
-          <span class="hits">38</span>
+        <li class="covered" data-hits="51" data-linenumber="716">
+          <span class="hits">51</span>
           
           <code class="ruby">        elsif value.to_i == 0 then</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="717">
-          
+        <li class="covered" data-hits="2" data-linenumber="717">
+          <span class="hits">2</span>
           
           <code class="ruby">            return false</code>
         </li>
@@ -6511,8 +6511,8 @@
           <code class="ruby">        else</code>
         </li>
       
-        <li class="covered" data-hits="38" data-linenumber="719">
-          <span class="hits">38</span>
+        <li class="covered" data-hits="49" data-linenumber="719">
+          <span class="hits">49</span>
           
           <code class="ruby">            return true</code>
         </li>
@@ -8371,8 +8371,8 @@
           <code class="ruby">    def Bookmarks.verifyUser userID</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="1029">
-          
+        <li class="covered" data-hits="2" data-linenumber="1029">
+          <span class="hits">2</span>
           
           <code class="ruby">        if Bookmarks.isInteger(userID) then</code>
         </li>
@@ -8413,8 +8413,8 @@
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="1036">
-          
+        <li class="covered" data-hits="2" data-linenumber="1036">
+          <span class="hits">2</span>
           
           <code class="ruby">        return false</code>
         </li>
@@ -9237,38 +9237,38 @@
           <code class="ruby">        # returns userID if passwords match, -1 otherwise</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="12">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="12">
+          <span class="hits">11</span>
           
           <code class="ruby">        validUser = false</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="13">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="13">
+          <span class="hits">11</span>
           
           <code class="ruby">        queryResult = Bookmarks.getDetailsByEmail(email)</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="14">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="14">
+          <span class="hits">11</span>
           
           <code class="ruby">        if queryResult</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="15">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="15">
+          <span class="hits">11</span>
           
           <code class="ruby">            userID = queryResult[:id]</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="16">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="16">
+          <span class="hits">11</span>
           
           <code class="ruby">            hashCheck = BCrypt::Password.new(queryResult[:password])</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="17">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="17">
+          <span class="hits">11</span>
           
           <code class="ruby">            validUser = hashCheck.is_password?(password)</code>
         </li>
@@ -9285,14 +9285,14 @@
           <code class="ruby">        </code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="20">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="20">
+          <span class="hits">11</span>
           
           <code class="ruby">        if validUser then</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="21">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="21">
+          <span class="hits">11</span>
           
           <code class="ruby">            if queryResult[:suspended].to_i == 1</code>
         </li>
@@ -9303,8 +9303,8 @@
           <code class="ruby">                return &quot;Suspended&quot;</code>
         </li>
       
-        <li class="covered" data-hits="9" data-linenumber="23">
-          <span class="hits">9</span>
+        <li class="covered" data-hits="11" data-linenumber="23">
+          <span class="hits">11</span>
           
           <code class="ruby">            elsif queryResult[:type] == Bookmarks::UNVERIFIED_STRING</code>
         </li>
@@ -9321,8 +9321,8 @@
           <code class="ruby">            else</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="26">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="8" data-linenumber="26">
+          <span class="hits">8</span>
           
           <code class="ruby">                return userID</code>
         </li>

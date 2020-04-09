@@ -280,20 +280,20 @@ post '/newBookmark' do
 end
 
 get '/edit-bookmark' do
-        @ID = params[:bookmarkID].to_i
+    @ID = params[:bookmarkID].to_i
     if userHasEditRights @ID, session[:userID]  
-                @details = Bookmarks.getGuestBookmarkDetails @ID
-                @title = @details[:details][:title]
-                @desc = @details[:details][:description]
-                @link = @details[:details][:link]
-                @tagList = Bookmarks.getTagNames
-                @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
-                erb :editBookmark
-            else
-                redirect '/'
-            end
+        @details = Bookmarks.getGuestBookmarkDetails @ID
+        @title = @details[:details][:title]
+        @desc = @details[:details][:description]
+        @link = @details[:details][:link]
+        @tagList = Bookmarks.getTagNames
+        @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
+        erb :editBookmark
+    else
+        redirect '/'
+    end
     
-        end
+end
 
 post '/edit-bookmark' do
     @ID = params[:bookmarkID].to_i
@@ -305,6 +305,8 @@ post '/edit-bookmark' do
         @tags = extractTagsFromParams params
         @userID = session[:userID]
     
+        updateBookmark @bookmarkID, @title, @link, @desc, @userID
+        reAssignTags @tags, (Bookmarks.getBookmarkTagsNames @ID), @ID
         redirect '/msg?msg=updateBookmarkMsg' 
     else
         redirect '/'

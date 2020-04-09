@@ -1013,5 +1013,18 @@ module Bookmarks
         return false
     end
 
+    #Change bookmark details
+    def Bookmarks.updateBookmark (bookmarkID, bookmarkTitle, bookmarkDesc, bookmarkLink)
+        if Bookmarks.isNull(bookmarkTitle) then
+            return false
+        else
+            query = "UPDATE bookmark 
+                    SET bookmark_title = ?, bookmark_description = ?, bookmark_link = ?
+                    WHERE bookmark_ID = ?;"
+            @@db.execute query, bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkID
+            return true
+        end
+    end
+
 end
 

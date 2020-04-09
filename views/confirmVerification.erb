@@ -14,6 +14,7 @@
                 <form method="post">
                     <input id="yes" class="submission-button" type="submit" value="Yes">  
                     <input class="submission-button" type="button" value="Cancel" onclick="history.back()"> 
+                    <input type="hidden" name="userID" value="<%=params[:userID]%>">
                 </form>
             </div>
         </main>

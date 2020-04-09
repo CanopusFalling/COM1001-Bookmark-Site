@@ -338,6 +338,7 @@ end
 
 post '/verify-user' do
     @userID = params[:userID]
+    puts params[:userID]
     if Bookmarks.verifyUser(@userID) then
         redirect '/msg?msg=verifySuccessMsg'
     end

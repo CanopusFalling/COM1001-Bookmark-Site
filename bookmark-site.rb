@@ -314,6 +314,7 @@ get '/testing' do
     erb :test
 end 
 
+# ======= Admin views =============
 get '/adminMenu' do
     erb :adminMenu
 end
@@ -325,5 +326,17 @@ get '/approve-users' do
         erb :approveUsers
     else
         redirect '/msg?msg=noUnverifiedMsg'
+    end
+end 
+
+get '/verify-user' do
+    @userID = params[:userID]
+    erb :confirmVerification
+end
+
+post '/verify-user' do
+    @userID = params[:userID]
+    if Bookmarks.verifyUser(@userID) then
+        redirect '/msg?msg=verifySuccessMsg'
     end
 end

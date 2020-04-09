@@ -1022,6 +1022,17 @@ module Bookmarks
             return true
         end
         return false
+    end 
+
+    def Bookmarks.verifyUser userID
+        if Bookmarks.isInteger(userID) then
+            query = "UPDATE users
+            SET user_type = ?
+            WHERE user_ID = ?;"
+            @@db.execute query, USER_STRING, userID
+            return true
+        end
+        return false
     end
 
 end

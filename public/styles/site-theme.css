@@ -189,6 +189,9 @@
     }
 
     /* ===== Verify user table ====== */
+    .user-details{
+        z-index: 1;
+    }
     .user-displayName{
         margin: 0px;
         padding: 4px 4px;
@@ -206,6 +209,7 @@
     .user-department{
         border-left: 1px solid white;
         min-width: 40%;
+        padding: 2px 6px;
     }
 
     .verify-buttons{

@@ -8,17 +8,18 @@
         <%= erb :header %>
 
         <main>
-            <section class="central-form">
-                <div class="admin-menu">
-                    <ul>
-                        <a href="/adminMenu"><li>Approve Users</li></a>
-                        <a href="/reportedBookmarks"><li>Reported Bookmarks</li></a>
-                        <a href="/suspendedAccounts"><li>Suspended Accounts</li></a>
-                        <a href="/suspendedUsers"><li>Suspended Users</li></a>
-                        <a href="/resetPasswords"><li>Reset User Passwords</li></a>
-                    </ul>
-                </div>
-            </section>
+            
+            <div class="admin-menu">
+                <ul>
+                    <a href="/approve-users"><li>Approve New Users</li></a>
+                    <a href="/promote-users"><li>Promote Users to Admin</li></a>
+                    <a href="/reported-bookmarks"><li>Reported Bookmarks</li></a>
+                    <a href="/suspended-accounts"><li>Suspended Accounts</li></a>
+                    <a href="/suspended-ssers"><li>Suspended Users</li></a>
+                    <a href="/reset-passwords"><li>Reset User Passwords</li></a>
+                </ul>
+            </div>
+
 
         </main>
 

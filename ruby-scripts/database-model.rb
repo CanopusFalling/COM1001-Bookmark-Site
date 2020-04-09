@@ -156,16 +156,12 @@ module Bookmarks
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
             result[:tags] = @@db.execute query, id.to_i
-            if result[:tags].length() > 0 then
-                result[:tags].each do |row|
-                    for i in 0..(row.length()/2)
-                        row.delete(i)        
-                    end
+            result[:tags].each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
                 end
-                result[:tags].map{|row| row.transform_keys!(&:to_sym)}
-            else
-                result[:tags] = nil
-            end            
+            end
+            result[:tags].map{|row| row.transform_keys!(&:to_sym)}       
         end
 
         return result
@@ -427,35 +423,21 @@ module Bookmarks
         return result
     end
     
-    #Returns true if given id was verified and false if not (or nil if input was incorrect)
-    def Bookmarks.isVerified userID
-        if userID.is_a? Integer
-            query = "SELECT user_type
+    #Returns true if given id was verified and isn't suspended and false if not (or nil if input was incorrect)
+    def Bookmarks.hasPermission userID
+        
+        if (userID.is_a? Integer) && userID != -1
+            query = "SELECT user_type,
+                    user_suspended
                     FROM users
                     WHERE user_ID = ?;"
-            result = @@db.get_first_value query, userID
-            if result != UNVERIFIED_STRING
-                return true
-            else
+            result = @@db.execute query, userID
+            result = result[0];
+            if result[:user_suspended] == 1 || result[:user_type] == UNVERIFIED_STRING 
                 return false
             end
-        else
-            return nil
-        end
-    end
+            return true
 
-    #Returns true if given id was verified and false if not (or nil if input was incorrect)
-    def Bookmarks.isVerified userID
-        if userID.is_a? Integer
-            query = "SELECT user_type
-                    FROM users
-                    WHERE user_ID = ?;"
-            result = @@db.get_first_value query, userID
-            if result != UNVERIFIED_STRING
-                return true
-            else
-                return false
-            end
         else
             return nil
         end
@@ -800,9 +782,7 @@ module Bookmarks
     
     # Add bookmark details to the db
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
-        if !Bookmarks.isUniqueValue('bookmark','bookmark_link', bookmarkLink) then
-            return false      
-        elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
+        if Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
         elsif Bookmarks.idOutOfRange(creatorID.to_i,'user_ID','users') then
             return false

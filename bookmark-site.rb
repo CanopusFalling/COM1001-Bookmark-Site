@@ -44,6 +44,8 @@ post '/authenticate-user' do
         @error = "Invalid login or password"
     elsif @result == "Suspended"
         redirect '/msg?msg=suspended'
+    elsif @result == "Unverified"
+        redirect '/msg?msg=unverifiedMsg'
     else
         session[:userID] = @result
         redirect '/'

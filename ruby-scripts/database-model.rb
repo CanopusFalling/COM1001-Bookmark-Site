@@ -87,7 +87,8 @@ module Bookmarks
             query = "SELECT 
                     user_id AS id,
                     user_password AS password,
-                    user_suspended AS suspended
+                    user_suspended AS suspended,
+                    user_type AS type
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email

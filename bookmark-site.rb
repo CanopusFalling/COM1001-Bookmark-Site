@@ -280,16 +280,11 @@ post '/newBookmark' do
 end
 
 get '/edit-bookmark' do
-    if session[:userID] != -1 
         @ID = params[:bookmarkID].to_i
-        if Bookmarks.hasPermission session[:userID] 
-            if session[:userID] ==(Bookmarks.getBookmarkCreator @ID)
+    if userHasEditRights @ID, session[:userID]  
                 @details = Bookmarks.getGuestBookmarkDetails @ID
                 @title = @details[:details][:title]
                 @desc = @details[:details][:description]
-                @desc = "" if @desc.nil?
-                @desc.sub! '<', '\<'
-                @desc.sub! '>', '\>'
                 @link = @details[:details][:link]
                 @tagList = Bookmarks.getTagNames
                 @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
@@ -297,13 +292,26 @@ get '/edit-bookmark' do
             else
                 redirect '/'
             end
-        else
-            redirect '/'
+    
         end
+
+post '/edit-bookmark' do
+    @ID = params[:bookmarkID].to_i
+    if userHasEditRights @ID, session[:userID]
+        @bookmarkID = params[:bookmarkID]
+        @title = params[:title]
+        @link = params[:link]
+        @desc = params[:desc]
+        @tags = extractTagsFromParams params
+        @userID = session[:userID]
+    
+        redirect '/msg?msg=updateBookmarkMsg' 
     else
         redirect '/'
     end
+   
 end
+
 
 get '/delete-bookmark' do 
     @bookmarkID = params[:bookmarkID]

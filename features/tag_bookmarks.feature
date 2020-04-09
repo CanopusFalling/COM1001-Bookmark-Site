@@ -1,71 +1,35 @@
-Feature: Tagging Bookmarks
-    Scenario: User adds a google bookmark with the tag search engine
+Feature: Viewing tags on Bookmarks
+    Scenario: view tags on google boomark
         Given I am on the homepage
-        When I follow "Login" within "header"
-        When I fill in "user-email" with "user" within "section"
-        When I fill in "user-password" with "user" within "section"
-        When I press "submit-login" within "section"
-        Then I should be on the homepage
-        When I follow "Create Bookmark" within "header"
-        When I fill in "bookmark-title" with "google for trees" within "main"
-        When I fill in "bookmark-link" with "www.google.co.uk/search?safe=strict&sxsrf=ALeKk01zeHu-1Z7sYHxNdtMKdiN0H0BfDQ%3A1586293758085&source=hp&ei=_uuMXqfyAoOIlwTIqKqADQ&q=trees&oq=trees&gs_lcp=CgZwc3ktYWIQAzICCAAyAggAMgUIABCDATICCAAyBQgAEIMBMgIIADICCAAyAggAMgUIABCDATIFCAAQgwE6BwgjEOoCECc6BAgjECdKFQgXEhE3OGc1NWc1NWc1M2c1Nmc1MkoPCBgSCzFnMWcxZzFnMWcxUNYPWLUVYKMZaABwAHgAgAFEiAG6ApIBATaYAQCgAQGqAQdnd3Mtd2l6sAEK&sclient=psy-ab&ved=0ahUKEwin6dTfnNfoAhUDxIUKHUiUCtAQ4dUDCAk&uact=5" within "main"
-        When I fill in "bookmark-description" with "Search for trees on google." within "main"
-        When I fill in "tagSearch" with "search"
-        When I check "Search engines_tag" within "main"
-        When I click "#create-bookmark" within "main"
-        When I follow "Go back" within "main"
-        Then I should see "google for trees" within "main"
-        When I follow "google for trees" within "main"
-        Then I should see "google for trees" within ".bookmark-title"
-        Then I should see "Search for trees on google." within ".bookmark-description"
-        Then I should see "by Testing User" within ".detailed-info"
-        Then I should see "Rating: 0/5 (0)" within ".rating"
-        Then I should see "#Search engines" within ".tagDisplay"
+        When I follow "Google" within "div#1"
+        Then I should see "#Search engines"
+        Then I should not see "#Bad search engines"
+        Then I should not see "#Tree"
 
-    Scenario: Admin adds a google bookmark with the tag search engine
+    Scenario: view tags on Bing boomark
         Given I am on the homepage
-        When I follow "Login" within "header"
-        When I fill in "user-email" with "user" within "section"
-        When I fill in "user-password" with "user" within "section"
-        When I press "submit-login" within "section"
-        Then I should be on the homepage
-        When I follow "Create Bookmark" within "header"
-        When I fill in "bookmark-title" with "google for bees" within "main"
-        When I fill in "bookmark-link" with "https://www.google.com/search?q=bees&source=lmns&hl=en&ved=2ahUKEwjau__doNfoAhUS2xoKHb90BWEQ_AUoAHoECAEQAA" within "main"
-        When I fill in "bookmark-description" with "Search for bees on google." within "main"
-        When I fill in "tagSearch" with "search"
-        When I check "Search engines_tag" within "main"
-        When I click "#create-bookmark" within "main"
-        When I follow "Go back" within "main"
-        Then I should see "google for bees" within "main"
-        When I follow "google for bees" within "main"
-        Then I should see "google for bees" within ".bookmark-title"
-        Then I should see "Search for bees on google." within ".bookmark-description"
-        Then I should see "by Testing User" within ".detailed-info"
-        Then I should see "Rating: 0/5 (0)" within ".rating"
-        Then I should see "#Search engines" within ".tagDisplay"
+        When I follow "Bing" within "div#2"
+        Then I should see "#Search engines"
+        Then I should see "#Bad search engines"
+        Then I should not see "#Tree"
 
-    Scenario: User adds a bing bookmark with 2 tags
+    Scenario: view tags on youtube video boomark
         Given I am on the homepage
-        When I follow "Login" within "header"
-        When I fill in "user-email" with "user" within "section"
-        When I fill in "user-password" with "user" within "section"
-        When I press "submit-login" within "section"
-        Then I should be on the homepage
-        When I follow "Create Bookmark" within "header"
-        When I fill in "bookmark-title" with "bing for trees" within "main"
-        When I fill in "bookmark-link" with "https://www.bing.com/search?q=trees&form=QBLH&sp=-1&pq=trees&sc=8-5&qs=n&sk=&cvid=0BA225D4441F4CD5BDB1E52B45F5F46C" within "main"
-        When I fill in "bookmark-description" with "Search for trees on bing." within "main"
-        When I fill in "tagSearch" with "search"
-        When I check "Search engines_tag" within "main"
-        When I check "Bad search engines_tag" within "main"
-        When I click "#create-bookmark" within "main"
-        When I follow "Go back" within "main"
-        Then I should see "bing for trees" within "main"
-        When I follow "bing for trees" within "main"
-        Then I should see "bing for trees" within ".bookmark-title"
-        Then I should see "Search for trees on bing." within ".bookmark-description"
-        Then I should see "by Testing User" within ".detailed-info"
-        Then I should see "Rating: 0/5 (0)" within ".rating"
-        Then I should see "#Search engines" within ".tagDisplay"
-        Then I should see "#Bad search engines" within ".tagDisplay"
+        When I follow "Youtube Video" within "div#3"
+        Then I should not see "#Search engines"
+        Then I should not see "#Bad search engines"
+        Then I should not see "#Tree"
+
+    Scenario: view tags on youtube video boomark
+        Given I am on the homepage
+        When I follow "Youtube Video" within "div#3"
+        Then I should not see "#Search engines"
+        Then I should not see "#Bad search engines"
+        Then I should not see "#Tree"
+
+    Scenario: view tags on tree1
+        Given I am on the homepage
+        When I follow "Tree 1"
+        Then I should not see "#Search engines"
+        Then I should not see "#Bad search engines"
+        Then I should see "#Tree"

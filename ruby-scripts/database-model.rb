@@ -423,35 +423,21 @@ module Bookmarks
         return result
     end
     
-    #Returns true if given id was verified and false if not (or nil if input was incorrect)
-    def Bookmarks.isVerified userID
-        if userID.is_a? Integer
-            query = "SELECT user_type
+    #Returns true if given id was verified and isn't suspended and false if not (or nil if input was incorrect)
+    def Bookmarks.hasPermission userID
+        
+        if (userID.is_a? Integer) && userID != -1
+            query = "SELECT user_type,
+                    user_suspended
                     FROM users
                     WHERE user_ID = ?;"
-            result = @@db.get_first_value query, userID
-            if result != UNVERIFIED_STRING
-                return true
-            else
+            result = @@db.execute query, userID
+            result = result[0];
+            if result[:user_suspended] == 1 || result[:user_type] == UNVERIFIED_STRING 
                 return false
             end
-        else
-            return nil
-        end
-    end
+            return true
 
-    #Returns true if given id was verified and false if not (or nil if input was incorrect)
-    def Bookmarks.isVerified userID
-        if userID.is_a? Integer
-            query = "SELECT user_type
-                    FROM users
-                    WHERE user_ID = ?;"
-            result = @@db.get_first_value query, userID
-            if result != UNVERIFIED_STRING
-                return true
-            else
-                return false
-            end
         else
             return nil
         end

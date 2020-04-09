@@ -145,12 +145,12 @@ puts ""
 puts Bookmarks.isUniqueValue nil, "bookmark_title", "title8"  
 puts ""
 
-puts"=== isVerified ==="
-puts Bookmarks.isVerified nil
+puts"=== hasPermission ==="
+puts Bookmarks.hasPermission nil
 puts ""
-puts Bookmarks.isVerified "sas"
+puts Bookmarks.hasPermission "sas"
 puts ""
-puts Bookmarks.isVerified 0
+puts Bookmarks.hasPermission 0
 puts ""
-puts Bookmarks.isVerified 3
+puts Bookmarks.hasPermission 3
 puts ""

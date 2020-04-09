@@ -253,7 +253,7 @@ end
 
 get '/newBookmark' do
     if session[:userID] != -1 
-        if Bookmarks.isVerified session[:userID]
+        if Bookmarks.hasPermission session[:userID]
             @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
@@ -282,7 +282,7 @@ end
 get '/edit-bookmark' do
     if session[:userID] != -1 
         @ID = params[:bookmarkID].to_i
-        if Bookmarks.isVerified session[:userID] 
+        if Bookmarks.hasPermission session[:userID] 
             if session[:userID] ==(Bookmarks.getBookmarkCreator @ID)
                 @details = Bookmarks.getGuestBookmarkDetails @ID
                 @title = @details[:details][:title]

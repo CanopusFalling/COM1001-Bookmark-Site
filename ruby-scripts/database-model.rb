@@ -156,16 +156,12 @@ module Bookmarks
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
             result[:tags] = @@db.execute query, id.to_i
-            if result[:tags].length() > 0 then
-                result[:tags].each do |row|
-                    for i in 0..(row.length()/2)
-                        row.delete(i)        
-                    end
+            result[:tags].each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
                 end
-                result[:tags].map{|row| row.transform_keys!(&:to_sym)}
-            else
-                result[:tags] = nil
-            end            
+            end
+            result[:tags].map{|row| row.transform_keys!(&:to_sym)}       
         end
 
         return result
@@ -800,9 +796,7 @@ module Bookmarks
     
     # Add bookmark details to the db
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
-        if !Bookmarks.isUniqueValue('bookmark','bookmark_link', bookmarkLink) then
-            return false      
-        elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
+        if Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
         elsif Bookmarks.idOutOfRange(creatorID.to_i,'user_ID','users') then
             return false

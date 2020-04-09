@@ -27,7 +27,7 @@
     <!-- list of hidden inputs that wil be read by the server using numOfTags
          Representing the list of chosen tags-->
     <%(0..(@checked ? @checked.length-1 : -1)).each do |i|%>
-    <input type="hidden" name = "tagNo<%=i%>" value = <%=h @checked[i]%>>
+    <input type="hidden" name = "tagNo<%=i%>" value = "<%=h @checked[i]%>">
     <%end%>
 
 </section>

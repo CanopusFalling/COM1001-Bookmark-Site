@@ -80,9 +80,12 @@ get '/search' do
 
     @searchQuery = params["search_query"]
 
-    @results = Bookmarks.getHomepageData @searchQuery
+    @fullResults = Bookmarks.getHomepageData @searchQuery
+    @tagList = Bookmarks.getTagNames
+    @checked = params[:showTag] ? [params[:showTag]] : (extractTagsFromParams params)
     
-    if(@results.length != 0) then
+    if(@fullResults.length != 0) then
+        @results = filterAgainstTags @fullResults, @checked
         erb :search
     else
         erb :noResults
@@ -278,6 +281,8 @@ post '/newBookmark' do
         assignTags @tags, @newId 
         redirect '/msg?msg=newBookmarkMsg' 
     end 
+
+
    
 end
 

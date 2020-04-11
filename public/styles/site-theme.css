@@ -56,6 +56,7 @@
 		margin: inherit;
 		width: inherit;
 		padding: inherit;
+
 		display: inherit;
 	}
 
@@ -227,7 +228,17 @@
     .verify-buttons input:hover{
         background-color: rgba(100, 100, 100, 0.7);
     }
-    
+
+	/* ===== advanced Serach form styling =====*/
+
+	main #advanced-search-form {
+		display: none;
+	}
+
+	main #advancedSearch-button {
+		margin-bottom: -5px;
+	}
+
 	/* ===== bookmark spesifics ===== */
 	main section.item-details {
 		width: 60%;
@@ -443,4 +454,3 @@
     main .admin-menu ul li:hover{
         background-color: rgba(100, 100,100, 0.9);
     }
-}

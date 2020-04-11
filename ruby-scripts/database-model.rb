@@ -546,6 +546,7 @@ module Bookmarks
         end
         return false
     end
+
     # Returns all IDs for all tags of bookmark
     def Bookmarks.getBookmarkTags bookmarkID
         if Bookmarks.isInteger(bookmarkID)

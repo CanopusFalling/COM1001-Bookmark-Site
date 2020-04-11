@@ -52,5 +52,5 @@ section.tagControl #tag-add {
 }
 
 section.tagControl #activeField {
-	justify-content: initial;
+	justify-content: center;
 }

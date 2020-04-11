@@ -127,3 +127,16 @@ def userHasEditRights bookmarkId, userId
         return false
     end
 end
+
+def filterAgainstTags bookmarks, tags
+    if !tags || tags.length == 0
+        return bookmarks
+    end
+    result = Array.new
+    bookmarks.each do |bookmark|
+        result<<bookmark if ((Bookmarks.getBookmarkTagsNames bookmark[:ID].to_i).intersection tags).length > 0
+    end
+
+    return result
+end
+

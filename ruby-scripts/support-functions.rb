@@ -56,6 +56,13 @@ def changeRating bookmarkID, userID, value
     return Bookmarks.changeRating bookmarkID, userID, value.to_i, Time.now.strftime("%d/%m/%Y")
 end 
 
+def addComment bookmarkID, userID, comment
+    return Bookmarks.addComment bookmarkID, userID, comment, Time.now.strftime("%d/%m/%Y")
+end
+
+def deleteComment commentID
+    return Bookmarks.deleteComment commentID, Time.now.strftime("%d/%m/%Y")
+end
 def newBookmark userID, title, link, desc
     title = nil if title == ""
     link = nil if link == ""
@@ -107,6 +114,20 @@ def reAssignTags newTags, currentTags, bookmarkId
     end
 end
 
+def h(text)
+    Rack::Utils.escape_html(text)
+end
+
+def userHasEditRights bookmarkId, userId
+    if userId == -1 || (!Bookmarks.hasPermission userId) 
+        return false
+    elsif (Bookmarks.getBookmarkCreator (bookmarkId.to_i)) == userId
+        return true
+    else
+        return false
+    end
+end
+
 def filterAgainstTags bookmarks, tags
     if !tags || tags.length == 0
         return bookmarks
@@ -118,3 +139,4 @@ def filterAgainstTags bookmarks, tags
 
     return result
 end
+

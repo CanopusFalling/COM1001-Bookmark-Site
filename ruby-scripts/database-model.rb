@@ -16,6 +16,13 @@ module Bookmarks
         @@db.results_as_hash = true
     end 
 
+    #===Execute Override===
+    #(Only to be used for the testing and database resets.)
+
+    def Bookmarks.execute query
+        return @@db.execute query
+    end
+
     #===Queries methods===
 
     #Retursns list of bookmarks with titles containing param search
@@ -80,7 +87,8 @@ module Bookmarks
             query = "SELECT 
                     user_id AS id,
                     user_password AS password,
-                    user_suspended AS suspended
+                    user_suspended AS suspended,
+                    user_type AS type
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
@@ -149,16 +157,12 @@ module Bookmarks
                     FROM tag_bookmark_link JOIN tag USING(tag_ID)
                     WHERE bookmark_ID = ?;"
             result[:tags] = @@db.execute query, id.to_i
-            if result[:tags].length() > 0 then
-                result[:tags].each do |row|
-                    for i in 0..(row.length()/2)
-                        row.delete(i)        
-                    end
+            result[:tags].each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
                 end
-                result[:tags].map{|row| row.transform_keys!(&:to_sym)}
-            else
-                result[:tags] = nil
-            end            
+            end
+            result[:tags].map{|row| row.transform_keys!(&:to_sym)}       
         end
 
         return result
@@ -284,33 +288,30 @@ module Bookmarks
 
     end
 
-    #Returns tagId with the given name
-    def Bookmarks.getTagName id
-        if id.is_a? Integer
+    #Returns a name of a given tag
+    def Bookmarks.getTagName tagID
+        if tagID.is_a? Integer
             query = "SELECT tag_name
                     FROM tag
                     WHERE tag_ID = ?;"
-            result = @@db.get_first_value query, id
-
+            result = @@db.get_first_value query, tagID
+            
             return result
         end
         return nil
-        
     end
 
-    #Returns names of tags given bookmark is tagged with
-    def Bookmarks.getBookmarkTagsNames bookmark_ID
+    #Returns names of tags the bookmark is tagged with
+    def Bookmarks.getBookmarkTagsNames bookmarkID
         
-        if bookmark_ID.is_a? Integer
-            ids = Bookmarks.getBookmarkTags bookmark_ID
-            (0..(ids.length-1)).each do |i|
-                ids[i] = Bookmarks.getTagName ids[i][:tag_ID]
+        if bookmarkID.is_a? Integer
+            tags = Bookmarks.getBookmarkTags bookmarkID
+            (0..(tags.length-1)).each do |i| 
+                tags[i] = Bookmarks.getTagName tags[i][:tag_ID]
             end
-            return ids
+            return tags
         end
         return nil
-        
-
     end
     
     #Returns details of a user with given id
@@ -423,35 +424,21 @@ module Bookmarks
         return result
     end
     
-    #Returns true if given id was verified and false if not (or nil if input was incorrect)
-    def Bookmarks.isVerified userID
-        if userID.is_a? Integer
-            query = "SELECT user_type
+    #Returns true if given id was verified and isn't suspended and false if not (or nil if input was incorrect)
+    def Bookmarks.hasPermission userID
+        
+        if (userID.is_a? Integer) && userID != -1
+            query = "SELECT user_type,
+                    user_suspended
                     FROM users
                     WHERE user_ID = ?;"
-            result = @@db.get_first_value query, userID
-            if result != UNVERIFIED_STRING
-                return true
-            else
+            result = @@db.execute query, userID
+            result = result[0];
+            if result[:user_suspended] == 1 || result[:user_type] == UNVERIFIED_STRING 
                 return false
             end
-        else
-            return nil
-        end
-    end
+            return true
 
-    #Returns true if given id was verified and false if not (or nil if input was incorrect)
-    def Bookmarks.isVerified userID
-        if userID.is_a? Integer
-            query = "SELECT user_type
-                    FROM users
-                    WHERE user_ID = ?;"
-            result = @@db.get_first_value query, userID
-            if result != UNVERIFIED_STRING
-                return true
-            else
-                return false
-            end
         else
             return nil
         end
@@ -635,6 +622,44 @@ module Bookmarks
         return false
     end
 
+    def Bookmarks.getComments bookmarkID 
+        if Bookmarks.isInteger(bookmarkID) then
+            query = "SELECT comment_ID AS ID,
+                    commenter_ID AS commenter,
+                    comment_details AS details,
+                    date_created AS date,
+                    date_deleted AS deleted,
+                    user_displayName AS displayName
+                    FROM comment JOIN users
+                    ON commenter_ID = user_ID
+                    WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID 
+            result.each do |row|
+                for i in 0..(row.length()/2)
+                    row.delete(i)        
+                end
+            end
+            result.map{|row| row.transform_keys!(&:to_sym)}
+            return result
+        end
+        return false
+    end
+
+    def Bookmarks.getUserType userID
+        if Bookmarks.isInteger(userID) then
+            query = "SELECT user_type AS type
+                FROM users
+                WHERE user_ID = ?"
+            result = @@db.execute query, userID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            return result[:type]
+        end
+        return false
+    end
 
 
     #Returns table names in current database in an array
@@ -666,7 +691,7 @@ module Bookmarks
             return result
         end
         return Array.new
-    end
+    end 
 
     
     #Checks if value passed exists in a database
@@ -753,10 +778,11 @@ module Bookmarks
             query = "INSERT INTO users(user_email, user_displayName, user_department,
                     user_password, user_type, user_suspended)
                     VALUES (?, ?, ?, ?, ?, ?);"
-            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password),USER_STRING,0
+            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password), UNVERIFIED_STRING, 0
             return true
         end 
     end
+    
     # Insert admin user's details when registering account
     def Bookmarks.addAdminUser(uEmail, uDisplay, uDepartment, password)
         if !Bookmarks.isUniqueValue('users','user_email',uEmail) then
@@ -775,9 +801,7 @@ module Bookmarks
     
     # Add bookmark details to the db
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
-        if !Bookmarks.isUniqueValue('bookmark','bookmark_link', bookmarkLink) then
-            return false      
-        elsif Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
+        if Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
             return false
         elsif Bookmarks.idOutOfRange(creatorID.to_i,'user_ID','users') then
             return false
@@ -982,6 +1006,18 @@ module Bookmarks
         return false
     end
 
+    # Mark comment as deleted
+    def Bookmarks.deleteComment commentID, date
+        if Bookmarks.isInteger commentID then
+            query = "UPDATE comment
+                    SET date_deleted = ?
+                    WHERE comment_ID = ?;"
+            @@db.execute query, date, commentID
+            return true
+        end
+        return false
+    end
+
     # =========== Update Statements =================
     # Change value for user's rating of bookmark 
     def Bookmarks.changeRating bookmarkID, userID, newValue, newDate
@@ -991,6 +1027,17 @@ module Bookmarks
                 rating_created = ?
                 WHERE bookmark_ID = ? AND rater_ID = ?;"
             @@db.execute query, newValue, newDate, bookmarkID, userID
+            return true
+        end
+        return false
+    end 
+
+    def Bookmarks.verifyUser userID
+        if Bookmarks.isInteger(userID) then
+            query = "UPDATE users
+            SET user_type = ?
+            WHERE user_ID = ?;"
+            @@db.execute query, USER_STRING, userID
             return true
         end
         return false

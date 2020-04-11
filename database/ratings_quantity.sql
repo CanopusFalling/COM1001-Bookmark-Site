@@ -17,7 +17,7 @@
             CASE WHEN rating_value = 3 THEN 1 END three,
             CASE WHEN rating_value = 4 THEN 1 END four,
             CASE WHEN rating_value = 5 THEN 1 END five,
-            CASE WHEN TRUE THEN 1 END any
+            CASE WHEN 1 THEN 1 END any
             FROM rating
         )USING(bookmark_ID)
     GROUP BY bookmark_ID;

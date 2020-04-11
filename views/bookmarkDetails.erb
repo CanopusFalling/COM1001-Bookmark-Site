@@ -13,28 +13,46 @@
                 <!-- Bookmark Details -->
                 <div class="bookmark-details">
                     <h2 class="bookmark-title">
-                        <%= @title%>
+                        <%= h @title%>
                     </h2>
                     <div class="bookmark-description">
-                        <%= @desc%>
+                        <%= h @desc%>
                     </div>
                     <div class="detailed-info">
-                        <span>Created on <%= @date%> by <%= @displayName%></span>
+                        <span>Created on <%=h @date%> by <%= h @displayName%></span>
                     </div>
                     <div class="rating">
-                        <span>Rating: <%= @avgRating%>/5     (<%=@rateCount%>)</span> 
+                        <span>Rating: <%=h @avgRating%>/5     (<%=h @rateCount%>)</span> 
                         <%= @ratingButton%>  
                         <%= @addRating%>
                         <%= @changeRating%>
                     </div>
+                    <!-- If bookmark what tagged with any tags display them-->
+                    <%if @tags.length >0%>
+                    <div class="tagDisplay">
+                        <%@tags.each do |tag|%>
+                            <a class = "tagLink" href="/search?search_query=&showTag='<%= tag[:name]%>'">#<%= tag[:name]%></a>
+                        <%end%>
+                    </div>
+                    <%end%>
                     <!-- Editing Buttons. -->
                     <div class="edit-buttons">
-                        <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="openInNewTab('http:\/\/<%= @link%>')">
-                        <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%= @ID%>'">
-                        <img class="edit-button" src="../assets/images/report.png" onclick="window.location = 'report-bookmark?bookmarkID=<%= @ID%>'">
+                        <%if userHasEditRights @ID , session[:userID]%>
+                        <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%=h @ID%>'">
+                        <img class="edit-button" src="assets/images/edit.png" onclick="window.location = 'edit-bookmark?bookmarkID=<%=h @ID%>'">
+                        <%end%>
+                        <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="openInNewTab('http:\/\/<%=h @link%>')">
+                        <img class="edit-button" src="../assets/images/report.png" onclick="window.location = 'report-bookmark?bookmarkID=<%=h @ID%>'">
                     </div>
-                    <!-- TODO ad adding tags, comments and rating for users-->
+                    <div class="display-comments">
+                        <div class="comment-section-header">
+                            <span id="comment-title">Comments</span>
+                            <span class="setting-button"> <%= @commentButton%></span>
+                        </div>
+                        <%= @displayComments%>
+                    </div>
                 </div>
+                
             </section>
             <!--<button class="back-button" Onclick="history.back()">Back</button> -->
         </main>

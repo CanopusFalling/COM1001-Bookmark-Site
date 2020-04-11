@@ -11,8 +11,8 @@
         <main>
             <section class="basic-table" id="homepage-bookmarks-table">
                 <h3>
-                    <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = '/'">
-                    Showing results for: <%= @searchQuery %>
+                    <a id="home-link" href="/"><img class="edit-button" src="../assets/images/bin-icon.png"></a>
+                    Search results for: '<%=h @searchQuery %>'
                 </h3>
                 <h4>
                     Try again with a different search...

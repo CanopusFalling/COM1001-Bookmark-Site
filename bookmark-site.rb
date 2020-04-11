@@ -44,6 +44,8 @@ post '/authenticate-user' do
         @error = "Invalid login or password"
     elsif @result == "Suspended"
         redirect '/msg?msg=suspended'
+    elsif @result == "Unverified"
+        redirect '/msg?msg=unverifiedMsg'
     else
         session[:userID] = @result
         redirect '/'
@@ -75,9 +77,8 @@ end
 
 # Search handling.
 get '/search' do
-    req = Rack::Request.new(env)
-    req.post?
-    @searchQuery = req.params["search_query"]
+
+    @searchQuery = params["search_query"]
 
     @fullResults = Bookmarks.getHomepageData @searchQuery
     @tagList = Bookmarks.getTagNames
@@ -111,19 +112,23 @@ end
 get '/bookmark-spesifics' do
 
     @ID = params[:bookmarkID]
-    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @details = Bookmarks.getGuestBookmarkDetails(@ID.to_i)
     @title = @details[:details][:title]
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = nil
     @changeRating = nil
     @rateCount = Bookmarks.getRatingCount(@ID)
+    @comments = Bookmarks.getComments(@ID)
 
+    # if user logged in display add or change rating button depending on isRated
     if session[:userID] != -1 then
+        @commentButton = erb :add_comment_button
         if Bookmarks.isRated(@ID.to_i,session[:userID].to_i) == nil then
             @ratingButton = erb :add_rating_button
         else 
@@ -131,6 +136,14 @@ get '/bookmark-spesifics' do
         end
     else 
         @ratingButton = nil
+        @commentButton = nil
+    end
+
+    # Display comments if they exist
+    if @comments.length() > 0 then
+        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+    else
+        @displayComments = nil
     end
 
     addView @ID, session[:userID]
@@ -148,10 +161,18 @@ get '/add-rating' do
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = erb :addRating
     @changeRating = nil
     @rateCount = Bookmarks.getRatingCount(@ID)
+    @comments = Bookmarks.getComments(@ID)
+    # Display comments if they exist
+    if @comments.length() > 0 then
+        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+    else
+        @displayComments = nil
+    end
 
     erb :bookmarkDetails
 end
@@ -177,10 +198,18 @@ get '/change-rating' do
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = nil
     @changeRating = erb :changeRating
     @rateCount = Bookmarks.getRatingCount(@ID)
+    @comments = Bookmarks.getComments(@ID)
+    # Display comments if they exist
+    if @comments.length() > 0 then
+        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+    else
+        @displayComments = nil
+    end
 
     erb :bookmarkDetails
 end
@@ -195,10 +224,41 @@ post '/change-rating' do
    end
 end
 
+get '/add-comment' do
+    @bookmarkID = params[:bookmarkID]
+    @userID = session[:userID]
+    erb :addComment
+end
+
+post '/add-comment' do
+    @comment = params[:comment]
+    @bookmarkID = params[:bookmarkID]
+    @userID = session[:userID]
+
+    if addComment @bookmarkID, @userID, @comment then
+        redirect '/msg?msg=commentAddedMsg'
+    end
+end
+
+get '/delete-comment' do
+    @commentID = params[:commentID]
+    @userID = session[:userID]
+    erb :deleteComment
+end
+
+post '/delete-comment' do
+    @commentID = params[:commentID]
+    @userID = session[:userID]
+
+    if deleteComment @commentID then
+        redirect '/msg?msg=commentDeleted'
+    end
+end
+
 
 get '/newBookmark' do
     if session[:userID] != -1 
-        if Bookmarks.isVerified session[:userID]
+        if Bookmarks.hasPermission session[:userID]
             @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
@@ -220,8 +280,36 @@ post '/newBookmark' do
     if @newId 
         assignTags @tags, @newId 
         redirect '/msg?msg=newBookmarkMsg' 
-    end
+    end 
+
+
    
+end
+
+get '/edit-bookmark' do
+    if session[:userID] != -1 
+        @ID = params[:bookmarkID].to_i
+        if Bookmarks.hasPermission session[:userID] 
+            if session[:userID] ==(Bookmarks.getBookmarkCreator @ID)
+                @details = Bookmarks.getGuestBookmarkDetails @ID
+                @title = @details[:details][:title]
+                @desc = @details[:details][:description]
+                @desc = "" if @desc.nil?
+                @desc.sub! '<', '\<'
+                @desc.sub! '>', '\>'
+                @link = @details[:details][:link]
+                @tagList = Bookmarks.getTagNames
+                @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
+                erb :editBookmark
+            else
+                redirect '/'
+            end
+        else
+            redirect '/'
+        end
+    else
+        redirect '/'
+    end
 end
 
 get '/delete-bookmark' do 
@@ -262,4 +350,32 @@ get '/testing' do
     @checked = ['tag0']
     @returnedTags = extractTagsFromParams params
     erb :test
+end 
+
+# ======= Admin views =============
+get '/adminMenu' do
+    erb :adminMenu
+end
+
+get '/approve-users' do
+    @userList = Bookmarks.getUnverifiedList
+    if @userList.length() > 0 then
+        @unverifiedTable = erb :unverifiedTable, :locals => {:userList => @userList}
+        erb :approveUsers
+    else
+        redirect '/msg?msg=noUnverifiedMsg'
+    end
+end 
+
+get '/verify-user' do
+    @userID = params[:userID]
+    erb :confirmVerification
+end
+
+post '/verify-user' do
+    @userID = params[:userID]
+    puts params[:userID]
+    if Bookmarks.verifyUser(@userID) then
+        redirect '/msg?msg=verifySuccessMsg'
+    end
 end

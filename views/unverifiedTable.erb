@@ -1,0 +1,15 @@
+<section class="basic-table" id="unverified-users-table">
+    <%userList.each do |user|%>
+    <div id="<%= user[:ID]%>">
+        <div class="user-details">
+            <span class="user-displayName"><%= user[:displayName]%></span>
+            <span class="user-email"><%= user[:email]%></span>
+            <span class="user-department"><%= user[:department]%></span>
+        </div>
+
+        <div class="verify-buttons">
+            <a id="verify-user<%= user[:ID]%>" href="verify-user?userID=<%=user[:ID]%>"><input type="submit" class="setting-button" value="Verify User"></a>
+        </div>
+    </div>
+    <%end%>
+</section>

@@ -1,5 +1,6 @@
 Feature: Searching by keyword
     Scenario: search for Google from homepage
+        Given database is reset
         Given I am on the homepage
         When I fill in "search_query" with "Google" within "form"
         When I press "Search" within "form"

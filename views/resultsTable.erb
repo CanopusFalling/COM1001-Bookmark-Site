@@ -11,11 +11,12 @@
         <!-- Editing Buttons. -->
         <div class="edit-buttons">
             <%if userHasEditRights entry[:ID] , session[:userID]%>
-            <img class="edit-button" src="assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%=h entry[:ID]%>'">
+            <a id="delete-button-<%= entry[:ID]%>" href="delete-bookmark?bookmarkID=<%=entry[:ID]%>"><img class="edit-button" src="assets/images/bin-icon.png"></a>
             <img class="edit-button" src="assets/images/edit.png" onclick="window.location = 'edit-bookmark?bookmarkID=<%=h entry[:ID]%>'">
             <%end%>
-            <img class="edit-button" src="assets/images/external-page-icon.png" onclick="openInNewTabAndRecordView('http:\/\/<%=h entry[:link]%>',<%=h entry[:ID]%>)">
-            <img class="edit-button" src="assets/images/report.png" onclick="window.location = 'report-bookmark?bookmarkID=<%=h entry[:ID]%>'">
+
+            <img class="edit-button" src="assets/images/external-page-icon.png" onclick="openInNewTabAndRecordView('http:\/\/<%=entry[:link]%>',<%=entry[:ID]%>)">
+            <a id="report-button-<%= entry[:ID]%>" href="report-bookmark?bookmarkID=<%=entry[:ID]%>"><img class="edit-button" src="assets/images/report.png"></a>
         </div>
     </div>
     <%end%>

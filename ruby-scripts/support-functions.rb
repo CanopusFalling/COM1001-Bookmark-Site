@@ -113,3 +113,17 @@ def reAssignTags newTags, currentTags, bookmarkId
         end
     end
 end
+
+def h(text)
+    Rack::Utils.escape_html(text)
+end
+
+def userHasEditRights bookmarkId, userId
+    if userId == -1 || (!Bookmarks.hasPermission userId) 
+        return false
+    elsif (Bookmarks.getBookmarkCreator (bookmarkId.to_i)) == userId
+        return true
+    else
+        return false
+    end
+end

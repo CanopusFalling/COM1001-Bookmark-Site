@@ -77,9 +77,8 @@ end
 
 # Search handling.
 get '/search' do
-    req = Rack::Request.new(env)
-    req.post?
-    @searchQuery = req.params["search_query"]
+
+    @searchQuery = params["search_query"]
 
     @results = Bookmarks.getHomepageData @searchQuery
     
@@ -110,13 +109,14 @@ end
 get '/bookmark-spesifics' do
 
     @ID = params[:bookmarkID]
-    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @details = Bookmarks.getGuestBookmarkDetails(@ID.to_i)
     @title = @details[:details][:title]
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = nil
     @changeRating = nil
@@ -158,6 +158,7 @@ get '/add-rating' do
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = erb :addRating
     @changeRating = nil
@@ -194,6 +195,7 @@ get '/change-rating' do
     @displayName = @details[:details][:displayName]
     @displayName = @details[:details][:email] if @displayName == nil
     @avgRating = Bookmarks.getAvgRating(@ID)
+    @tags = @details[:tags]
     @link = @details[:details][:link]
     @addRating = nil
     @changeRating = erb :changeRating
@@ -253,7 +255,7 @@ end
 
 get '/newBookmark' do
     if session[:userID] != -1 
-        if Bookmarks.isVerified session[:userID]
+        if Bookmarks.hasPermission session[:userID]
             @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
@@ -271,9 +273,38 @@ post '/newBookmark' do
     @tags = extractTagsFromParams params
     @userID = session[:userID]
 
-    newBookmark @userID, @title, @link, @desc
-    redirect '/msg?msg=newBookmarkMsg' 
+    @newId = newBookmark @userID, @title, @link, @desc
+    if @newId 
+        assignTags @tags, @newId 
+        redirect '/msg?msg=newBookmarkMsg' 
+    end 
    
+end
+
+get '/edit-bookmark' do
+    if session[:userID] != -1 
+        @ID = params[:bookmarkID].to_i
+        if Bookmarks.hasPermission session[:userID] 
+            if session[:userID] ==(Bookmarks.getBookmarkCreator @ID)
+                @details = Bookmarks.getGuestBookmarkDetails @ID
+                @title = @details[:details][:title]
+                @desc = @details[:details][:description]
+                @desc = "" if @desc.nil?
+                @desc.sub! '<', '\<'
+                @desc.sub! '>', '\>'
+                @link = @details[:details][:link]
+                @tagList = Bookmarks.getTagNames
+                @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
+                erb :editBookmark
+            else
+                redirect '/'
+            end
+        else
+            redirect '/'
+        end
+    else
+        redirect '/'
+    end
 end
 
 get '/delete-bookmark' do 

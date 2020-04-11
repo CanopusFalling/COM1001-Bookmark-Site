@@ -11,7 +11,7 @@
         <main>
             <h2>
                 <a id="home-link" href="/"><img class="edit-button" src="../assets/images/bin-icon.png"></a>
-                Search results for: '<%= erb @searchQuery %>'
+                Search results for: '<%=h @searchQuery %>'
             </h2>
             <%= erb :resultsTable, :locals => {:results => @results}%>
         </main>

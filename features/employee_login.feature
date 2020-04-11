@@ -18,11 +18,7 @@ Feature: Employee login
         When I fill in "user-email" with "role1" within "section"
         When I fill in "user-password" with "role1" within "section"
         When I press "submit-login" within "section"
-        Then I should be on the homepage
-        Then I should see "Profile" within "header"
-        Then I should see "Create Bookmark" within "header"
-        Then I should not see "Login" within "header"
-        Then I should not see "Register" within "header"
+        Then I should see "Your account has not been verified yet, but you can still view bookmarks without a login"
     
     Scenario: login as role2 user
         Given I am on the homepage
@@ -30,11 +26,7 @@ Feature: Employee login
         When I fill in "user-email" with "role2" within "section"
         When I fill in "user-password" with "role2" within "section"
         When I press "submit-login" within "section"
-        Then I should be on the homepage
-        Then I should see "Profile" within "header"
-        Then I should see "Create Bookmark" within "header"
-        Then I should not see "Login" within "header"
-        Then I should not see "Register" within "header"
+        Then I should see "Your account has not been verified yet, but you can still view bookmarks without a login"
 
     Scenario: login as role3 user
         Given I am on the homepage

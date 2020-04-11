@@ -87,7 +87,8 @@ module Bookmarks
             query = "SELECT 
                     user_id AS id,
                     user_password AS password,
-                    user_suspended AS suspended
+                    user_suspended AS suspended,
+                    user_type AS type
                     FROM users
                     WHERE user_email=?;"
             result = @@db.execute query,email
@@ -643,6 +644,23 @@ module Bookmarks
         return false
     end
 
+    def Bookmarks.getUserType userID
+        if Bookmarks.isInteger(userID) then
+            query = "SELECT user_type AS type
+                FROM users
+                WHERE user_ID = ?"
+            result = @@db.execute query, userID
+            result = result[0]
+            for i in 0..(result.length()/2)
+                result.delete(i)        
+            end
+            result.transform_keys!(&:to_sym)
+            return result[:type]
+        end
+        return false
+    end
+
+
     #Returns table names in current database in an array
     def Bookmarks.getTableNames
         query = "SELECT 
@@ -672,7 +690,7 @@ module Bookmarks
             return result
         end
         return Array.new
-    end
+    end 
 
     
     #Checks if value passed exists in a database
@@ -1008,6 +1026,17 @@ module Bookmarks
                 rating_created = ?
                 WHERE bookmark_ID = ? AND rater_ID = ?;"
             @@db.execute query, newValue, newDate, bookmarkID, userID
+            return true
+        end
+        return false
+    end 
+
+    def Bookmarks.verifyUser userID
+        if Bookmarks.isInteger(userID) then
+            query = "UPDATE users
+            SET user_type = ?
+            WHERE user_ID = ?;"
+            @@db.execute query, USER_STRING, userID
             return true
         end
         return false

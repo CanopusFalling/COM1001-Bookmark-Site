@@ -44,6 +44,8 @@ post '/authenticate-user' do
         @error = "Invalid login or password"
     elsif @result == "Suspended"
         redirect '/msg?msg=suspended'
+    elsif @result == "Unverified"
+        redirect '/msg?msg=unverifiedMsg'
     else
         session[:userID] = @result
         redirect '/'
@@ -345,6 +347,30 @@ get '/testing' do
     erb :test
 end 
 
+# ======= Admin views =============
 get '/adminMenu' do
     erb :adminMenu
+end
+
+get '/approve-users' do
+    @userList = Bookmarks.getUnverifiedList
+    if @userList.length() > 0 then
+        @unverifiedTable = erb :unverifiedTable, :locals => {:userList => @userList}
+        erb :approveUsers
+    else
+        redirect '/msg?msg=noUnverifiedMsg'
+    end
+end 
+
+get '/verify-user' do
+    @userID = params[:userID]
+    erb :confirmVerification
+end
+
+post '/verify-user' do
+    @userID = params[:userID]
+    puts params[:userID]
+    if Bookmarks.verifyUser(@userID) then
+        redirect '/msg?msg=verifySuccessMsg'
+    end
 end

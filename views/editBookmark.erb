@@ -32,7 +32,7 @@
                         <textarea id="bookmark-description" class="form-input" name="desc" cols="50" rows="4" placeholder="Enter bookmark description..." ><%=h @desc%></textarea>
                     </div>
                     <%= erb :tagControl%>
-                    
+                    <input type="hidden" name="bookmarkID" value = <%= h @ID%>>
                     <input id="edit-bookmark" type="submit" class="submission-button" value="Edit">
                     <input type="button" class="submission-button" value="Cancel" onclick="history.back()">
 

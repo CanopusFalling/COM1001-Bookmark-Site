@@ -12,7 +12,7 @@
         <div class="edit-buttons">
             <%if userHasEditRights entry[:ID] , session[:userID]%>
             <a id="delete-button-<%= entry[:ID]%>" href="delete-bookmark?bookmarkID=<%=entry[:ID]%>"><img class="edit-button" src="assets/images/bin-icon.png"></a>
-            <img class="edit-button" src="assets/images/edit.png" onclick="window.location = 'edit-bookmark?bookmarkID=<%=h entry[:ID]%>'">
+            <a id="edit-button-<%= entry[:ID]%>" href="edit-bookmark?bookmarkID=<%=h entry[:ID]%>"><img  class="edit-button" src="assets/images/edit.png"></a>
             <%end%>
 
             <img class="edit-button" src="assets/images/external-page-icon.png" onclick="openInNewTabAndRecordView('http:\/\/<%=entry[:link]%>',<%=entry[:ID]%>)">

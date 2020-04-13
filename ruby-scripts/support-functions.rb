@@ -99,17 +99,21 @@ def assignTags tags, bookmarkId
 end
 
 def reAssignTags newTags, currentTags, bookmarkId   
+    puts currentTags
+    puts ""
+    puts newTags
+
     currentTags.each do |name|
         if !newTags.include? name
             tagId = Bookmarks.getTagId name
-            Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            puts Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 
     newTags.each do |name|
         if !currentTags.include? name
             tagId = Bookmarks.getTagId name
-            Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            puts Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 end
@@ -140,3 +144,12 @@ def filterAgainstTags bookmarks, tags
     return result
 end
 
+def updateBookmark bookmarkId, title, link, desc, userId
+
+    title = nil if title == ""
+    link = nil if link == ""
+    desc = nil if desc == ""
+    Bookmarks.addBookmarkEdit userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.updateBookmark bookmarkId, title, desc, link
+
+end

@@ -1,5 +1,6 @@
 Feature: Viewing tags on Bookmarks
     Scenario: view tags on google boomark
+        Given database is reset 
         Given I am on the homepage
         When I follow "Google" within "div#1"
         Then I should see "#Search engines"

@@ -1,5 +1,6 @@
 Feature: view bookmark
     Scenario: Click on first bookmark
+        Given database is reset
         Given I am on the homepage
         When I click ".bookmark-details" within "div#1"
         Then I should be on bookmark spesifics

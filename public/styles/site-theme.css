@@ -182,6 +182,14 @@
 		justify-content: flex-end;
 		right: 0px;
 		text-align: end;
+		background-color: none;
+	}
+
+	.edit-buttons a{
+		display: flex;
+		margin: 0px;
+		padding: 0px;
+		width: auto;
 	}
 
 	/* ===== bookmark spesifics ===== */

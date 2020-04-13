@@ -138,7 +138,7 @@ def filterAgainstTags bookmarks, tags
     end
     result = Array.new
     bookmarks.each do |bookmark|
-        result<<bookmark if ((Bookmarks.getBookmarkTagsNames bookmark[:ID].to_i).intersection tags).length > 0
+        result<<bookmark if (intersection((Bookmarks.getBookmarkTagsNames bookmark[:ID].to_i), tags).length > 0)
     end
 
     return result
@@ -152,4 +152,14 @@ def updateBookmark bookmarkId, title, link, desc, userId
     Bookmarks.addBookmarkEdit userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
     return Bookmarks.updateBookmark bookmarkId, title, desc, link
 
+end
+
+def intersection a, b
+
+    result = Array.new
+    a.each do |element|
+        result << element if b.include? element
+    end
+
+    return result
 end

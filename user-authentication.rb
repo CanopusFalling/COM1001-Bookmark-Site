@@ -20,6 +20,8 @@ module UserAuthentication
         if validUser then
             if queryResult[:suspended].to_i == 1
                 return "Suspended"
+            elsif queryResult[:type] == Bookmarks::UNVERIFIED_STRING
+                return "Unverified"
             else
                 return userID
             end

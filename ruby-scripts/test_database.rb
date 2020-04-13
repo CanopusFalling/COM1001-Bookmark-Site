@@ -73,6 +73,22 @@ puts ""
 puts Bookmarks.getTagId "tag0"
 puts ""
 
+puts "=== getTagName ==="
+puts Bookmarks.getTagName nil
+puts ""
+puts Bookmarks.getTagName "hi"
+puts ""
+puts Bookmarks.getTagName 3
+puts ""
+
+puts "=== getBookmarkTagsNames ==="
+puts Bookmarks.getBookmarkTagsNames nil
+puts ""
+puts Bookmarks.getBookmarkTagsNames "hi"
+puts ""
+puts Bookmarks.getBookmarkTagsNames 1
+puts ""
+
 puts "=== geUserDetails ==="
 puts Bookmarks.getUserDetails 0
 puts ""
@@ -145,12 +161,12 @@ puts ""
 puts Bookmarks.isUniqueValue nil, "bookmark_title", "title8"  
 puts ""
 
-puts"=== isVerified ==="
-puts Bookmarks.isVerified nil
+puts"=== hasPermission ==="
+puts Bookmarks.hasPermission nil
 puts ""
-puts Bookmarks.isVerified "sas"
+puts Bookmarks.hasPermission "sas"
 puts ""
-puts Bookmarks.isVerified 0
+puts Bookmarks.hasPermission 0
 puts ""
-puts Bookmarks.isVerified 3
+puts Bookmarks.hasPermission 3
 puts ""

@@ -1,5 +1,6 @@
 Feature: register new user
     Scenario: register user with valid credentials.
+        Given database is reset
         Given I am on the homepage.
         When I follow "Register" within "header"
         When I fill in "display-name" with "Added By Testing User" within "section"
@@ -82,22 +83,4 @@ Feature: register new user
         When I fill in "user-email" with "addnew@user.com" within "section"
         When I fill in "user-password" with "NewUserPa55word!" within "section"
         When I press "submit-login" within "section"
-        Then I should see "Profile" within "header"
-        Then I should see "Create Bookmark" within "header"
-        Then I should not see "Login" within "header"
-        Then I should not see "Register" within "header"
-
-    Scenario: Attempt to make bookmark as an unverified user.
-        Given I am on the homepage
-        When I follow "Login" within "header"
-        When I fill in "user-email" with "addnew@user.com" within "section"
-        When I fill in "user-password" with "NewUserPa55word!" within "section"
-        When I press "submit-login" within "section"
-        Then I should see "Profile" within "header"
-        Then I should see "Create Bookmark" within "header"
-        Then I should not see "Login" within "header"
-        Then I should not see "Register" within "header"
-        When I follow "Create Bookmark" within "header"
-        Then I should see "This option is unavailable, because your account hasn't been verified. Please wait for your manager to verify your account."
-        When I follow "Go back" within "main"
-        Then I should be on the homepage
+        Then I should see "Your account has not been verified yet, but you can still view bookmarks without a login"

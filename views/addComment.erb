@@ -1,0 +1,29 @@
+<html>
+
+    <head>
+        <%= erb :head%>
+    </head>
+
+    <body>
+        
+        <%=erb :header%>
+
+        <main>
+            <section class="central-form">
+
+                <h2>Add a comment</h3>
+                <form method="post">
+                    <div>
+                        <span class="form-label">Details:</span>
+                        <textarea class="form-input" name="comment" cols="50" rows="4" placeholder="Enter comment..."></textarea>
+                    </div>
+
+                    <input type="submit" class="submission-button" value="Submit">
+                    <input type="button" class="submission-button" value="Cancel" onclick="history.back()">
+                </form>
+            </section>
+        </main>
+
+        <%= erb :footer%>
+    </body>
+</html>

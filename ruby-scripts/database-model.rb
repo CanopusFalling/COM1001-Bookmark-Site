@@ -997,12 +997,10 @@ module Bookmarks
                         return false
                     end
                 end
-                if Bookmarks.deleteAllBookmarkTags(tagList, bookmarkID) then
                     @@db.execute query, bookmarkID
                     return true
                 end
             end
-        end
         return false
     end
 

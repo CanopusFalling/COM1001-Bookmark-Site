@@ -112,7 +112,7 @@ end
 get '/bookmark-spesifics' do
 
     @ID = params[:bookmarkID]
-    @details = Bookmarks.getGuestBookmarkDetails(@ID.to_i)
+    @details = Bookmarks.getBookmarkDetails(@ID.to_i)
     @title = @details[:details][:title]
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
@@ -154,7 +154,7 @@ end
 
 get '/add-rating' do
     @ID = params[:bookmarkID]
-    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @details = Bookmarks.getBookmarkDetails @ID.to_i
     @title = @details[:details][:title]
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
@@ -191,7 +191,7 @@ end
 
 get '/change-rating' do
     @ID = params[:bookmarkID]
-    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @details = Bookmarks.getBookmarkDetails @ID.to_i
     @title = @details[:details][:title]
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
@@ -258,7 +258,7 @@ end
 
 get '/newBookmark' do
     if session[:userID] != -1 
-        if Bookmarks.hasPermission session[:userID]
+        if ((UserAuthentication.getAccessLevel session[:userID]) != 0)
             @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
@@ -288,8 +288,8 @@ end
 
 get '/edit-bookmark' do
     @ID = params[:bookmarkID].to_i
-    if userHasEditRights @ID, session[:userID]  
-        @details = Bookmarks.getGuestBookmarkDetails @ID
+    if UserAuthentication.hasEditRights @ID, session[:userID]  
+        @details = Bookmarks.getBookmarkDetails @ID
         @title = @details[:details][:title]
         @desc = @details[:details][:description]
         @link = @details[:details][:link]
@@ -304,7 +304,7 @@ end
 
 post '/edit-bookmark' do
     @ID = params[:bookmarkID].to_i
-    if userHasEditRights @ID, session[:userID]
+    if UserAuthentication.hasEditRights @ID, session[:userID]
         @bookmarkID = params[:bookmarkID]
         @title = params[:title]
         @link = params[:link]
@@ -329,7 +329,7 @@ get '/delete-bookmark' do
    if @userID == @creator then
         erb :deleteBookmark
    else
-        redirect '/msg?msg=deleteError'
+        redirect '/msg?msg=deleteErrorMsg'
    end       
 end        
 
@@ -337,7 +337,7 @@ post '/delete-bookmark' do
     @bookmarkID = params[:bookmarkID]
 
     deleteBookmark @bookmarkID
-    redirect '/msgGoHome?msg=successfulDelete'
+    redirect '/msgGoHome?msg=successfulDeleteMsg'
 end
 
 get '/bookmark-addView' do

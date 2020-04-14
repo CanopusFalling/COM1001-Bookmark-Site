@@ -120,7 +120,7 @@ module Bookmarks
     #   :tags - An array of hashes with following keys (or nil if input wasn't an integer):
     #       :name - name of a tag the bookmark is tagged with
     #       :colour - coulour of a tag the bookmark is tagged with
-    def Bookmarks.getGuestBookmarkDetails id
+    def Bookmarks.getBookmarkDetails id
         
         result = Hash.new
         result[:details] = nil
@@ -204,65 +204,6 @@ module Bookmarks
         return nil
     end
 
-    #Returns details of a bookmark when viewed by a user
-    #Params: 
-    #   bookmark_id (integer) - an id of a bookmark in current system
-    #   user_id (integer) - an id of a user viewing the bookmark
-    #Returns: A hash with following keys:
-    #   :details - A hash with following keys (or nil if input was incorrect):
-    #       :ID - id of a bookmark
-    #       :title - title of a bookmark
-    #       :description - description of a bookmark
-    #       :link - link of a bookmark
-    #       :date - date of creation of a bookmark
-    #       :email - email of an autor of a bookmark
-    #       :displayName - display name of an author of a bookmark
-    #   :tags - An array of hashes with following keys (or nil if input wasn't an integer):
-    #       :name - name of a tag the bookmark is tagged with
-    #       :colour - coulour of a tag the bookmark is tagged with
-    #   :comments - An array of hashes with following keys (or nil if input wasn't an integer):
-    #       :details - a comment itself
-    #       :created - a date of creation
-    #       :deleted - adate of deletion
-    #       :email - email af an author
-    #       :displayName - display name of an author
-    #   :liked (boolean) - is this bookmark on user's favourite list 
-    #   :rating - a value the user rated bookmark with (nil if not rated yet or incorrect input)
-    def Bookmarks.getBookmarkDetails (bookmark_ID,user_ID)
-            
-        details = Bookmarks.getGuestBookmarkDetails bookmark_ID
-        result = Hash.new
-        result[:details] = details[:details]
-        result[:tags] = details[:tags]
-        result[:comments] = []
-        result[:liked] = nil
-        result[:rating] = nil
-        if bookmark_ID.is_a? Integer
-            query = "SELECT 
-            comment_details AS details,
-            date_created AS created,
-            date_deleted AS deleted,
-            user_email AS email,
-            user_displayName AS displayName
-            FROM comment JOIN users ON commenter_ID = user_ID
-            WHERE bookmark_ID = ?;"
-            result[:comments] = @@db.execute query,bookmark_ID.to_i
-            result[:comments].each do |row|
-                for i in 0..(row.length()/2)
-                    row.delete(i)        
-                end
-            end
-            result[:comments].map{|row| row.transform_keys!(&:to_sym)}
-            
-            result[:liked] = Bookmarks.isLiked bookmark_ID, user_ID 
-
-            result[:rating] = Bookmarks.isRated bookmark_ID, user_ID
-
-        end
-
-        return result
-    end
-
     #Returns: An array with all the tag names
     def Bookmarks.getTagNames
         query = "SELECT tag_name FROM tag";
@@ -280,10 +221,10 @@ module Bookmarks
             query = "SELECT tag_ID
                     FROM tag
                     WHERE tag_name = ?;"
-            result = @@db.get_first_value query, name
-
+            result = @@db.get_first_value query, name.to_s
             return result
         end
+
         return nil
 
     end
@@ -305,11 +246,22 @@ module Bookmarks
     def Bookmarks.getBookmarkTagsNames bookmarkID
         
         if bookmarkID.is_a? Integer
-            tags = Bookmarks.getBookmarkTags bookmarkID
-            (0..(tags.length-1)).each do |i| 
-                tags[i] = Bookmarks.getTagName tags[i][:tag_ID]
+            query = "SELECT tag_name
+                    FROM tag_bookmark_link JOIN tag ON tag.tag_ID = tag_bookmark_link.tag_ID      
+                    WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID
+            
+            if  result.length()>0
+                result = result[0]
+                for i in 0..(result.length()/2)
+                    result.delete(i)        
+                end
+                result.transform_keys!(&:to_sym)
+            else
+                result = nil
             end
-            return tags
+
+            return result
         end
         return nil
     end
@@ -424,8 +376,8 @@ module Bookmarks
         return result
     end
     
-    #Returns true if given id was verified and isn't suspended and false if not (or nil if input was incorrect)
-    def Bookmarks.hasPermission userID
+    #Returns details needed for accessRight check
+    def Bookmarks.getAccessDetails userID
         
         if (userID.is_a? Integer) && userID != -1
             query = "SELECT user_type,
@@ -433,12 +385,15 @@ module Bookmarks
                     FROM users
                     WHERE user_ID = ?;"
             result = @@db.execute query, userID
-            result = result[0];
-            if result[:user_suspended] == 1 || result[:user_type] == UNVERIFIED_STRING 
-                return false
+            result = result[0]
+            if result
+                for i in 0..(result.length()/2)
+                    result.delete(i)        
+                end
+                result.transform_keys!(&:to_sym)
             end
-            return true
-
+            
+            return result
         else
             return nil
         end
@@ -645,23 +600,6 @@ module Bookmarks
         return false
     end
 
-    def Bookmarks.getUserType userID
-        if Bookmarks.isInteger(userID) then
-            query = "SELECT user_type AS type
-                FROM users
-                WHERE user_ID = ?"
-            result = @@db.execute query, userID
-            result = result[0]
-            for i in 0..(result.length()/2)
-                result.delete(i)        
-            end
-            result.transform_keys!(&:to_sym)
-            return result[:type]
-        end
-        return false
-    end
-
-
     #Returns table names in current database in an array
     def Bookmarks.getTableNames
         query = "SELECT 
@@ -729,14 +667,6 @@ module Bookmarks
         end
     end 
     
-    # Returns true if value is null
-    def Bookmarks.isNull value
-        if value == nil  then
-            return true
-        else 
-            return false
-        end
-    end
 
     # Checks if value is outside of range of ID's in table
     # Params id - value to being checked
@@ -772,7 +702,7 @@ module Bookmarks
         if !Bookmarks.isUniqueValue('users','user_email',uEmail) then
             return false
          
-        elsif Bookmarks.isNull(uEmail) then
+        elsif uEmail.nil? then
             return false         
         else
             query = "INSERT INTO users(user_email, user_displayName, user_department,
@@ -788,7 +718,7 @@ module Bookmarks
         if !Bookmarks.isUniqueValue('users','user_email',uEmail) then
             return false
          
-        elsif Bookmarks.isNull(uEmail) then
+        elsif uEmail.nil? then
             return false         
         else
             query = "INSERT INTO users(user_email, user_displayName, user_department,
@@ -801,7 +731,7 @@ module Bookmarks
     
     # Add bookmark details to the db
     def Bookmarks.addBookmark (bookmarkTitle, bookmarkDesc, bookmarkLink, bookmarkCreationDate, creatorID)
-        if Bookmarks.isNull(bookmarkTitle) || Bookmarks.isNull(creatorID) then
+        if bookmarkTitle.nil? || creatorID.nil? then
             return false
         elsif Bookmarks.idOutOfRange(creatorID.to_i,'user_ID','users') then
             return false
@@ -818,7 +748,7 @@ module Bookmarks
     def Bookmarks.addBookmarkEdit(editor, bookmark, editDate)
         if !Bookmarks.isInteger(editor) || !Bookmarks.isInteger(bookmark) then
             return false 
-        elsif Bookmarks.isNull(editor) || Bookmarks.isNull(bookmark) then
+        elsif editor.nil? || bookmark.nil? then
             return false
         elsif Bookmarks.idOutOfRange(editor.to_i,'user_ID','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') then
             return false
@@ -834,7 +764,7 @@ module Bookmarks
     def Bookmarks.addComment(bookmark, commenter, details, dateCreated)
         if !Bookmarks.isInteger(bookmark) || !Bookmarks.isInteger(commenter) then
             return false
-        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(commenter) then
+        elsif bookmark.nil? || commenter.nil? then
             return false
         elsif Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(commenter.to_i,'user_ID','users') then
             return false
@@ -850,7 +780,7 @@ module Bookmarks
     def Bookmarks.addFavourite(user,bookmark)
         if !Bookmarks.isInteger(user) || !Bookmarks.isInteger(bookmark) then
             return false
-        elsif Bookmarks.isNull(user) || Bookmarks.isNull(bookmark) then
+        elsif user.nil? || bookmark.nil? then
             return false
         elsif Bookmarks.idOutOfRange(user.to_i,'user_ID','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') then
             return false
@@ -866,7 +796,7 @@ module Bookmarks
     def Bookmarks.addRating(bookmark, rater, value, dateCreated)
         if !Bookmarks.isInteger(bookmark) || !Bookmarks.isInteger(rater) || !Bookmarks.isInteger(value) then
             return false
-        elsif Bookmarks.isNull(bookmark) || Bookmarks.isNull(rater) || Bookmarks.isNull(value) then
+        elsif bookmark.nil? || rater.nil? || value.nil? then
             return false
         elsif  Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(rater.to_i,'user_ID','users') then
             return false
@@ -884,7 +814,7 @@ module Bookmarks
     def Bookmarks.addReport (reportedPageID, reportType, reportDetails, reporterID, reportDate)
         if !Bookmarks.isInteger(reportedPageID) or !Bookmarks.isInteger(reporterID) then
             return false
-        elsif Bookmarks.isNull(reportedPageID) then
+        elsif reportedPageID.nil? then
             return false
         elsif Bookmarks.idOutOfRange(reportedPageID.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(reporterID.to_i,'user_id','users') then
             return false
@@ -899,7 +829,7 @@ module Bookmarks
     
     # Adds tag to db
     def Bookmarks.addTag(name, colour, dateCreated)
-        if !Bookmarks.isNull(name) then
+        if !name.nil? then
             query = "INSERT INTO tag(tag_name, tag_colour, tag_date_created)
                     VALUES(?,?,?);"
             @@db.execute query, name, colour, dateCreated
@@ -913,7 +843,7 @@ module Bookmarks
     def Bookmarks.addTagBookmarkLink(tag, bookmark)
         if !Bookmarks.isInteger(tag) or !Bookmarks.isInteger(bookmark) then
             return false
-        elsif Bookmarks.isNull(tag) or Bookmarks.isNull(bookmark) then
+        elsif tag.nil? or bookmark.nil? then
             return false
         elsif Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_ID','bookmark') || Bookmarks.idOutOfRange(tag.to_i,'tag_ID','tag') then
             return false
@@ -929,7 +859,7 @@ module Bookmarks
     def Bookmarks.addView(viewer, bookmark, dateViewed)
         if !Bookmarks.isInteger(viewer) || !Bookmarks.isInteger(bookmark) then
             return false
-        elsif Bookmarks.isNull(viewer) || Bookmarks.isNull(bookmark) then
+        elsif viewer.nil? || bookmark.nil? then
             return false
         elsif Bookmarks.idOutOfRange(viewer.to_i,'user_id','users') || Bookmarks.idOutOfRange(bookmark.to_i,'bookmark_id','bookmark') then
             return false
@@ -1043,7 +973,7 @@ module Bookmarks
 
     #Change bookmark details
     def Bookmarks.updateBookmark (bookmarkID, bookmarkTitle, bookmarkDesc, bookmarkLink)
-        if Bookmarks.isNull(bookmarkTitle) then
+        if bookmarkTitle.nil? then
             return false
         else
             query = "UPDATE bookmark 

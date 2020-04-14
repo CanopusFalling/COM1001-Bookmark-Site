@@ -8,7 +8,7 @@
                     <img class= "edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-comment?commentID=<%=h comment[:ID]%>'">
                 <%end%>
             </div>
-            <p class="comment-details"><%= comment[:details]%></p>
+            <p class="comment-details"><%=h comment[:details]%></p>
         <%end%>
     </div>
     <%end%>

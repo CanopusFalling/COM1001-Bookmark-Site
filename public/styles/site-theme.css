@@ -193,7 +193,11 @@
 		width: auto;
     }
     
-    /* ===== Verify user table ====== */
+	/* ===== Verify user table ====== */
+	.user-details{
+        z-index: 1;
+    }
+
     .user-displayName{
         margin: 0px;
         padding: 4px 4px;
@@ -209,6 +213,8 @@
     }
 
     .user-department{
+		margin: 0px;
+        padding: 2px 6px;
         border-left: 1px solid white;
         min-width: 40%;
     }
@@ -432,10 +438,11 @@
         max-width: 700px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+		justify-content: space-between;
+		margin: 0 auto;		
     }
     main .admin-menu ul {
-        padding: 15px 50px;
+        padding: 15px 0px;
         margin: auto;
         list-style: none;
         width: 100%;
@@ -454,3 +461,4 @@
     main .admin-menu ul li:hover{
         background-color: rgba(100, 100,100, 0.9);
     }
+}

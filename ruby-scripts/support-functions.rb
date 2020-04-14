@@ -99,17 +99,21 @@ def assignTags tags, bookmarkId
 end
 
 def reAssignTags newTags, currentTags, bookmarkId   
+    puts currentTags
+    puts ""
+    puts newTags
+
     currentTags.each do |name|
         if !newTags.include? name
             tagId = Bookmarks.getTagId name
-            Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            puts Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 
     newTags.each do |name|
         if !currentTags.include? name
             tagId = Bookmarks.getTagId name
-            Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            puts Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 end
@@ -134,9 +138,28 @@ def filterAgainstTags bookmarks, tags
     end
     result = Array.new
     bookmarks.each do |bookmark|
-        result<<bookmark if ((Bookmarks.getBookmarkTagsNames bookmark[:ID].to_i).intersection tags).length > 0
+        result<<bookmark if (intersection((Bookmarks.getBookmarkTagsNames bookmark[:ID].to_i), tags).length > 0)
     end
 
     return result
 end
 
+def updateBookmark bookmarkId, title, link, desc, userId
+
+    title = nil if title == ""
+    link = nil if link == ""
+    desc = nil if desc == ""
+    Bookmarks.addBookmarkEdit userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.updateBookmark bookmarkId, title, desc, link
+
+end
+
+def intersection a, b
+
+    result = Array.new
+    a.each do |element|
+        result << element if b.include? element
+    end
+
+    return result
+end

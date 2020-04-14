@@ -1,4 +1,4 @@
-Feature: User deleting their own bookmarks.
+Feature: Deleting bookmarks.
     Scenario: Admin deleting their own bookmarks backs out at confirmation.
         Given database is reset
         Given I am on the homepage

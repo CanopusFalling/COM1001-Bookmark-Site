@@ -2,7 +2,7 @@
 require 'sinatra'
 require 'bcrypt'
 require_relative 'ruby-scripts/database-model.rb'
-require_relative 'user-authentication.rb'
+require_relative 'ruby-scripts/user-authentication.rb'
 require_relative 'ruby-scripts/support-functions.rb'
 # For running the server from codio.
 set :bind, '0.0.0.0'

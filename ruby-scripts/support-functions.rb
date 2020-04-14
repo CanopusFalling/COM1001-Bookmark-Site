@@ -1,6 +1,6 @@
 require 'bcrypt'
 require_relative 'database-model.rb'
-require_relative '../user-authentication.rb'
+require_relative 'user-authentication.rb'
 
 def getErrorMessage params
 

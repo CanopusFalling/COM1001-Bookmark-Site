@@ -1,6 +1,6 @@
 require 'sqlite3'
 require 'bcrypt'
-require_relative 'ruby-scripts/database-model.rb'
+require_relative 'database-model.rb'
 
 module UserAuthentication
     DATABASE = ""

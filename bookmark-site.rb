@@ -297,7 +297,7 @@ get '/delete-bookmark' do
    if @userID == @creator then
         erb :deleteBookmark
    else
-        redirect '/msg?msg=deleteError'
+        redirect '/msg?msg=deleteErrorMsg'
    end       
 end        
 
@@ -305,7 +305,7 @@ post '/delete-bookmark' do
     @bookmarkID = params[:bookmarkID]
 
     deleteBookmark @bookmarkID
-    redirect '/msgGoHome?msg=successfulDelete'
+    redirect '/msgGoHome?msg=successfulDeleteMsg'
 end
 
 get '/bookmark-addView' do

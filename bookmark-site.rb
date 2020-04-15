@@ -177,16 +177,19 @@ post '/submit-rating' do
    @bookmarkID = params[:bookmarkID]
    @value = params[:selection] 
 
-   if Bookmarks.isRated(@bookmarkID.to_i, @userID.to_i) == nil then
-        if addRating @bookmarkID, @userID, @value then
-            redirect '/msg?msg=ratingAddedMsg'
+   if @value.is_a? Integer then
+        if Bookmarks.isRated(@bookmarkID.to_i, @userID.to_i) == nil then
+            if addRating @bookmarkID, @userID, @value then
+                redirect '/msg?msg=ratingAddedMsg'
+            end
+        else
+            if changeRating @bookmarkID, @userID, @value then
+                redirect '/msg?msg=ratingAddedMsg'
+            end
         end
     else
-        if changeRating @bookmarkID, @userID, @value then
-            redirect '/msg?msg=ratingAddedMsg'
-       end
+        redirect '/msg?msg=action_error_msg'
     end
-
 end
 
 get '/add-comment' do

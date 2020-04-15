@@ -126,7 +126,7 @@ module Bookmarks
         result[:details] = nil
         result[:tags] = nil
        
-        if id.is_a? Integer
+        if Bookmarks.isInteger(id)
 
             query = "SELECT 
             bookmark_ID AS ID,
@@ -175,7 +175,7 @@ module Bookmarks
     #Returns: a value the user rated bookmark with 
     #         or nil if the bookmark hasn't been rated yet or input was incorrect
     def Bookmarks.isRated bookmark_ID, user_ID
-        if (bookmark_ID.is_a? Integer) && (user_ID.is_a? Integer)
+        if (Bookmarks.isInteger bookmark_ID) && (Bookmarks.isInteger user_ID)
             query = "SELECT rating_value
                     FROM rating
                     WHERE bookmark_ID = ? AND rater_ID = ?"
@@ -191,7 +191,7 @@ module Bookmarks
     #   bookmark_id - an id of a bookmark in current system
     #   user_id - an id of a user viewing the bookmark
     def Bookmarks.isLiked bookmark_ID, user_ID
-        if (user_ID.is_a? Integer) && (bookmark_ID.is_a? Integer)
+        if (Bookmarks.isInteger user_ID) && (Bookmarks.isInteger bookmark_ID)
                 query = "SELECT * FROM favourite
                 WHERE user_ID = ? AND bookmark_ID = ?;"
                 rows = @@db.execute query,user_ID.to_i,user_ID.to_i
@@ -231,7 +231,7 @@ module Bookmarks
 
     #Returns a name of a given tag
     def Bookmarks.getTagName tagID
-        if tagID.is_a? Integer
+        if Bookmarks.isInteger tagID
             query = "SELECT tag_name
                     FROM tag
                     WHERE tag_ID = ?;"
@@ -245,7 +245,7 @@ module Bookmarks
     #Returns names of tags the bookmark is tagged with
     def Bookmarks.getBookmarkTagsNames bookmarkID
         
-        if bookmarkID.is_a? Integer
+        if Bookmarks.isInteger bookmarkID
             query = "SELECT tag_name
                     FROM tag_bookmark_link JOIN tag ON tag.tag_ID = tag_bookmark_link.tag_ID      
                     WHERE bookmark_ID = ?;"
@@ -274,7 +274,7 @@ module Bookmarks
     #   :department - department of a user
     def Bookmarks.getUserDetails id
         result = nil
-        if id.is_a? Integer
+        if Bookmarks.isInteger id
             query = "SELECT user_displayName AS name,
                     user_email AS email,
                     user_department AS department
@@ -306,7 +306,7 @@ module Bookmarks
     #   :views - total view count of a bookmark
     def Bookmarks.getFavouriteList id
         result = nil
-        if id.is_a? Integer
+        if Bookmarks.isInteger id
             query = "SELECT ID, title, rating, views 
                     FROM favourite JOIN bookmark_list ON bookmark_ID = ID
                     WHERE user_ID = ?;"
@@ -379,7 +379,7 @@ module Bookmarks
     #Returns details needed for accessRight check
     def Bookmarks.getAccessDetails userID
         
-        if (userID.is_a? Integer) && userID != -1
+        if (Bookmarks.isInteger userID) && userID != -1
             query = "SELECT user_type,
                     user_suspended
                     FROM users
@@ -406,7 +406,7 @@ module Bookmarks
     #   :date - when was the bookmark viewed
     def Bookmarks.getViewHistory id
         result = nil
-        if id.is_a? Integer
+        if Bookmarks.isInteger id
             query = "SELECT
                     bookmark_viewed_ID AS bookmark_ID,
                     view_date AS date
@@ -463,7 +463,7 @@ module Bookmarks
     #   :details - details of the report
     def Bookmarks.getReportedBookmarkDetails id
         result = nil
-        if id.is_a? Integer
+        if Bookmarks.isInteger id
             query = "SELECT 
                     bookmark_title AS title,
                     bookmark_link AS link,
@@ -499,7 +499,7 @@ module Bookmarks
             result.transform_keys!(&:to_sym)
             return result[:userID]
         end
-        return false
+        return nil
     end
 
     # Returns all IDs for all tags of bookmark
@@ -517,47 +517,22 @@ module Bookmarks
             result.map{|row| row.transform_keys!(&:to_sym)}
             return result
         end
-        return false
+        return nil
     end
 
 
     # Calculate avergae rating for bookmark
     def Bookmarks.getAvgRating bookmarkID
         if Bookmarks.isInteger(bookmarkID)
-            query = "SELECT * 
-                FROM ratings_quantity
+            query = "SELECT AVG(rating_value)
+                FROM rating
                 WHERE bookmark_ID = ?;"
-            result = @@db.execute query, bookmarkID
-            result = result[0]
-            for i in 0..(result.length()/2)
-                result.delete(i)        
-            end
-            result.transform_keys!(&:to_sym)
-            
-            rates = Array.new(5)
-            rates[0] = result[:one]
-            rates[1] = result[:two] * 2
-            rates[2] = result[:three] * 3
-            rates [3] = result[:four] * 4
-            rates[4] = result[:five] * 5
+            result = @@db.get_first_value query, bookmarkID
 
-            total = 0
-            for i in 0...rates.length()
-                total += rates[i]
-            end
-
-            avg = total / result[:counts].to_f
-            if avg.nan? then
-                return 0
-            else
-                if avg % 1 == 0 then
-                    return avg.to_i
-                else
-                    return avg.round(2)
-                end
-            end
+            result = 0 if result.nil?;
+            return result;
         end
-        return false
+        return nil
     end 
 
     # Return amount of ratings for bookmark
@@ -574,7 +549,7 @@ module Bookmarks
             result.transform_keys!(&:to_sym)
             return result[:counts]
         end
-        return false
+        return nil
     end
 
     def Bookmarks.getComments bookmarkID 
@@ -597,7 +572,7 @@ module Bookmarks
             result.map{|row| row.transform_keys!(&:to_sym)}
             return result
         end
-        return false
+        return nil
     end
 
     #Returns table names in current database in an array
@@ -658,13 +633,8 @@ module Bookmarks
 
     # Returns true if the value is an integer
     def Bookmarks.isInteger value
-        if (value == "0" || value == 0)  then
-            return true
-        elsif value.to_i == 0 then
-            return false
-        else
-            return true
-        end
+        result = Integer(value) rescue false
+        return (result && true) #couldn't find to_bool function so this is a workaround
     end 
     
 
@@ -708,7 +678,7 @@ module Bookmarks
             query = "INSERT INTO users(user_email, user_displayName, user_department,
                     user_password, user_type, user_suspended)
                     VALUES (?, ?, ?, ?, ?, ?);"
-            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password), UNVERIFIED_STRING, 0
+            @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), UNVERIFIED_STRING, 0
             return true
         end 
     end
@@ -724,7 +694,7 @@ module Bookmarks
             query = "INSERT INTO users(user_email, user_displayName, user_department,
                                     user_password, user_type, user_suspended)
                     VALUES (?, ?, ?, ?, ?,?);"
-            @@db.execute query, uEmail, uDisplay, uDepartment,BCrypt::Password.create(password),ADMIN_STRING,0
+            @@db.execute query, uEmail, uDisplay, uDepartment, BCrypt::Password.create(password), ADMIN_STRING, 0
             return true
         end
     end 
@@ -884,18 +854,11 @@ module Bookmarks
         return false
     end
 
-    
-
-
-    # Removes bookmark's tags from the database
-    def Bookmarks.deleteAllBookmarkTags tagList,bookmarkID
-        if Bookmarks.isInteger bookmarkID then
-            for i in 0...tagList.length()
-                query = "DELETE FROM tag
-                    WHERE tag_ID = ?;"
-                @@db.execute query, tagList[i][:tag_ID]
-
-            end
+    def Bookmarks.deleteAllTagBookmarkLinks bookmarkId
+        if Bookmarks.isInteger(tagId) && Bookmarks.isInteger(bookmarkId)
+            query = "DELETE FROM tag_bookmark_link
+                    WHERE bookmark_ID = ?;"
+            @@db.execute query, tagId, bookmarkId
             return true
         end
         return false
@@ -912,25 +875,78 @@ module Bookmarks
         return false
     end
 
+    # Removes all report records for bookmark
+    def Bookmarks.deleteAllBookmarkReports bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM report
+                    WHERE bookmark_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        end
+        return false
+    end
+
+    # Removes all comments records for bookmark
+    def Bookmarks.deleteAllBookmarkComments bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM comment
+                    WHERE bookmark_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        end
+        return false
+    end
+
+    # Removes all edits records for bookmark
+    def Bookmarks.deleteAllBookmarkEdits bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM edit
+                    WHERE bookmark_edited_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        end
+        return false
+    end
+
+    # Removes all rating records for bookmark
+    def Bookmarks.deleteAllBookmarkRatings bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM rating
+                    WHERE bookmark_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        end
+        return false
+    end
+
+    # Removes all favourite records for bookmark
+    def Bookmarks.deleteAllBookmarkFavourite bookmarkID
+        if Bookmarks.isInteger bookmarkID then
+            query = "DELETE FROM favourite
+                    WHERE bookmark_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        end
+        return false
+    end
+
     def Bookmarks.deleteBookmark bookmarkID
         if Bookmarks.isInteger bookmarkID then
             query = "DELETE FROM bookmark
                     WHERE bookmark_ID = ?;"
-            tagList = Bookmarks.getBookmarkTags(bookmarkID)
+                    
             Bookmarks.deleteAllBookmarkViews(bookmarkID)
-            if tagList.length() == 0 then
-                @@db.execute query, bookmarkID
-                return true
-            else 
-                for i in 0...tagList.length()
-                    if !Bookmarks.deleteTagBookmarkLink(tagList[i][:tag_ID],bookmarkID) then
-                        return false
-                    end
-                end
-                    @@db.execute query, bookmarkID
-                    return true
-                end
-            end
+            Bookmarks.deleteAllBookmarkReports(bookmarkID) 
+            Bookmarks.deleteAllBookmarkComments(bookmarkID) 
+            Bookmarks.deleteAllBookmarkRatings(bookmarkID) 
+            Bookmarks.deleteAllBookmarkEdits(bookmarkID) 
+            Bookmarks.deleteAllBookmarkFavourite(bookmarkID)
+            Bookmarks.deleteAllTagBookmarkLinks(bookmarkID)
+            
+            @@db.execute query, bookmarkID
+            return true
+
+        end
         return false
     end
 

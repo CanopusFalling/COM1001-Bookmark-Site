@@ -289,7 +289,8 @@
 
 	/*Styling for the ratings system.*/
 	main section.item-details div input.setting-button,
-	main section.item-details div .option-input {
+	main section.item-details div .option-input,
+	main section.item-details div .submission-button {
 		border: none;
 		color: white;
 		background-color: rgba(0, 0, 0, 0.7);
@@ -341,6 +342,27 @@
 		padding: 0px;
 		background-image: none;
 	}
+	main
+		.item-details
+		.bookmark-details
+		.display-comments
+		.comment-box
+		.comment-header {
+			background-image: none;
+			display: flex;
+			flex-direction: row;
+			padding: 0px;
+	}
+	main 
+		.item-details 
+		.bookmark-details 
+		.display-comments 
+		.comment-box 
+		.individual-comment 
+		.comment-header img{
+        padding: 15px;
+    }
+
 	main
 		.item-details
 		.bookmark-details

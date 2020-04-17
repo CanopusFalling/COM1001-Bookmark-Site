@@ -14,14 +14,15 @@ before do
     if !session[:userID] 
         session[:userID] = -1
     end
+
 end
 
 # Redirect to the index view when a general 
 # get connection is opened.
 get '/' do
-    
     @results = Bookmarks.getHomepageDataAll
     erb :index
+
 end
 
 get '/login' do
@@ -30,6 +31,7 @@ get '/login' do
     else
         redirect '/'
     end
+
 end
 
 
@@ -56,7 +58,12 @@ post '/authenticate-user' do
 end
 
 get '/registration' do
-    erb :registration
+    if session[:userID] == -1 
+        erb :registration
+    else
+        redirect '/'
+    end
+
 end
 
 post '/registration' do
@@ -90,10 +97,12 @@ get '/search' do
     else
         erb :noResults
     end
+
 end
 
 get '/report-bookmark' do
     erb :newReport
+
 end
 
 post '/report-bookmark' do
@@ -171,9 +180,9 @@ end
 
 get '/add-comment' do
     if session[:userID] != -1
-    @bookmarkID = params[:bookmarkID]
-    @userID = session[:userID]
-    erb :addComment
+        @bookmarkID = params[:bookmarkID]
+        @userID = session[:userID]
+        erb :addComment
     else
         redirect "/bookmark-spesifics?bookmarkID=#{params[:bookmarkID]}"
     end
@@ -188,12 +197,18 @@ post '/add-comment' do
     if addComment @bookmarkID, @userID, @comment then
         redirect '/msg?msg=commentAddedMsg'
     end
+
 end
 
 get '/delete-comment' do
-    @commentID = params[:commentID]
-    @userID = session[:userID]
-    erb :deleteComment
+        if session[:userID] != -1
+        @commentID = params[:commentID]
+        @userID = session[:userID]
+        erb :deleteComment
+    else
+        redirect "/bookmark-spesifics?bookmarkID=#{params[:bookmarkID]}"
+    end
+
 end
 
 post '/delete-comment' do
@@ -203,6 +218,7 @@ post '/delete-comment' do
     if deleteComment @commentID then
         redirect '/msg?msg=commentDeleted'
     end
+
 end
 
 
@@ -217,6 +233,7 @@ get '/newBookmark' do
     else
         redirect '/'
     end
+
 end
 
 post '/newBookmark' do
@@ -232,8 +249,6 @@ post '/newBookmark' do
         redirect '/msg?msg=newBookmarkMsg' 
     end 
 
-
-   
 end
 
 get '/edit-bookmark' do
@@ -274,13 +289,12 @@ end
 
 get '/delete-bookmark' do 
     @bookmarkID = params[:bookmarkID]
-    @userID = session[:userID]
-    @creator = Bookmarks.getBookmarkCreator(@bookmarkID)
-   if @userID == @creator then
+    if UserAuthentication.hasEditRights @bookmarkID, session[:userID] then
         erb :deleteBookmark
-   else
+    else
         redirect '/msg?msg=deleteErrorMsg'
-   end       
+    end     
+
 end        
 
 post '/delete-bookmark' do
@@ -288,21 +302,25 @@ post '/delete-bookmark' do
 
     deleteBookmark @bookmarkID
     redirect '/msgGoHome?msg=successfulDeleteMsg'
+
 end
 
 get '/bookmark-addView' do
     addView params[:bookmarkID], session[:userID]
     redirect back
+
 end
 
 get '/msg' do
     @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
     erb :message
+
 end
 
 get '/msgGoHome' do
     @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
     erb :messageGoHome
+
 end
 
 get '/testing' do
@@ -310,26 +328,41 @@ get '/testing' do
     @checked = ['tag0']
     @returnedTags = extractTagsFromParams params
     erb :test
+
 end 
 
 # ======= Admin views =============
 get '/adminMenu' do
-    erb :adminMenu
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :adminMenu
+    else
+        redirect '/'
+    end
+
 end
 
 get '/approve-users' do
-    @userList = Bookmarks.getUnverifiedList
-    if @userList.length() > 0 then
-        @unverifiedTable = erb :unverifiedTable, :locals => {:userList => @userList}
-        erb :approveUsers
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @userList = Bookmarks.getUnverifiedList
+        if @userList.length() > 0 then
+            @unverifiedTable = erb :unverifiedTable, :locals => {:userList => @userList}
+            erb :approveUsers
+        else
+            redirect '/msg?msg=noUnverifiedMsg'
+        end
     else
-        redirect '/msg?msg=noUnverifiedMsg'
+        redirect '/'
     end
+
 end 
 
 get '/verify-user' do
-    @userID = params[:userID]
-    erb :confirmVerification
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @userID = params[:userID]
+        erb :confirmVerification
+    else
+        redirect '/'
+    end
 end
 
 post '/verify-user' do

@@ -117,18 +117,19 @@ get '/bookmark-spesifics' do
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
     @displayName = @details[:details][:displayName]
-    @displayName = @details[:details][:email] if @displayName == nil
+    @displayName = @details[:details][:email] if @displayName.nil?
     @avgRating = Bookmarks.getAvgRating(@ID)
     @tags = @details[:tags]
     @link = @details[:details][:link]
-    @selectRating = nil
+    
     @rateCount = Bookmarks.getRatingCount(@ID)
     @comments = Bookmarks.getComments(@ID)
 
     # if user logged in display add or change rating button depending on isRated
     if session[:userID] != -1 then
         @commentButton = erb :add_comment_button
-        @ratingButton = erb :rating_button
+        @ratingButton = params[:rate] ? nil : (erb :rating_button)
+        @selectRating = params[:rate] ? (erb :rating_selection) : nil
     else 
         @commentButton = nil
         @ratingButton = nil
@@ -147,37 +148,12 @@ get '/bookmark-spesifics' do
     
 end
 
-get '/submit-rating' do
-    @ID = params[:bookmarkID]
-    @details = Bookmarks.getBookmarkDetails @ID.to_i
-    @title = @details[:details][:title]
-    @desc = @details[:details][:description]
-    @date = @details[:details][:date]
-    @displayName = @details[:details][:displayName]
-    @displayName = @details[:details][:email] if @displayName == nil
-    @avgRating = Bookmarks.getAvgRating(@ID)
-    @tags = @details[:tags]
-    @link = @details[:details][:link]
-    @selectRating = erb :rating_selection
-    @ratingButton = nil
-    @rateCount = Bookmarks.getRatingCount(@ID)
-    @comments = Bookmarks.getComments(@ID)
-    # Display comments if they exist
-    if @comments.length() > 0 then
-        @displayComments = erb :displayComments, :locals => {:comments => @comments}
-    else
-        @displayComments = nil
-    end
-
-    erb :bookmarkDetails
-end
-
-post '/submit-rating' do
+post '/bookmark-spesifics' do
    @userID =  session[:userID] 
    @bookmarkID = params[:bookmarkID]
    @value = params[:selection] 
-
-    if @value.is_a? Integer then
+    puts @value
+    if Bookmarks.isInteger @value then
         if Bookmarks.isRated(@bookmarkID.to_i, @userID.to_i) == nil then
             if addRating @bookmarkID, @userID, @value then
                 redirect '/msg?msg=ratingAddedMsg'
@@ -190,12 +166,18 @@ post '/submit-rating' do
     else
         redirect '/msg?msg=action_error_msg'
     end
+
 end
 
 get '/add-comment' do
+    if session[:userID] != -1
     @bookmarkID = params[:bookmarkID]
     @userID = session[:userID]
     erb :addComment
+    else
+        redirect "/bookmark-spesifics?bookmarkID=#{params[:bookmarkID]}"
+    end
+
 end
 
 post '/add-comment' do

@@ -10,7 +10,7 @@
 
         <!-- Editing Buttons. -->
         <div class="edit-buttons">
-            <%if userHasEditRights entry[:ID] , session[:userID]%>
+            <%if UserAuthentication.hasEditRights entry[:ID] , session[:userID]%>
             <a id="delete-button-<%= entry[:ID]%>" href="delete-bookmark?bookmarkID=<%=h entry[:ID]%>"><img class="edit-button" src="assets/images/bin-icon.png"></a>
             <a id="edit-button-<%= entry[:ID]%>" href="edit-bookmark?bookmarkID=<%=h entry[:ID]%>"><img  class="edit-button" src="assets/images/edit.png"></a>
             <%end%>

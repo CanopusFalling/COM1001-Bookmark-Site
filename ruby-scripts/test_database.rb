@@ -31,14 +31,14 @@ puts ""
 puts Bookmarks.getDetailsByEmail "abc.com"
 puts ""
 
-puts "=== getGuestBookmarkDetails ==="
-puts Bookmarks.getGuestBookmarkDetails nil
+puts "=== getBookmarkDetails ==="
+puts Bookmarks.getBookmarkDetails nil
 puts ""
-puts Bookmarks.getGuestBookmarkDetails "abc"
+puts Bookmarks.getBookmarkDetails "abc"
 puts ""
-puts Bookmarks.getGuestBookmarkDetails 2
+puts Bookmarks.getBookmarkDetails 2
 puts ""
-puts Bookmarks.getGuestBookmarkDetails 1
+puts Bookmarks.getBookmarkDetails 1
 puts ""
 
 puts "=== getBookmarkDetails ==="
@@ -161,12 +161,12 @@ puts ""
 puts Bookmarks.isUniqueValue nil, "bookmark_title", "title8"  
 puts ""
 
-puts"=== hasPermission ==="
-puts Bookmarks.hasPermission nil
+puts"=== getAccessDetails ==="
+puts Bookmarks.getAccessDetails nil
 puts ""
-puts Bookmarks.hasPermission "sas"
+puts Bookmarks.getAccessDetails "sas"
 puts ""
-puts Bookmarks.hasPermission 0
+puts Bookmarks.getAccessDetails 0
 puts ""
-puts Bookmarks.hasPermission 3
+puts Bookmarks.getAccessDetails 3
 puts ""

@@ -17,7 +17,7 @@
                         <a href="/login"><li>Login</li></a>
                     </ul>
 
-                <% elsif Bookmarks.getUserType(session[:userID]) == Bookmarks::ADMIN_STRING%>
+                <% elsif  (UserAuthentication.getAccessLevel session[:userID])== 2%>
                     <ul>
                         <a href="/adminMenu"><li>Admin Menu</li></a>
                         <a href="/profilePage"><li>Profile</li></a>

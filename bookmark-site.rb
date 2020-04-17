@@ -112,7 +112,7 @@ end
 get '/bookmark-spesifics' do
 
     @ID = params[:bookmarkID]
-    @details = Bookmarks.getGuestBookmarkDetails(@ID.to_i)
+    @details = Bookmarks.getBookmarkDetails(@ID.to_i)
     @title = @details[:details][:title]
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
@@ -149,7 +149,7 @@ end
 
 get '/submit-rating' do
     @ID = params[:bookmarkID]
-    @details = Bookmarks.getGuestBookmarkDetails @ID.to_i
+    @details = Bookmarks.getBookmarkDetails @ID.to_i
     @title = @details[:details][:title]
     @desc = @details[:details][:description]
     @date = @details[:details][:date]
@@ -177,7 +177,7 @@ post '/submit-rating' do
    @bookmarkID = params[:bookmarkID]
    @value = params[:selection] 
 
-   if @value.is_a? Integer then
+    if @value.is_a? Integer then
         if Bookmarks.isRated(@bookmarkID.to_i, @userID.to_i) == nil then
             if addRating @bookmarkID, @userID, @value then
                 redirect '/msg?msg=ratingAddedMsg'
@@ -226,7 +226,7 @@ end
 
 get '/newBookmark' do
     if session[:userID] != -1 
-        if Bookmarks.hasPermission session[:userID]
+        if ((UserAuthentication.getAccessLevel session[:userID]) != 0)
             @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
@@ -256,8 +256,8 @@ end
 
 get '/edit-bookmark' do
     @ID = params[:bookmarkID].to_i
-    if userHasEditRights @ID, session[:userID]  
-        @details = Bookmarks.getGuestBookmarkDetails @ID
+    if UserAuthentication.hasEditRights @ID, session[:userID]  
+        @details = Bookmarks.getBookmarkDetails @ID
         @title = @details[:details][:title]
         @desc = @details[:details][:description]
         @link = @details[:details][:link]
@@ -272,7 +272,7 @@ end
 
 post '/edit-bookmark' do
     @ID = params[:bookmarkID].to_i
-    if userHasEditRights @ID, session[:userID]
+    if UserAuthentication.hasEditRights @ID, session[:userID]
         @bookmarkID = params[:bookmarkID]
         @title = params[:title]
         @link = params[:link]

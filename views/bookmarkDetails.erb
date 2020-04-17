@@ -36,7 +36,7 @@
                     <%end%>
                     <!-- Editing Buttons. -->
                     <div class="edit-buttons">
-                        <%if userHasEditRights @ID , session[:userID]%>
+                        <%if UserAuthentication.hasEditRights @ID , session[:userID]%>
                         <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%=h @ID%>'">
                         <img class="edit-button" src="assets/images/edit.png" onclick="window.location = 'edit-bookmark?bookmarkID=<%=h @ID%>'">
                         <%end%>

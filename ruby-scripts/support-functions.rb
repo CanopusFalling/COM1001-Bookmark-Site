@@ -99,37 +99,24 @@ def assignTags tags, bookmarkId
 end
 
 def reAssignTags newTags, currentTags, bookmarkId   
-    puts currentTags
-    puts ""
-    puts newTags
 
     currentTags.each do |name|
         if !newTags.include? name
             tagId = Bookmarks.getTagId name
-            puts Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 
     newTags.each do |name|
         if !currentTags.include? name
             tagId = Bookmarks.getTagId name
-            puts Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 end
 
 def h(text)
     Rack::Utils.escape_html(text)
-end
-
-def userHasEditRights bookmarkId, userId
-    if userId == -1 || (!Bookmarks.hasPermission userId) 
-        return false
-    elsif (Bookmarks.getBookmarkCreator (bookmarkId.to_i)) == userId
-        return true
-    else
-        return false
-    end
 end
 
 def filterAgainstTags bookmarks, tags

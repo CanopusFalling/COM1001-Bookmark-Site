@@ -121,22 +121,17 @@ get '/bookmark-spesifics' do
     @avgRating = Bookmarks.getAvgRating(@ID)
     @tags = @details[:tags]
     @link = @details[:details][:link]
-    @addRating = nil
-    @changeRating = nil
+    @selectRating = nil
     @rateCount = Bookmarks.getRatingCount(@ID)
     @comments = Bookmarks.getComments(@ID)
 
     # if user logged in display add or change rating button depending on isRated
     if session[:userID] != -1 then
         @commentButton = erb :add_comment_button
-        if Bookmarks.isRated(@ID.to_i,session[:userID].to_i) == nil then
-            @ratingButton = erb :add_rating_button
-        else 
-            @ratingButton = erb :change_rating_button
-        end
+        @ratingButton = erb :rating_button
     else 
-        @ratingButton = nil
         @commentButton = nil
+        @ratingButton = nil
     end
 
     # Display comments if they exist
@@ -152,7 +147,7 @@ get '/bookmark-spesifics' do
     
 end
 
-get '/add-rating' do
+get '/submit-rating' do
     @ID = params[:bookmarkID]
     @details = Bookmarks.getBookmarkDetails @ID.to_i
     @title = @details[:details][:title]
@@ -163,8 +158,8 @@ get '/add-rating' do
     @avgRating = Bookmarks.getAvgRating(@ID)
     @tags = @details[:tags]
     @link = @details[:details][:link]
-    @addRating = erb :addRating
-    @changeRating = nil
+    @selectRating = erb :rating_selection
+    @ratingButton = nil
     @rateCount = Bookmarks.getRatingCount(@ID)
     @comments = Bookmarks.getComments(@ID)
     # Display comments if they exist
@@ -177,51 +172,24 @@ get '/add-rating' do
     erb :bookmarkDetails
 end
 
-
-post '/add-rating' do
+post '/submit-rating' do
    @userID =  session[:userID] 
    @bookmarkID = params[:bookmarkID]
    @value = params[:selection] 
 
-   if addRating @bookmarkID, @userID, @value then
-        redirect '/msgGoHome?msg=ratingAddedMsg'
-   end
-end
-
-
-get '/change-rating' do
-    @ID = params[:bookmarkID]
-    @details = Bookmarks.getBookmarkDetails @ID.to_i
-    @title = @details[:details][:title]
-    @desc = @details[:details][:description]
-    @date = @details[:details][:date]
-    @displayName = @details[:details][:displayName]
-    @displayName = @details[:details][:email] if @displayName == nil
-    @avgRating = Bookmarks.getAvgRating(@ID)
-    @tags = @details[:tags]
-    @link = @details[:details][:link]
-    @addRating = nil
-    @changeRating = erb :changeRating
-    @rateCount = Bookmarks.getRatingCount(@ID)
-    @comments = Bookmarks.getComments(@ID)
-    # Display comments if they exist
-    if @comments.length() > 0 then
-        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+    if @value.is_a? Integer then
+        if Bookmarks.isRated(@bookmarkID.to_i, @userID.to_i) == nil then
+            if addRating @bookmarkID, @userID, @value then
+                redirect '/msg?msg=ratingAddedMsg'
+            end
+        else
+            if changeRating @bookmarkID, @userID, @value then
+                redirect '/msg?msg=ratingAddedMsg'
+            end
+        end
     else
-        @displayComments = nil
+        redirect '/msg?msg=action_error_msg'
     end
-
-    erb :bookmarkDetails
-end
-
-post '/change-rating' do
-   @userID =  session[:userID] 
-   @bookmarkID = params[:bookmarkID]
-   @value = params[:selection] 
-
-   if changeRating @bookmarkID, @userID, @value then
-        redirect '/msgGoHome?msg=ratingChangedMsg'
-   end
 end
 
 get '/add-comment' do

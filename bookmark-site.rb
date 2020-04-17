@@ -323,14 +323,6 @@ get '/msgGoHome' do
 
 end
 
-get '/testing' do
-    @tagList = Bookmarks.getTagNames
-    @checked = ['tag0']
-    @returnedTags = extractTagsFromParams params
-    erb :test
-
-end 
-
 # ======= Admin views =============
 get '/adminMenu' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
@@ -363,6 +355,7 @@ get '/verify-user' do
     else
         redirect '/'
     end
+    
 end
 
 post '/verify-user' do
@@ -371,4 +364,5 @@ post '/verify-user' do
     if Bookmarks.verifyUser(@userID) then
         redirect '/msg?msg=verifySuccessMsg'
     end
+
 end

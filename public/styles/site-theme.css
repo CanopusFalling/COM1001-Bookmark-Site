@@ -235,6 +235,32 @@
         background-color: rgba(100, 100, 100, 0.7);
     }
 
+	/* ===== Reported bookmark table ====== */ 
+	.report-details{
+        z-index: 1;
+    }
+	.report-title{
+        margin: 0px;
+        padding: 2px 4px;
+		min-width: 40%;
+		
+    }
+
+    .report-views{
+        margin: 0px;
+        padding: 2px 4px;
+        justify-content: center;
+        border-left: 1px solid white;
+        min-width: 20%;
+    }
+
+    .report-rating{
+		margin: 0px;
+        padding: 2px 6px;
+        border-left: 1px solid white;
+        min-width: 40%;
+    }
+
 	/* ===== advanced Serach form styling =====*/
 
 	main #advanced-search-form {

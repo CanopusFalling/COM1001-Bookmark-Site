@@ -1,0 +1,15 @@
+<section class="basic-table" id="reported-bookmarks-table">
+    <%reportList.each do |report|%>
+    <div id="<%= report[:ID]%>">
+        <div class="report-details">
+            <span class="report-title"><%=h report[:title]%></span>
+            <span class="report-views">Views: <%=h report[:views]%></span>
+            <span class="report-rating">Rating: <%=h report[:rating].round(2)%></span>
+        </div>
+
+        <div class="verify-buttons">
+            <a id="view-report-details<%= report[:ID]%>" href="report-details?bookmarkID=<%=h report[:ID]%>"><input type="submit" class="setting-button" value="View Details"></a>
+        </div>
+    </div>
+    <%end%>
+</section>

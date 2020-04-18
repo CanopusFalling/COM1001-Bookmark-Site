@@ -530,7 +530,7 @@ module Bookmarks
             result = @@db.get_first_value query, bookmarkID
 
             result = 0 if result.nil?;
-            return result;
+            return result.round(2);
         end
         return nil
     end 

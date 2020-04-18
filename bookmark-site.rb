@@ -365,4 +365,18 @@ post '/verify-user' do
         redirect '/msg?msg=verifySuccessMsg'
     end
 
+end 
+
+get '/reported-bookmarks' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @reportList = Bookmarks.getUnresolvedReports
+        if @reportList.length() > 0 then
+            @reportTable = erb :reportTable, :locals => {:reportList => @reportList}
+            erb :reportedBookmarks
+        else
+            redirect '/msg?msg=noReportsMsg'
+        end
+    else
+        redirect '/'
+    end
 end

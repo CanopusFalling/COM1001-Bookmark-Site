@@ -5,6 +5,7 @@
             <span class="report-title"><%=h report[:title]%></span>
             <span class="report-views">Views: <%=h report[:views]%></span>
             <span class="report-rating">Rating: <%=h report[:rating].round(2)%></span>
+            <span class="report-count">Reports: <%=h Bookmarks.getReportCount(report[:ID])%></span>
         </div>
 
         <div class="verify-buttons">

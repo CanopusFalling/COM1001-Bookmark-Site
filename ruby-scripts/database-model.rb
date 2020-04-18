@@ -454,6 +454,28 @@ module Bookmarks
         return result
     end
 
+    def Bookmarks.getReportCount bookmarkID
+        result = nil
+        if Bookmarks.isInteger(bookmarkID)
+            query = "SELECT
+                    COUNT(bookmark_ID) AS count
+                    FROM report
+                    WHERE bookmark_ID = ?"
+            result = @@db.execute query, bookmarkID
+            result = result[0]
+            if result
+                for i in 0..(result.length()/2)
+                    result.delete(i)        
+                end
+                result.transform_keys!(&:to_sym)
+            end
+            
+            return result[:count]
+        end
+        return result
+    end
+
+
     #Returns details of a reported bookmark
     #Params: id (integer) - an id of a specified bookmark
     #Returns: A hash with following keys (or nil if the input was incorrect):

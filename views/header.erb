@@ -1,34 +1,48 @@
 <header>
     <h1>
-    <img class="homicon" src="../assets/images/homicon.png" onclick="window.location = '/'">
-    Bookmark Site
+        <img class="homicon" src="../assets/images/homicon.png" onclick="window.location = '/'">
+        Bookmark Site
     </h1>
-        <nav>
-            <!-- Site search bar. -->
-            <form action="search" method="get">
-                <input type="text" name="search_query" placeholder="Search..">
-                <input type="submit" value="Search">
-            </form>
-            <!-- User spesific elements.-->
-            <div> 
-                <% if session[:userID] == -1 %>
-                    <ul>
-                        <a href="/registration"><li>Register</li></a>
-                        <a href="/login"><li>Login</li></a>
-                    </ul>
+    <nav>
+        <!-- Site search bar. -->
+        <form action="search" method="get">
+            <input type="text" name="search_query" placeholder="Search..">
+            <input type="submit" value="Search">
+        </form>
+        <!-- User spesific elements.-->
+        <div>
+            <% if session[:userID] == -1 %>
+            <ul>
+                <a href="/registration">
+                    <li>Register</li>
+                </a>
+                <a href="/login">
+                    <li>Login</li>
+                </a>
+            </ul>
 
-                <% elsif  (UserAuthentication.getAccessLevel session[:userID])== 2%>
-                    <ul>
-                        <a href="/adminMenu"><li>Admin Menu</li></a>
-                        <a href="/profilePage"><li>Profile</li></a>
-                        <a href="/newBookmark"><li>Create Bookmark</li></a>
-                    </ul>
-                <% else %>
-                    <ul>
-                        <a href="/profilePage"><li>Profile</li></a>
-                        <a href="/newBookmark"><li>Create Bookmark</li></a>
-                    </ul>
-                <% end %>
-            </div>
-        </nav>
-    </header>
+            <% elsif  (UserAuthentication.getAccessLevel session[:userID])== 2%>
+            <ul>
+                <a href="/adminMenu">
+                    <li>Admin Menu</li>
+                </a>
+                <a href="/profilePage">
+                    <li>Profile</li>
+                </a>
+                <a href="/newBookmark">
+                    <li>Create Bookmark</li>
+                </a>
+            </ul>
+            <% else %>
+            <ul>
+                <a href="/profilePage">
+                    <li>Profile</li>
+                </a>
+                <a href="/newBookmark">
+                    <li>Create Bookmark</li>
+                </a>
+            </ul>
+            <% end %>
+        </div>
+    </nav>
+</header>

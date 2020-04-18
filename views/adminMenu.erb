@@ -1,29 +1,42 @@
 <html>
-    <head>
-        <%= erb :head%>
-    </head> 
 
-    <body>
-        
-        <%= erb :header %>
+<head>
+    <%= erb :head%>
+</head>
 
-        <main>
-            
-            <div class="admin-menu">
-                <ul>
-                    <a href="/approve-users"><li>Approve New Users</li></a>
-                    <a href="/promote-users"><li>Promote Users to Admin</li></a>
-                    <a href="/reported-bookmarks"><li>Reported Bookmarks</li></a>
-                    <a href="/suspended-accounts"><li>Suspended Accounts</li></a>
-                    <a href="/suspended-users"><li>Suspended Users</li></a>
-                    <a href="/reset-passwords"><li>Reset User Passwords</li></a>
-                </ul>
-            </div>
+<body>
+
+    <%= erb :header %>
+
+    <main>
+
+        <div class="admin-menu">
+            <ul>
+                <a href="/approve-users">
+                    <li>Approve New Users</li>
+                </a>
+                <a href="/promote-users">
+                    <li>Promote Users to Admin</li>
+                </a>
+                <a href="/reported-bookmarks">
+                    <li>Reported Bookmarks</li>
+                </a>
+                <a href="/suspended-accounts">
+                    <li>Suspended Accounts</li>
+                </a>
+                <a href="/suspended-users">
+                    <li>Suspended Users</li>
+                </a>
+                <a href="/reset-passwords">
+                    <li>Reset User Passwords</li>
+                </a>
+            </ul>
+        </div>
 
 
-        </main>
+    </main>
 
-         <%= erb :footer %>
-    </body>
+    <%= erb :footer %>
+</body>
 
 </html>

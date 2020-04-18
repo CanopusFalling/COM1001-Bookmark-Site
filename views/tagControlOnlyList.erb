@@ -1,18 +1,20 @@
-<section class = "tagControl" >
-    
-    <div id = "activeField" onmouseout = "hideList()" onmouseover = "showList()">
-        
-        
-        
-        <div class = "tag-dropDownList">
-            <input type = "search" class = "form-input" id="tagSearch" onkeyup = "updateList()" placeholder = "Search or add tags..." maxlength = 40 autocomplete="off">
-            <div id = "tagListWrapper">
-                <ul id = "tagList">
+<section class="tagControl">
+
+    <div id="activeField" onmouseout="hideList()" onmouseover="showList()">
+
+
+
+        <div class="tag-dropDownList">
+            <input type="search" class="form-input" id="tagSearch" onkeyup="updateList()"
+                placeholder="Search or add tags..." maxlength=40 autocomplete="off">
+            <div id="tagListWrapper">
+                <ul id="tagList">
                     <%@tagList.each do |name|%>
-                        <li class = "tagItem">
-                            <input type ="checkbox" id="<%="#{name}_tag"%>" onclick = "clickedTag('<%=name%>')" <%if @checked && (@checked.include? name)%>checked<%end%>>
-                            <label for="<%="#{name}_tag"%>"><%=name%></label>
-                        </li>
+                    <li class="tagItem">
+                        <input type="checkbox" id="<%="#{name}_tag"%>" onclick="clickedTag('<%=name%>')"
+                            <%if @checked && (@checked.include? name)%>checked<%end%>>
+                        <label for="<%="#{name}_tag"%>"><%=name%></label>
+                    </li>
                     <%end%>
                 </ul>
             </div>
@@ -21,12 +23,12 @@
     </div>
 
     <!-- number of tags the bookmark is tagged with -->
-    <input type="hidden" name = "numOfTags" value = <%= @checked ? @checked.length : 0%>>
-    
+    <input type="hidden" name="numOfTags" value=<%= @checked ? @checked.length : 0%>>
+
     <!-- list of hidden inputs that wil be read by the server using numOfTags
          Representing the list of chosen tags-->
     <%(0..(@checked ? @checked.length-1 : -1)).each do |i|%>
-    <input type="hidden" name = "tagNo<%=i%>" value = "<%=h @checked[i]%>">
+    <input type="hidden" name="tagNo<%=i%>" value="<%=h @checked[i]%>">
     <%end%>
 
 </section>

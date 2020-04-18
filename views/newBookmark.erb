@@ -1,47 +1,51 @@
 <html>
 
-    <head>
-        <%= erb :head%>
-        <%= erb :tagControlHead%>
-    </head>
+<head>
+    <%= erb :head%>
+    <%= erb :tagControlHead%>
+</head>
 
-    <!-- Site Structure -->
+<!-- Site Structure -->
 
-    <body>
-        
-        <%=erb :header%>
+<body>
 
-        <main>
-            <section class="central-form">
+    <%=erb :header%>
 
-                <h2>Create a bookmark</h3>
+    <main>
+        <section class="central-form">
+
+            <h2>Create a bookmark</h3>
                 <form method="post">
                     <div>
-                    
+
                         <span class="form-label">Title:</span>
-                        <input id="bookmark-title" class="form-input" type="text" name="title" placeholder="Enter bookmark title..." required>
-                    
+                        <input id="bookmark-title" class="form-input" type="text" name="title"
+                            placeholder="Enter bookmark title..." required>
+
                     </div>
 
                     <div>
-                        <span class = "form-label">Link:</span> 
-                        <input id="bookmark-link" class="form-input" type="link" name="link" placeholder="Enter bookmark link...">
+                        <span class="form-label">Link:</span>
+                        <input id="bookmark-link" class="form-input" type="link" name="link"
+                            placeholder="Enter bookmark link...">
                     </div>
 
                     <div>
                         <span class="form-label">Description:</span>
-                        <textarea id="bookmark-description" class="form-input" name="desc" cols="50" rows="4" placeholder="Enter bookmark description..."></textarea>
+                        <textarea id="bookmark-description" class="form-input" name="desc" cols="50" rows="4"
+                            placeholder="Enter bookmark description..."></textarea>
                     </div>
                     <%= erb :tagControl%>
-                    
+
                     <input id="create-bookmark" type="submit" class="submission-button" value="Create">
                     <input type="button" class="submission-button" value="Cancel" onclick="history.back()">
 
-                    
-                </form>
-            </section>
-        </main>
 
-        <%= erb :footer%>
-    </body>
+                </form>
+        </section>
+    </main>
+
+    <%= erb :footer%>
+</body>
+
 </html>

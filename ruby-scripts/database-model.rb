@@ -454,13 +454,14 @@ module Bookmarks
         return result
     end
 
+    # Returns the number of unresolved reports for a bookmark
     def Bookmarks.getReportCount bookmarkID
         result = nil
         if Bookmarks.isInteger(bookmarkID)
             query = "SELECT
                     COUNT(bookmark_ID) AS count
                     FROM report
-                    WHERE bookmark_ID = ?"
+                    WHERE bookmark_ID = ? AND report_resolved = 0;"
             result = @@db.execute query, bookmarkID
             result = result[0]
             if result
@@ -474,6 +475,32 @@ module Bookmarks
         end
         return result
     end
+
+    # Returns the details of all the reports on a bookmark
+    def Bookmarks.getReportDetails(bookmarkID)
+        result = nil
+        if Bookmarks.isInteger(bookmarkID)
+            query = "SELECT 
+                report_type AS type,
+                report_details AS details,
+                report_date AS date,
+                user_displayName AS displayName
+                FROM report 
+                JOIN users
+                ON reporter_ID = user_ID
+                WHERE bookmark_ID = ?;"
+            result = @@db.execute query, bookmarkID
+            result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+                end
+            end
+            result.map{|row| row.transform_keys!(&:to_sym)}
+                        
+            return result
+        end
+        return result
+    end 
 
 
     #Returns details of a reported bookmark
@@ -1022,5 +1049,16 @@ module Bookmarks
         end
     end
 
+    # Mark all reports for a bookmark as a resolved
+    def Bookmarks.resolveReports(bookmarkID)
+        if Bookmarks.isInteger(bookmarkID)
+            query = "UPDATE report
+                SET report_resolved = 1
+                WHERE bookmark_ID = ?;"
+            @@db.execute query, bookmarkID
+            return true
+        end
+        return false
+    end
 end
 

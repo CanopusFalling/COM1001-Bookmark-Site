@@ -45,7 +45,7 @@ post '/authenticate-user' do
     if @result == -1
         @error = "Invalid login or password"
     elsif @result == "Suspended"
-        redirect '/msg?msg=suspended'
+        redirect '/msg?msg=suspendedMsg'
     elsif @result == "Unverified"
         redirect '/msg?msg=unverifiedMsg'
     else
@@ -75,7 +75,7 @@ post '/registration' do
     
     if @error_msg == ""
         newUser @displayName , @email, params[:password]
-        redirect '/msg?msg=newUser'
+        redirect '/msg?msg=newUserMsg'
     else
         erb:registration
     end
@@ -114,7 +114,7 @@ post '/report-bookmark' do
 
     newReport @ID, @reporterID, @type, @desc
 
-    redirect '/msg?msg=reportThanks'
+    redirect '/msg?msg=reportThanksMsg'
 
 end
 
@@ -216,7 +216,7 @@ post '/delete-comment' do
     @userID = session[:userID]
 
     if deleteComment @commentID then
-        redirect '/msg?msg=commentDeleted'
+        redirect '/msg?msg=commentDeletedMsg'
     end
 
 end
@@ -228,7 +228,7 @@ get '/newBookmark' do
             @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
-            redirect '/msg?msg=waitForVerification'
+            redirect '/msg?msg=waitForVerificationMsg'
         end
     else
         redirect '/'
@@ -301,7 +301,7 @@ post '/delete-bookmark' do
     @bookmarkID = params[:bookmarkID]
 
     deleteBookmark @bookmarkID
-    redirect '/msgGoHome?msg=successfulDeleteMsg'
+    redirect '/msg?msg=successfulDeleteMsg'
 
 end
 
@@ -314,12 +314,6 @@ end
 get '/msg' do
     @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
     erb :message
-
-end
-
-get '/msgGoHome' do
-    @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
-    erb :messageGoHome
 
 end
 

@@ -136,9 +136,9 @@ get '/bookmark-spesifics' do
 
     # if user logged in display add or change rating button depending on isRated
     if session[:userID] != -1 then
-        @commentButton = erb :add_comment_button
-        @ratingButton = params[:rate] ? nil : (erb :rating_button)
-        @selectRating = params[:rate] ? (erb :rating_selection) : nil
+        @commentButton = erb :addCommentButton
+        @ratingButton = params[:rate] ? nil : (erb :ratingButton)
+        @selectRating = params[:rate] ? (erb :ratingSelection) : nil
     else 
         @commentButton = nil
         @ratingButton = nil
@@ -173,7 +173,7 @@ post '/bookmark-spesifics' do
             end
         end
     else
-        redirect '/msg?msg=action_error_msg'
+        redirect '/msg?msg=actionErrorMsg'
     end
 
 end

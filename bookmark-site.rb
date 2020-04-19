@@ -412,4 +412,29 @@ post '/resolve-report' do
     if Bookmarks.resolveReports(@ID) then
         redirect '/msg?msg=successfullyResolvedMsg'
     end
+end 
+
+get '/suspended-accounts' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @suspendedUserDetails = Bookmarks.getSuspendedUsers
+        @suspendedTable = erb :suspendedTable, :locals => {:users => @suspendedUserDetails}
+        erb :suspendedAccounts
+    else
+        redirect '/'
+    end
+end
+
+get '/remove-suspension' do 
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :removeSuspension
+    else
+        redirect '/'
+    end
+end 
+
+post '/remove-suspension' do
+    @ID = params[:userID]
+    if Bookmarks.unsuspendUser(@ID) then
+        redirect '/msg?msg=suspensionRemovedMsg'
+    end
 end

@@ -39,7 +39,6 @@ module Bookmarks
             query = "SELECT * FROM bookmark_list
                     WHERE title LIKE ?;"  
             result = @@db.execute query, "%#{search}%"
-            #result.map{|row| row.transform_keys!(&:to_sym)}
             result.each do |row|
                 for i in 0..(row.length()/2)
                     row.delete(i)
@@ -484,6 +483,7 @@ module Bookmarks
                 report_type AS type,
                 report_details AS details,
                 report_date AS date,
+                user_email AS email,
                 user_displayName AS displayName
                 FROM report 
                 JOIN users
@@ -531,7 +531,25 @@ module Bookmarks
 
         return result
     end
-    
+
+    # Returns details of all users marked as suspended
+    def Bookmarks.getSuspendedUsers
+        query = "SELECT 
+                user_ID AS ID,
+                user_email AS email,
+                user_displayName AS displayName,
+                user_department AS department
+                FROM users
+                WHERE user_suspended = 1;"
+        result = @@db.execute query
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
+        result.map{|row| row.transform_keys!(&:to_sym)}
+    end
+
     # Returns userID of the bookmark creator
     # Params: bookmarkID - id of bookmark
     # Returns: userID of bookmark creator
@@ -1058,6 +1076,18 @@ module Bookmarks
             @@db.execute query, bookmarkID
             return true
         end
+        return false
+    end
+
+     # Revoke suspension for user
+     def Bookmarks.unsuspendUser userID
+        if Bookmarks.isInteger(userID)
+            query = "UPDATE users
+                SET user_suspended = 0
+                WHERE user_ID = ?"
+            @@db.execute query, userID
+            return true
+        end 
         return false
     end
 end

@@ -922,10 +922,10 @@ module Bookmarks
     end
 
     def Bookmarks.deleteAllTagBookmarkLinks bookmarkId
-        if Bookmarks.isInteger(tagId) && Bookmarks.isInteger(bookmarkId)
+        if Bookmarks.isInteger(bookmarkId)
             query = "DELETE FROM tag_bookmark_link
                     WHERE bookmark_ID = ?;"
-            @@db.execute query, tagId, bookmarkId
+            @@db.execute query, bookmarkId
             return true
         end
         return false

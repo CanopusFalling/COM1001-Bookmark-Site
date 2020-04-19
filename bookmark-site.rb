@@ -7,6 +7,8 @@ require_relative 'ruby-scripts/support-functions.rb'
 # For running the server from codio.
 set :bind, '0.0.0.0'
 enable :sessions
+#set :show_exceptions => false
+
 
 Bookmarks.init "../database/test.db"
 
@@ -438,3 +440,7 @@ post '/remove-suspension' do
         redirect '/msg?msg=suspensionRemovedMsg'
     end
 end
+
+#error do
+#   redirect '/msg?msg=actionErrorMsg'
+#end

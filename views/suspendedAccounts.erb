@@ -8,11 +8,7 @@
         <%= erb :header %> 
 
         <main>
-            <%if @suspendedUserDetails && @suspendedUserDetails.length >0%>
                 <%= @suspendedTable%>
-            <%else%>
-                <h3>Currently there are no suspended users</h3>
-            <%end%>
         </main>
 
         <%= erb :footer%>

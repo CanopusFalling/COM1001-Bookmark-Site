@@ -173,7 +173,7 @@ module Bookmarks
     #   user_id - an id of a user viewing the bookmark
     #Returns: a value the user rated bookmark with 
     #         or nil if the bookmark hasn't been rated yet or input was incorrect
-    def Bookmarks.isRated bookmark_ID, user_ID
+    def Bookmarks.getRating bookmark_ID, user_ID
         if (Bookmarks.isInteger bookmark_ID) && (Bookmarks.isInteger user_ID)
             query = "SELECT rating_value
                     FROM rating
@@ -673,7 +673,6 @@ module Bookmarks
         return Array.new
     end 
 
-    
     #Checks if value passed exists in a database
     #Params tableName - name of the table in which to look for uniqness
     #       columnName - name of the column in which to check uniqness
@@ -733,7 +732,6 @@ module Bookmarks
 
     # === Insert Methods ========
 
-    
     # Insert user's details into db when they register an account
     def Bookmarks.addRegisterDetails (uEmail, uDisplay, uDepartment, password)
         if !Bookmarks.isUniqueValue('users','user_email',uEmail) then

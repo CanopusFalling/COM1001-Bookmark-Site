@@ -5,10 +5,10 @@ require_relative 'database-model.rb'
 module UserAuthentication
     DATABASE = ""
     TABLE = 'users'
-    
+
+    # checks password against hashed/salted value in db
+    # returns userID if passwords match, -1 otherwise
     def UserAuthentication.check(email,password)
-        # checks password against hashed/salted value in db
-        # returns userID if passwords match, -1 otherwise
         validUser = false
         queryResult = Bookmarks.getDetailsByEmail(email)
         if queryResult
@@ -18,13 +18,7 @@ module UserAuthentication
         end
         
         if validUser then
-            if queryResult[:suspended].to_i == 1
-                return "Suspended"
-            elsif queryResult[:type] == Bookmarks::UNVERIFIED_STRING
-                return "Unverified"
-            else
                 return userID
-            end
         else
             return -1
         end

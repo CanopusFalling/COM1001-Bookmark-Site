@@ -1,11 +1,15 @@
 <html>
+
+<head>
+    <%= erb :head%>
+    <script src="javascript/useful-functions.js"></script>
+
     <head>
-        <%= erb :head%>
-    <head>
-    
-    <!-- Site Structure -->
+
+        <!-- Site Structure -->
+
     <body>
-        
+
         <%= erb :header%>
 
         <main>
@@ -22,7 +26,7 @@
                         <span>Created on <%=h @date%> by <%= h @displayName%></span>
                     </div>
                     <div class="rating">
-                        <span>Rating: <%=h @avgRating%>/5     (<%=h @rateCount%>)</span> 
+                        <span>Rating: <%=h @avgRating%>/5 (<%=h @rateCount%>)</span>
                         <%= @ratingButton%>
                         <%= @selectRating%>
                     </div>
@@ -30,18 +34,23 @@
                     <%if @tags.length >0%>
                     <div class="tagDisplay">
                         <%@tags.each do |tag|%>
-                            <a class = "tagLink" href="/search?search_query=&showTag='<%=h  tag[:name]%>'">#<%=h tag[:name]%></a>
+                        <a class="tagLink"
+                            href="/search?search_query=&showTag='<%=h  tag[:name]%>'">#<%=h tag[:name]%></a>
                         <%end%>
                     </div>
                     <%end%>
                     <!-- Editing Buttons. -->
                     <div class="edit-buttons">
                         <%if UserAuthentication.hasEditRights @ID , session[:userID]%>
-                        <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%=h @ID%>'">
-                        <img class="edit-button" src="assets/images/edit.png" onclick="window.location = 'edit-bookmark?bookmarkID=<%=h @ID%>'">
+                        <img class="edit-button" src="../assets/images/bin-icon.png"
+                            onclick="window.location = 'delete-bookmark?bookmarkID=<%=h @ID%>'">
+                        <img class="edit-button" src="assets/images/edit.png"
+                            onclick="window.location = 'edit-bookmark?bookmarkID=<%=h @ID%>'">
                         <%end%>
-                        <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="openInNewTab('http:\/\/<%=h @link%>')">
-                        <img class="edit-button" src="../assets/images/report.png" onclick="window.location = 'report-bookmark?bookmarkID=<%=h @ID%>'">
+                        <img class="edit-button" src="../assets/images/external-page-icon.png"
+                            onclick="openInNewTab('http:\/\/<%=h @link%>')">
+                        <img class="edit-button" src="../assets/images/report.png"
+                            onclick="window.location = 'report-bookmark?bookmarkID=<%=h @ID%>'">
                     </div>
                     <div class="display-comments">
                         <div class="comment-section-header">
@@ -51,7 +60,7 @@
                         <%= @displayComments%>
                     </div>
                 </div>
-                
+
             </section>
             <!--<button class="back-button" Onclick="history.back()">Back</button> -->
         </main>

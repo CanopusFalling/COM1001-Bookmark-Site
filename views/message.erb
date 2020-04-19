@@ -1,19 +1,21 @@
 <!-- Page for displaying different messages to the user-->
 <html>
-    <head>
-        <%= erb :head %>
-    </head>
 
-    <!-- Site Structure -->
+<head>
+    <%= erb :head %>
+</head>
 
-    <body>
-        <%= erb :header %>
+<!-- Site Structure -->
 
-        <main>
-            <%= erb @message %>
-            <a href="/"><button id="back-button">Go back</button></a>
-        </main>
+<body>
+    <%= erb :header %>
 
-        <%= erb :footer %>
-    </body>
+    <main>
+        <%= erb @message %>
+        <a href="/"><button id="back-button">Go back</button></a>
+    </main>
+
+    <%= erb :footer %>
+</body>
+
 </html>

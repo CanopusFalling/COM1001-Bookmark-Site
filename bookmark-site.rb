@@ -45,7 +45,7 @@ post '/authenticate-user' do
     if @result == -1
         @error = "Invalid login or password"
     elsif @result == "Suspended"
-        redirect '/msg?msg=suspended'
+        redirect '/msg?msg=suspendedMsg'
     elsif @result == "Unverified"
         redirect '/msg?msg=unverifiedMsg'
     else
@@ -75,7 +75,7 @@ post '/registration' do
     
     if @error_msg == ""
         newUser @displayName , @email, params[:password]
-        redirect '/msg?msg=newUser'
+        redirect '/msg?msg=newUserMsg'
     else
         erb:registration
     end
@@ -114,7 +114,7 @@ post '/report-bookmark' do
 
     newReport @ID, @reporterID, @type, @desc
 
-    redirect '/msg?msg=reportThanks'
+    redirect '/msg?msg=reportThanksMsg'
 
 end
 
@@ -136,9 +136,9 @@ get '/bookmark-spesifics' do
 
     # if user logged in display add or change rating button depending on isRated
     if session[:userID] != -1 then
-        @commentButton = erb :add_comment_button
-        @ratingButton = params[:rate] ? nil : (erb :rating_button)
-        @selectRating = params[:rate] ? (erb :rating_selection) : nil
+        @commentButton = erb :addCommentButton
+        @ratingButton = params[:rate] ? nil : (erb :ratingButton)
+        @selectRating = params[:rate] ? (erb :ratingSelection) : nil
     else 
         @commentButton = nil
         @ratingButton = nil
@@ -173,7 +173,7 @@ post '/bookmark-spesifics' do
             end
         end
     else
-        redirect '/msg?msg=action_error_msg'
+        redirect '/msg?msg=actionErrorMsg'
     end
 
 end
@@ -216,7 +216,7 @@ post '/delete-comment' do
     @userID = session[:userID]
 
     if deleteComment @commentID then
-        redirect '/msg?msg=commentDeleted'
+        redirect '/msg?msg=commentDeletedMsg'
     end
 
 end
@@ -228,7 +228,7 @@ get '/newBookmark' do
             @tagList = Bookmarks.getTagNames
             erb :newBookmark
         else
-            redirect '/msg?msg=waitForVerification'
+            redirect '/msg?msg=waitForVerificationMsg'
         end
     else
         redirect '/'

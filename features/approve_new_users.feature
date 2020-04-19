@@ -6,7 +6,7 @@ Feature: Approve new users
         When I fill in "user-password" with "admin" within "section"
         When I press "submit-login" within "section"
         Then I should be on the homepage
-        When I follow "Admin Menu" within "header"
+        When I follow "Admin" within "header"
         Then I should see "Approve New Users"
         When I follow "Approve New Users"
         Then I should see "Testing Unapproved User"
@@ -21,7 +21,7 @@ Feature: Approve new users
         Then I should see "Verification successful"
         When I follow "Go back"
         Then I should be on the homepage
-        When I follow "Admin Menu" within "header"
+        When I follow "Admin" within "header"
         Then I should see "Approve New Users"
         When I follow "Approve New Users"
         Then I should not see "Testing Unapproved User"
@@ -37,7 +37,7 @@ Feature: Approve new users
         When I fill in "user-password" with "admin" within "section"
         When I press "submit-login" within "section"
         Then I should be on the homepage
-        When I follow "Admin Menu" within "header"
+        When I follow "Admin" within "header"
         Then I should see "Approve New Users"
         When I follow "Approve New Users"
         Then I should see "TestingRole2"
@@ -49,7 +49,7 @@ Feature: Approve new users
         Then I should see "Verification successful"
         When I follow "Go back"
         Then I should be on the homepage
-        When I follow "Admin Menu" within "header"
+        When I follow "Admin" within "header"
         Then I should see "Approve New Users"
         When I follow "Approve New Users"
         Then I should not see "Testing Unapproved User"

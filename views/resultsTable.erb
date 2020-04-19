@@ -1,5 +1,5 @@
 <section class="basic-table" id="homepage-bookmarks-table">
-                
+
     <%results.each do |entry|%>
     <div id="<%= entry[:ID]%>">
         <!-- Bookmark Details -->
@@ -11,12 +11,16 @@
         <!-- Editing Buttons. -->
         <div class="edit-buttons">
             <%if UserAuthentication.hasEditRights entry[:ID] , session[:userID]%>
-            <a id="delete-button-<%= entry[:ID]%>" href="delete-bookmark?bookmarkID=<%=h entry[:ID]%>"><img class="edit-button" src="assets/images/bin-icon.png"></a>
-            <a id="edit-button-<%= entry[:ID]%>" href="edit-bookmark?bookmarkID=<%=h entry[:ID]%>"><img  class="edit-button" src="assets/images/edit.png"></a>
+            <a id="delete-button-<%= entry[:ID]%>" href="delete-bookmark?bookmarkID=<%=h entry[:ID]%>"><img
+                    class="edit-button" src="assets/images/bin-icon.png"></a>
+            <a id="edit-button-<%= entry[:ID]%>" href="edit-bookmark?bookmarkID=<%=h entry[:ID]%>"><img
+                    class="edit-button" src="assets/images/edit.png"></a>
             <%end%>
 
-            <img class="edit-button" src="assets/images/external-page-icon.png" onclick="openInNewTabAndRecordView('http:\/\/<%=h entry[:link]%>',<%=h entry[:ID]%>)">
-            <a id="report-button-<%=entry[:ID]%>" href="report-bookmark?bookmarkID=<%=h entry[:ID]%>"><img class="edit-button" src="assets/images/report.png"></a>
+            <img class="edit-button" src="assets/images/external-page-icon.png"
+                onclick="openInNewTabAndRecordView('http:\/\/<%=h entry[:link]%>',<%=h entry[:ID]%>)">
+            <a id="report-button-<%=entry[:ID]%>" href="report-bookmark?bookmarkID=<%=h entry[:ID]%>"><img
+                    class="edit-button" src="assets/images/report.png"></a>
         </div>
     </div>
     <%end%>

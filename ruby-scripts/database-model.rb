@@ -484,6 +484,7 @@ module Bookmarks
                 report_type AS type,
                 report_details AS details,
                 report_date AS date,
+                user_email AS email,
                 user_displayName AS displayName
                 FROM report 
                 JOIN users
@@ -531,7 +532,24 @@ module Bookmarks
 
         return result
     end
-    
+
+    def Bookmarks.getSuspendedUsers
+        query = "SELECT 
+                user_ID AS ID,
+                user_email AS email,
+                user_displayName AS displayName,
+                user_department AS department
+                FROM users
+                WHERE user_suspended = 1;"
+        result = @@db.execute query
+        result.each do |row|
+            for i in 0..(row.length()/2)
+                row.delete(i)        
+            end
+        end
+        result.map{|row| row.transform_keys!(&:to_sym)}
+    end
+
     # Returns userID of the bookmark creator
     # Params: bookmarkID - id of bookmark
     # Returns: userID of bookmark creator

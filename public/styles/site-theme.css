@@ -222,7 +222,7 @@
     section.basic-table div.verify-buttons, .verify-buttons a{
         display: flex;
         justify-content: flex-end;
-        right: 0px;
+        margin: 0px;
     }
 
     .verify-buttons input{

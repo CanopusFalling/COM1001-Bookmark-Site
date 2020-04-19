@@ -423,3 +423,18 @@ get '/suspended-accounts' do
         redirect '/'
     end
 end
+
+get '/remove-suspension' do 
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :removeSuspension
+    else
+        redirect '/'
+    end
+end 
+
+post '/remove-suspension' do
+    @ID = params[:userID]
+    if Bookmarks.unsuspendUser(@ID) then
+        redirect '/msg?msg=suspensionRemovedMsg'
+    end
+end

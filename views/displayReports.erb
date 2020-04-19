@@ -1,0 +1,10 @@
+<div class="comment-box">
+    <%reports.each do |report|%>
+    <div class="individual-comment">
+        <div class="comment-header">
+            <h4><%= h report[:type]%> - <%=h report[:displayName]%> - <%=h report[:date]%></h4>
+        </div>
+        <p class="comment-details"><%=h report[:details]%></p>
+    </div>
+    <%end%>
+</div>

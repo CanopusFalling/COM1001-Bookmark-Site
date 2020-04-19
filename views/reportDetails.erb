@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <%= erb :head%>
+    <head>
+    
+    <!-- Site Structure -->
+    <body>
+        
+        <%= erb :header%>
+
+        <main>
+            <section class="item-details" id="homepage-bookmarks-specifics">
+                <!-- Bookmark Details -->
+                <div class="bookmark-details">
+                    <h2 class="bookmark-title">
+                        <%= h @title%>
+                    </h2>
+                    <div class="bookmark-description">
+                        <%= h @desc%>
+                    </div>
+                    <div class="bookmark-link">
+                        <span>Link: <%=h @link%></span>
+                        <img class="edit-button" src="../assets/images/external-page-icon.png" onclick="openInNewTab('http:\/\/<%=h @link%>')">
+                    </div>
+                    <div class="detailed-info">
+                        <span>Created on <%=h @date%> by <%= h @displayName%></span>
+                    </div>
+                    <div class="rating">
+                        <span>Rating: <%=h @avgRating%>/5     (<%=h @rateCount%>)</span> 
+                        <%= @ratingButton%>
+                        <%= @selectRating%>
+                    </div>
+                    <!-- If bookmark what tagged with any tags display them-->
+                    <%if @tags.length >0%>
+                    <div class="tagDisplay">
+                        <%@tags.each do |tag|%>
+                            <a class = "tagLink" href="/search?search_query=&showTag='<%=h  tag[:name]%>'">#<%=h tag[:name]%></a>
+                        <%end%>
+                    </div>
+                    <%end%>
+                    <div class="edit-buttons">
+                        <%if UserAuthentication.hasEditRights @ID , session[:userID]%>
+                            <img class="edit-button" src="../assets/images/bin-icon.png" onclick="window.location = 'delete-bookmark?bookmarkID=<%=h @ID%>'">
+                            <img class="edit-button" src="assets/images/edit.png" onclick="window.location = 'edit-bookmark?bookmarkID=<%=h @ID%>'">
+                        <%end%>
+                        
+                        <div class="verify-buttons">
+                            <a id="resolve-report-button" href="resolve-report?bookmarkID=<%=h @ID%>"><input type="submit" class="setting-button" value="Mark As Resolved"></a>
+                        </div>
+                    </div>
+                    <!-- Editing Buttons. -->
+                    <div class="display-comments">
+                        <div class="comment-section-header">
+                            <span id="comment-title">Reports</span>
+                        </div>
+                        <%= @displayReports%>
+                    </div>
+                </div>
+        </main>
+
+        <%= erb :footer%>
+    </body>
+
+</html>

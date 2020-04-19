@@ -301,8 +301,7 @@ post '/delete-bookmark' do
     @bookmarkID = params[:bookmarkID]
 
     deleteBookmark @bookmarkID
-    redirect '/msgGoHome?msg=successfulDeleteMsg'
-
+    redirect '/msg?msg=successfulDeleteMsg'
 end
 
 get '/bookmark-addView' do
@@ -314,12 +313,6 @@ end
 get '/msg' do
     @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
     erb :message
-
-end
-
-get '/msgGoHome' do
-    @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
-    erb :messageGoHome
 
 end
 
@@ -365,4 +358,58 @@ post '/verify-user' do
         redirect '/msg?msg=verifySuccessMsg'
     end
 
+end 
+
+get '/reported-bookmarks' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @reportList = Bookmarks.getUnresolvedReports
+        if @reportList.length() > 0 then
+            @reportTable = erb :reportTable, :locals => {:reportList => @reportList}
+            erb :reportedBookmarks
+        else
+            redirect '/msg?msg=noReportsMsg'
+        end
+    else
+        redirect '/'
+    end
+end
+
+get '/report-details' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @ID = params[:bookmarkID]
+        @details = Bookmarks.getBookmarkDetails(@ID.to_i)
+        @title = @details[:details][:title]
+        @desc = @details[:details][:description]
+        @date = @details[:details][:date]
+        @displayName = @details[:details][:displayName]
+        @displayName = @details[:details][:email] if @displayName.nil?
+        @avgRating = Bookmarks.getAvgRating(@ID)
+        @tags = @details[:tags]
+        @link = @details[:details][:link]
+        @rateCount = Bookmarks.getRatingCount(@ID)
+
+        @reports = Bookmarks.getReportDetails(@ID)
+        @displayReports = erb :displayReports, :locals => {:reports => @reports}
+
+
+
+        erb :reportDetails
+    else
+        redirect '/'
+    end
+end
+
+get '/resolve-report' do 
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :resolveReport
+    else
+        redirect '/'
+    end
+end 
+
+post '/resolve-report' do
+    @ID = params[:bookmarkID]
+    if Bookmarks.resolveReports(@ID) then
+        redirect '/msg?msg=successfullyResolvedMsg'
+    end
 end

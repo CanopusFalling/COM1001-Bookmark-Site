@@ -444,3 +444,7 @@ end
 #error do
 #   redirect '/msg?msg=actionErrorMsg'
 #end
+
+not_found do
+    redirect '/'
+end

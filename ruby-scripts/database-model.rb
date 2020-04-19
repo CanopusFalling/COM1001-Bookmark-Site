@@ -1029,6 +1029,17 @@ module Bookmarks
         return false
     end
 
+    # Delete user record
+    def Bookmarks.deleteUser userID
+        if Bookmarks.isInteger userID then
+            query = "DELETE FROM users
+                    WHERE user_ID = ?;"
+            @@db.execute query, userID
+            return true
+        end
+        return false
+    end
+
     # =========== Update Statements =================
     # Change value for user's rating of bookmark 
     def Bookmarks.changeRating bookmarkID, userID, newValue, newDate

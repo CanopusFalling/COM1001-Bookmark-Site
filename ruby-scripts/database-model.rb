@@ -1098,5 +1098,16 @@ module Bookmarks
         end 
         return false
     end
+
+    def Bookmarks.promoteToAdmin userID
+        if Bookmarks.isInteger(userID)
+            query = "UPDATE users
+                SET user_type = ?
+                WHERE user_ID = ?"
+            @@db.execute query, ADMIN_STRING, userID
+            return true
+        end 
+        return false
+    end
 end
 

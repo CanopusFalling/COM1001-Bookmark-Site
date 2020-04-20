@@ -483,6 +483,21 @@ get '/user-list' do
     end
 end    
 
+get '/promote-user' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :promoteUser
+    else
+        redirect '/'
+    end
+end
+
+post '/promote-user' do
+    @ID = params[:userID]
+    if Bookmarks.promoteToAdmin(@ID) then
+        redirect '/msg?msg=userPromotedMsg'
+    end
+end
+
 
 not_found do
     redirect '/'

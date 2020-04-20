@@ -7,6 +7,8 @@ require_relative 'ruby-scripts/support-functions.rb'
 # For running the server from codio.
 set :bind, '0.0.0.0'
 enable :sessions
+#set :show_exceptions => false
+
 
 Bookmarks.init "../database/test.db"
 
@@ -34,23 +36,31 @@ get '/login' do
 
 end
 
-
+#attempted login
 post '/authenticate-user' do
 
     @login = params[:user_email]
     @password = params[:user_password]
+
+    #check credentials
     @result = UserAuthentication.check @login , @password
-    @error=""
     
     if @result == -1
-        @error = "Invalid login or password"
-    elsif @result == "Suspended"
-        redirect '/msg?msg=suspended'
-    elsif @result == "Unverified"
-        redirect '/msg?msg=unverifiedMsg'
+        @error = "Invalid login or password"   
     else
-        session[:userID] = @result
-        redirect '/'
+        #check if account is active and verified
+        if (UserAuthentication.getAccessLevel @result) == 0
+            @details = Bookmarks.getAccessDetails @result
+            #if not check why
+            if  @details[:user_suspended] == 1
+                redirect '/msg?msg=suspendedMsg'
+            elsif @details[:user_type] == Bookmarks::UNVERIFIED_STRING
+                redirect '/msg?msg=unverifiedMsg'
+            end
+        else
+            session[:userID] = @result
+            redirect '/'
+        end
     end
     
     erb:loginpage
@@ -75,7 +85,7 @@ post '/registration' do
     
     if @error_msg == ""
         newUser @displayName , @email, params[:password]
-        redirect '/msg?msg=newUser'
+        redirect '/msg?msg=newUserMsg'
     else
         erb:registration
     end
@@ -88,7 +98,11 @@ get '/search' do
     @searchQuery = params["search_query"]
 
     @fullResults = Bookmarks.getHomepageData @searchQuery
+
+    #variables for tagControl
     @tagList = Bookmarks.getTagNames
+    #get tags for filter either from submitted form 
+    #or redirected after clicking on a tag in bookmark details
     @checked = params[:showTag] ? [params[:showTag]] : (extractTagsFromParams params)
     
     if(@fullResults.length != 0) then
@@ -114,7 +128,7 @@ post '/report-bookmark' do
 
     newReport @ID, @reporterID, @type, @desc
 
-    redirect '/msg?msg=reportThanks'
+    redirect '/msg?msg=reportThanksMsg'
 
 end
 
@@ -134,11 +148,10 @@ get '/bookmark-spesifics' do
     @rateCount = Bookmarks.getRatingCount(@ID)
     @comments = Bookmarks.getComments(@ID)
 
-    # if user logged in display add or change rating button depending on isRated
     if session[:userID] != -1 then
-        @commentButton = erb :add_comment_button
-        @ratingButton = params[:rate] ? nil : (erb :rating_button)
-        @selectRating = params[:rate] ? (erb :rating_selection) : nil
+        @commentButton = erb :addCommentButton
+        @ratingButton = params[:rate] ? nil : (erb :ratingButton)
+        @selectRating = params[:rate] ? (erb :ratingSelection) : nil
     else 
         @commentButton = nil
         @ratingButton = nil
@@ -157,24 +170,27 @@ get '/bookmark-spesifics' do
     
 end
 
+#User submitted rating
 post '/bookmark-spesifics' do
-   @userID =  session[:userID] 
-   @bookmarkID = params[:bookmarkID]
-   @value = params[:selection] 
-    puts @value
+    @userID =  session[:userID] 
+    @bookmarkID = params[:bookmarkID]
+    @value = params[:selection] #submitted rating
+
     if Bookmarks.isInteger @value then
-        if Bookmarks.isRated(@bookmarkID.to_i, @userID.to_i) == nil then
-            if addRating @bookmarkID, @userID, @value then
-                redirect '/msg?msg=ratingAddedMsg'
-            end
+
+        #Either add or update the rating the user has already submitted
+        if Bookmarks.getRating(@bookmarkID, @userID) == nil then
+            success = addRating @bookmarkID, @userID, @value
         else
-            if changeRating @bookmarkID, @userID, @value then
-                redirect '/msg?msg=ratingAddedMsg'
-            end
+            success = changeRating @bookmarkID, @userID, @value 
         end
-    else
-        redirect '/msg?msg=action_error_msg'
+
+        if success then 
+            redirect '/msg?msg=ratingAddedMsg'
+        end
     end
+
+    redirect '/msg?msg=actionErrorMsg'
 
 end
 
@@ -216,22 +232,18 @@ post '/delete-comment' do
     @userID = session[:userID]
 
     if deleteComment @commentID then
-        redirect '/msg?msg=commentDeleted'
+        redirect '/msg?msg=commentDeletedMsg'
     end
 
 end
 
 
 get '/newBookmark' do
-    if session[:userID] != -1 
-        if ((UserAuthentication.getAccessLevel session[:userID]) != 0)
-            @tagList = Bookmarks.getTagNames
-            erb :newBookmark
-        else
-            redirect '/msg?msg=waitForVerification'
-        end
+    if ((UserAuthentication.getAccessLevel session[:userID]) != 0)
+        @tagList = Bookmarks.getTagNames
+        erb :newBookmark
     else
-        redirect '/'
+        redirect '/msg?msg=waitForVerificationMsg'
     end
 
 end
@@ -361,7 +373,7 @@ post '/verify-user' do
 end 
 
 get '/reported-bookmarks' do
-    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2 #Is current user an admin
         @reportList = Bookmarks.getUnresolvedReports
         if @reportList.length() > 0 then
             @reportTable = erb :reportTable, :locals => {:reportList => @reportList}
@@ -417,8 +429,12 @@ end
 get '/suspended-accounts' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
         @suspendedUserDetails = Bookmarks.getSuspendedUsers
-        @suspendedTable = erb :suspendedTable, :locals => {:users => @suspendedUserDetails}
-        erb :suspendedAccounts
+        if(@suspendedUserDetails.length > 0)
+            @suspendedTable = erb :suspendedTable, :locals => {:users => @suspendedUserDetails}
+            erb :suspendedAccounts
+        else
+            redirect '/msg?msg=noSuspendedUsersMsg'
+        end
     else
         redirect '/'
     end
@@ -452,4 +468,10 @@ post '/delete-account' do
     if Bookmarks.deleteUser(@ID) then
         redirect '/msg?msg=accountDeletedMsg'
     end
+#error do
+#   redirect '/msg?msg=actionErrorMsg'
+#end
+
+not_found do
+    redirect '/'
 end

@@ -11,14 +11,14 @@
  * ===== Tablet Styles =====
  */
 
-@media only screen and (min-width: 400px) {
-}
+@media only screen and (min-width: 400px) {}
 
 /*
  * ===== Desktop Styles =====
  */
 
 @media only screen and (min-width: 800px) {
+
 	/*--------------- General Tags ---------------*/
 	body {
 		width: 100%;
@@ -70,16 +70,14 @@
 	}
 
 	header h1 {
-		width: 100%;
+		width: 50%;
 	}
 
 	header nav {
+		width: 50%;
 		list-style: none;
 		display: flex;
 		justify-content: flex-end;
-		position: relative;
-		top: 0px;
-		right: 0px;
 	}
 
 	header nav ul {
@@ -90,6 +88,7 @@
 	}
 
 	header nav ul li {
+		font-size: 0.8em;
 		padding: 6px 8px;
 		margin: auto 2px;
 		display: flex;
@@ -186,17 +185,12 @@
 		background-color: none;
 	}
 
-	.edit-buttons a{
+	.edit-buttons a {
 		display: flex;
 		margin: 0px;
 		padding: 0px;
 		width: auto;
-    }
-    
-	/* ===== Verify user table ====== */
-	.user-details{
-        z-index: 1;
-    }
+	}
 
     .user-displayName{
         margin: 0px;
@@ -212,8 +206,9 @@
         min-width: 10%;
     }
 
-    .user-department{
+	.user-email {
 		margin: 0px;
+
         padding: 2px 6px;
         border-left: 1px solid white;
         
@@ -295,11 +290,9 @@
 
 	main section.item-details .bookmark-details h2,
 	main section.item-details .bookmark-details div {
-		background-image: linear-gradient(
-			to right,
-			rgba(0, 0, 0, 0.5),
-			rgba(0, 0, 0, 0)
-		);
+		background-image: linear-gradient(to right,
+				rgba(0, 0, 0, 0.5),
+				rgba(0, 0, 0, 0));
 		margin: 10px 0px;
 		padding: 4px;
 	}
@@ -308,20 +301,12 @@
 		justify-content: flex-start;
 	}
 
-	main
-		section.item-details
-		.bookmark-details
-		div.edit-buttons
-		img.edit-button {
+	main section.item-details .bookmark-details div.edit-buttons img.edit-button {
 		width: 30px;
 		height: 30px;
 	}
 
-	main
-		section.item-details
-		div.bookmark-details
-		div.rating
-		div.choose-rating {
+	main section.item-details div.bookmark-details div.rating div.choose-rating {
 		padding: 20px;
 		display: inline;
 	}
@@ -366,11 +351,7 @@
 		flex-direction: column;
 	}
 
-	main
-		section.item-details
-		.bookmark-details
-		.display-comments
-		.comment-section-header {
+	main section.item-details .bookmark-details .display-comments .comment-section-header {
 		background-image: none;
 		padding: 0px;
 	}
@@ -381,33 +362,19 @@
 		padding: 0px;
 		background-image: none;
 	}
-	main
-		.item-details
-		.bookmark-details
-		.display-comments
-		.comment-box
-		.comment-header {
-			background-image: none;
-			display: flex;
-			flex-direction: row;
-			padding: 0px;
-	}
-	main 
-		.item-details 
-		.bookmark-details 
-		.display-comments 
-		.comment-box 
-		.individual-comment 
-		.comment-header img{
-        padding: 15px;
-    }
 
-	main
-		.item-details
-		.bookmark-details
-		.display-comments
-		.comment-box
-		.individual-comment {
+	main .item-details .bookmark-details .display-comments .comment-box .comment-header {
+		background-image: none;
+		display: flex;
+		flex-direction: row;
+		padding: 0px;
+	}
+
+	main .item-details .bookmark-details .display-comments .comment-box .individual-comment .comment-header img {
+		padding: 15px;
+	}
+
+	main .item-details .bookmark-details .display-comments .comment-box .individual-comment {
 		padding: 0px;
 		background-image: none;
 	}
@@ -491,35 +458,36 @@
 		font-size: 1.4em;
 		align-items: center;
 		color: red;
-    }
-    
-    /* ========= Admin Menu Styles ========= */
-    main .admin-menu{
-        width: 50%;
-        max-width: 700px;
-        display: flex;
-        flex-direction: column;
+	}
+
+	/* ========= Admin Menu Styles ========= */
+	main .admin-menu {
+		width: 50%;
+		max-width: 700px;
+		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
-		margin: 0 auto;		
-    }
-    main .admin-menu ul {
-        padding: 15px 0px;
-        margin: auto;
-        list-style: none;
-        width: 100%;
-        text-align:center;
-    }
+		margin: 0 auto;
+	}
 
-    main .admin-menu ul li {
-        padding: 6px 8px;
-        margin: auto 2px;
-        background-color: rgba(0, 0, 0, 0.7);
-        font-size: 1.6em;
-        width: 100%;
-        margin: auto;
-    }
+	main .admin-menu ul {
+		padding: 15px 0px;
+		margin: auto;
+		list-style: none;
+		width: 100%;
+		text-align: center;
+	}
 
-    main .admin-menu ul li:hover{
-        background-color: rgba(100, 100,100, 0.9);
-    }
+	main .admin-menu ul li {
+		padding: 6px 8px;
+		margin: auto 2px;
+		background-color: rgba(0, 0, 0, 0.7);
+		font-size: 1.6em;
+		width: 100%;
+		margin: auto;
+	}
+
+	main .admin-menu ul li:hover {
+		background-color: rgba(100, 100, 100, 0.9);
+	}
 }

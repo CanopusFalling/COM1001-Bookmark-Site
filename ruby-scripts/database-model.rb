@@ -696,6 +696,44 @@ module Bookmarks
         return nil
     end 
 
+    #checks if entry with given id exists in table (dont call for linking tables)
+    def Bookmarks.entryExists? entryID, tableName
+
+        if (Bookmarks.isInteger entryID) && (Bookmarks.getTableNames.include? tableName)
+            
+            #find primary key of this table
+            query = "PRAGMA table_info ('#{tableName}');"
+            columns = @@db.execute query
+            primaryKey = ""
+            columns.each do |column|
+                if column["pk"] != 0
+                    if primaryKey == ""
+                        primaryKey = column["name"]
+                    else
+                        # if found more then one primary key
+                        return false
+                    end
+                    
+                end
+            end
+
+            #check if primary key with value entryID exists
+            query = "SELECT #{primaryKey}
+                    FROM #{tableName}
+                    WHERE #{primaryKey} = ?;"
+            result = @@db.execute query, entryID
+
+            if result && result.length() > 0
+                return true
+            end
+
+        end
+
+        #if something went wrong or didn't found key
+        return false
+
+    end
+
     # Returns true if the value is an integer
     def Bookmarks.isInteger value
         result = Integer(value) rescue false

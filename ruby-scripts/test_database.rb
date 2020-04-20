@@ -42,21 +42,19 @@ puts Bookmarks.getBookmarkDetails 1
 puts ""
 
 puts "=== getBookmarkDetails ==="
-puts Bookmarks.getBookmarkDetails nil , nil
+puts Bookmarks.getBookmarkDetails nil 
 puts ""
-puts Bookmarks.getBookmarkDetails 0 , nil
+puts Bookmarks.getBookmarkDetails 0 
 puts ""
-puts Bookmarks.getBookmarkDetails nil , 0
+puts Bookmarks.getBookmarkDetails "abc"
 puts ""
-puts Bookmarks.getBookmarkDetails "abc", 0
+puts Bookmarks.getBookmarkDetails 2
 puts ""
-puts Bookmarks.getBookmarkDetails 2, 0
+puts Bookmarks.getBookmarkDetails 3
 puts ""
-puts Bookmarks.getBookmarkDetails 3, 2
+puts Bookmarks.getBookmarkDetails 3
 puts ""
-puts Bookmarks.getBookmarkDetails 3, 4
-puts ""
-puts Bookmarks.getBookmarkDetails 0, "abc"
+puts Bookmarks.getBookmarkDetails 0
 puts ""
 
 puts "=== getTagNames ==="
@@ -159,6 +157,18 @@ puts ""
 puts Bookmarks.isUniqueValue "bookmark", "bookmark_title", "title8"  
 puts ""
 puts Bookmarks.isUniqueValue nil, "bookmark_title", "title8"  
+puts ""
+
+puts"=== entryExists? ==="
+puts Bookmarks.entryExists? nil, nil
+puts ""
+puts Bookmarks.entryExists? nil, "hahahah"
+puts ""
+puts Bookmarks.entryExists? "hahah", nil
+puts ""
+puts Bookmarks.entryExists? 2, "bookmark"
+puts ""
+puts Bookmarks.entryExists? 65, "bookmark"
 puts ""
 
 puts"=== getAccessDetails ==="

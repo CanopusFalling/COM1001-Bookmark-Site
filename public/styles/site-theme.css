@@ -192,29 +192,38 @@
 		width: auto;
 	}
 
-	/* ===== Verify user table ====== */
-	.user-details {
-		z-index: 1;
-	}
+    .user-displayName{
+        margin: 0px;
+        padding: 4px 4px;
+        min-width: 30%;
+    }
 
-	.user-displayName {
-		margin: 0px;
-		padding: 4px 4px;
-		min-width: 60%;
-	}
+    .user-email{
+        margin: 0px;
+        padding: 2px 6px;
+        justify-content: center;
+        border-left: 1px solid white;
+        min-width: 10%;
+    }
 
 	.user-email {
 		margin: 0px;
 
         padding: 2px 6px;
         border-left: 1px solid white;
-        min-width: 40%;
-    }
+        
+	}
+	
+	section.basic-table div.verify-buttons{
+		max-width: 30%;
+		padding: 0px;
+	}
 
     section.basic-table div.verify-buttons, .verify-buttons a{
-        display: flex;
-        justify-content: flex-end;
-        margin: 0px;
+		display: flex;
+		justify-content: flex-end;
+		margin: 0px;
+		padding: 0px;
     }
 
     .verify-buttons input{
@@ -226,7 +235,7 @@
     .verify-buttons input:hover{
         background-color: rgba(100, 100, 100, 0.7);
     }
-
+	
 	/* ===== Reported bookmark table ====== */ 
 	.report-details{
         z-index: 1;

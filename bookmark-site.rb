@@ -455,6 +455,19 @@ post '/remove-suspension' do
     end
 end
 
+get '/delete-account' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :deleteAccount
+    else
+        redirect '/'
+    end
+end 
+
+post '/delete-account' do
+    @ID = params[:userID]
+    if Bookmarks.deleteUser(@ID) then
+        redirect '/msg?msg=accountDeletedMsg'
+    end
 #error do
 #   redirect '/msg?msg=actionErrorMsg'
 #end

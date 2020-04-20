@@ -1087,6 +1087,19 @@ module Bookmarks
         return false
     end
 
+    # Suspend user account (set user_suspended to 1)
+    def Bookmarks.suspendUser userID
+        if Bookmarks.isInteger(userID)
+            query = "UPDATE users
+                SET user_suspended = 1
+                WHERE user_ID = ?"
+            @@db.execute query, userID
+            return true
+        end 
+        return false
+    end
+
+
      # Revoke suspension for user
      def Bookmarks.unsuspendUser userID
         if Bookmarks.isInteger(userID)

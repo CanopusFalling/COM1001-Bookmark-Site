@@ -513,6 +513,21 @@ post '/reset-password' do
     end
 end 
 
+get '/suspend-user' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :suspendUser
+    else
+        redirect '/'
+    end
+end    
+
+post '/suspend-user' do
+    @ID = params[:userID]
+    if Bookmarks.suspendUser(@ID) then
+        redirect '/msg?msg=userSuspendedMsg'
+    end
+end
+
 not_found do
     redirect '/'
 end

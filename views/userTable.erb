@@ -11,11 +11,14 @@
             <%if user[:status] == Bookmarks::USER_STRING%>
             <a id="promote-user<%= user[:ID]%>" href="promote-user?userID=<%=h user[:ID]%>"><input type="submit"
                     class="setting-button" value="Promote to Admin"></a>
-            <%end%>
             <a id="reset-password<%= user[:ID]%>" href="reset-password?userID=<%=h user[:ID]%>"><input type="submit"
                     class="setting-button" value="Reset Password"></a>
             <a id="suspend-user<%= user[:ID]%>" href="suspend-user?userID=<%=h user[:ID]%>"><input type="submit"
                     class="setting-button" value="Suspend User"></a>
+            <%else%>
+            <span class="admin-label">ADMIN</span>
+            <%end%>
+            
         </div>
     </div>
     <%end%>

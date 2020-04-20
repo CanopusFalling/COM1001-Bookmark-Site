@@ -496,8 +496,22 @@ post '/promote-user' do
     if Bookmarks.promoteToAdmin(@ID) then
         redirect '/msg?msg=userPromotedMsg'
     end
-end
+end 
 
+get '/reset-password' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :passwordReset
+    else
+        redirect '/'
+    end
+end    
+
+post '/reset-password' do
+    @ID = params[:userID]
+    if Bookmarks.resetPassword(@ID) then
+        redirect '/msg?msg=passwordResetMsg'
+    end
+end 
 
 not_found do
     redirect '/'

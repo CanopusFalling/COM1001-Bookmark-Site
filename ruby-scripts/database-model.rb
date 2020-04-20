@@ -1099,15 +1099,28 @@ module Bookmarks
         return false
     end
 
+    # Change user_type to 'Admin'
     def Bookmarks.promoteToAdmin userID
         if Bookmarks.isInteger(userID)
             query = "UPDATE users
                 SET user_type = ?
-                WHERE user_ID = ?"
+                WHERE user_ID = ?;"
             @@db.execute query, ADMIN_STRING, userID
             return true
         end 
         return false
     end
+
+    # Reset password - changes to 'password'
+    def Bookmarks.resetPassword userID
+        if Bookmarks.isInteger(userID)
+            query = "UPDATE users
+                SET user_password = ?
+                WHERE user_ID = ?;"
+            @@db.execute query, BCrypt::Password.create("password"), userID
+            return true
+        end
+        return false
+    end     
 end
 

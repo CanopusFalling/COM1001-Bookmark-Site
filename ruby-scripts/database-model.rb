@@ -291,9 +291,8 @@ module Bookmarks
                 result = nil
             end
         end
-        
         return result
-    end
+    end 
 
     #Returns list of bookmarks on given users favourite list
     #Params: id (integer) - id of a given user
@@ -360,10 +359,10 @@ module Bookmarks
                 user_email AS email,
                 user_displayName AS displayName,
                 user_department AS department,
-                user_type AS status,
-                user_suspended AS suspended
+                user_type AS status
                 FROM users
-                WHERE NOT user_type = ?;"
+                WHERE NOT user_type = ?
+                AND user_suspended = 0;"
         result = @@db.execute query, UNVERIFIED_STRING
         result.each do |row|
             for i in 0..(row.length()/2)

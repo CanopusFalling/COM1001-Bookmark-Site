@@ -468,9 +468,21 @@ post '/delete-account' do
     if Bookmarks.deleteUser(@ID) then
         redirect '/msg?msg=accountDeletedMsg'
     end
+end
 #error do
 #   redirect '/msg?msg=actionErrorMsg'
 #end
+
+get '/user-list' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @verifiedList = Bookmarks.getVerifiedList
+        @userTable = erb :userTable, :locals => {:userList => @verifiedList}
+        erb :userList
+    else
+        redirect '/'
+    end
+end    
+
 
 not_found do
     redirect '/'

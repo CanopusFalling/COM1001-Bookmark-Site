@@ -1,0 +1,22 @@
+<section class="basic-table" id="verified-users-table">
+    <%userList.each do |user|%>
+    <div id="<%= user[:ID]%>">
+        <div class="user-details">
+            <span class="user-displayName"><%=h user[:displayName]%></span>
+            <span class="user-email"><%=h user[:email]%></span>
+            <span class="user-department"><%=h user[:department]%></span>
+        </div>
+
+        <div class="verify-buttons">
+            <%if user[:status] == Bookmarks::USER_STRING%>
+            <a id="promote-user<%= user[:ID]%>" href="promote-user?userID=<%=h user[:ID]%>"><input type="submit"
+                    class="setting-button" value="Promote to Admin"></a>
+            <%end%>
+            <a id="reset-password<%= user[:ID]%>" href="reset-password?userID=<%=h user[:ID]%>"><input type="submit"
+                    class="setting-button" value="Reset Password"></a>
+            <a id="suspend-user<%= user[:ID]%>" href="suspend-user?userID=<%=h user[:ID]%>"><input type="submit"
+                    class="setting-button" value="Suspend User"></a>
+        </div>
+    </div>
+    <%end%>
+</section>

@@ -291,9 +291,8 @@ module Bookmarks
                 result = nil
             end
         end
-        
         return result
-    end
+    end 
 
     #Returns list of bookmarks on given users favourite list
     #Params: id (integer) - id of a given user
@@ -360,10 +359,10 @@ module Bookmarks
                 user_email AS email,
                 user_displayName AS displayName,
                 user_department AS department,
-                user_type AS status,
-                user_suspended AS suspended
+                user_type AS status
                 FROM users
-                WHERE NOT user_type = ?;"
+                WHERE NOT user_type = ?
+                AND user_suspended = 0;"
         result = @@db.execute query, UNVERIFIED_STRING
         result.each do |row|
             for i in 0..(row.length()/2)
@@ -1088,6 +1087,19 @@ module Bookmarks
         return false
     end
 
+    # Suspend user account (set user_suspended to 1)
+    def Bookmarks.suspendUser userID
+        if Bookmarks.isInteger(userID)
+            query = "UPDATE users
+                SET user_suspended = 1
+                WHERE user_ID = ?"
+            @@db.execute query, userID
+            return true
+        end 
+        return false
+    end
+
+
      # Revoke suspension for user
      def Bookmarks.unsuspendUser userID
         if Bookmarks.isInteger(userID)
@@ -1099,5 +1111,29 @@ module Bookmarks
         end 
         return false
     end
+
+    # Change user_type to 'Admin'
+    def Bookmarks.promoteToAdmin userID
+        if Bookmarks.isInteger(userID)
+            query = "UPDATE users
+                SET user_type = ?
+                WHERE user_ID = ?;"
+            @@db.execute query, ADMIN_STRING, userID
+            return true
+        end 
+        return false
+    end
+
+    # Reset password - changes to 'password'
+    def Bookmarks.resetPassword userID
+        if Bookmarks.isInteger(userID)
+            query = "UPDATE users
+                SET user_password = ?
+                WHERE user_ID = ?;"
+            @@db.execute query, BCrypt::Password.create("password"), userID
+            return true
+        end
+        return false
+    end     
 end
 

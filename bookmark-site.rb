@@ -468,9 +468,65 @@ post '/delete-account' do
     if Bookmarks.deleteUser(@ID) then
         redirect '/msg?msg=accountDeletedMsg'
     end
+end
 #error do
 #   redirect '/msg?msg=actionErrorMsg'
 #end
+
+get '/user-list' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        @verifiedList = Bookmarks.getVerifiedList
+        @userTable = erb :userTable, :locals => {:userList => @verifiedList}
+        erb :userList
+    else
+        redirect '/'
+    end
+end    
+
+get '/promote-user' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :promoteUser
+    else
+        redirect '/'
+    end
+end
+
+post '/promote-user' do
+    @ID = params[:userID]
+    if Bookmarks.promoteToAdmin(@ID) then
+        redirect '/msg?msg=userPromotedMsg'
+    end
+end 
+
+get '/reset-password' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :passwordReset
+    else
+        redirect '/'
+    end
+end    
+
+post '/reset-password' do
+    @ID = params[:userID]
+    if Bookmarks.resetPassword(@ID) then
+        redirect '/msg?msg=passwordResetMsg'
+    end
+end 
+
+get '/suspend-user' do
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        erb :suspendUser
+    else
+        redirect '/'
+    end
+end    
+
+post '/suspend-user' do
+    @ID = params[:userID]
+    if Bookmarks.suspendUser(@ID) then
+        redirect '/msg?msg=userSuspendedMsg'
+    end
+end
 
 not_found do
     redirect '/'

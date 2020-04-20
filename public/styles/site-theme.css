@@ -195,7 +195,7 @@
     .user-displayName{
         margin: 0px;
         padding: 4px 4px;
-        min-width: 30%;
+        width: 30%;
     }
 
     .user-email{
@@ -204,19 +204,17 @@
         justify-content: center;
         border-left: 1px solid white;
         min-width: 10%;
-    }
-
-	.user-email {
-		margin: 0px;
-
-        padding: 2px 6px;
-        border-left: 1px solid white;
-        
 	}
-	
+	.user-department{
+		border-left: 1px  solid white;
+		margin: 0px;
+        padding: 2px 6px;
+	}
+
 	section.basic-table div.verify-buttons{
 		max-width: 30%;
 		padding: 0px;
+		z-index: 1;
 	}
 
     section.basic-table div.verify-buttons, .verify-buttons a{
@@ -234,7 +232,10 @@
 
     .verify-buttons input:hover{
         background-color: rgba(100, 100, 100, 0.7);
-    }
+	}
+	.verify-buttons .admin-label{
+		padding: 4px 4px;
+	}
 	
 	/* ===== Reported bookmark table ====== */ 
 	.report-details{

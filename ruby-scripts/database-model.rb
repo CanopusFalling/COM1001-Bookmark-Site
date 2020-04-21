@@ -1124,13 +1124,13 @@ module Bookmarks
         return false
     end
 
-    # Reset password - changes to 'password'
-    def Bookmarks.resetPassword userID
+    # Changes users password - stored as hash in dataabse
+    def Bookmarks.resetPassword userID, password
         if Bookmarks.isInteger(userID)
             query = "UPDATE users
                 SET user_password = ?
                 WHERE user_ID = ?;"
-            @@db.execute query, BCrypt::Password.create("password"), userID
+            @@db.execute query, BCrypt::Password.create(password), userID
             return true
         end
         return false

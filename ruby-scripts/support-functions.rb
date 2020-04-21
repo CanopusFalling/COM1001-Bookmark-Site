@@ -25,7 +25,20 @@ def getErrorMessage params
     end
 
     return error_msg
+end
 
+def getPasswordErrorMsg params
+    error_msg = ""
+    password = params[:password]
+    password_conf = params[:password_validation]
+    if ! isValidPassword password
+        error_msg += "Please enter valid password"
+        error_msg += "\n"
+    elsif password != password_conf
+        error_msg += "Passwords don't match"
+    end
+
+    return error_msg
 end
 
 def isValidEmail email

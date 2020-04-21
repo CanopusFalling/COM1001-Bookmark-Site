@@ -24,6 +24,22 @@ module UserAuthentication
         end
     end   
 
+    def UserAuthentication.hasPasswordReset(email)
+        hasReset = false
+        queryResult = Bookmarks.getDetailsByEmail(email)
+        if queryResult
+            hashCheck = BCrypt::Password.new(queryResult[:password])
+            validUser = hashCheck.is_password?("password")
+        end
+
+        if validUser then 
+            return true
+        else
+            return false
+        end
+    end
+
+
     def UserAuthentication.hasEditRights bookmarkId, userId
 
         if ((UserAuthentication.getAccessLevel userId) == 0)

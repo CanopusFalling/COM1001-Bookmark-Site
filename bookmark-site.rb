@@ -13,8 +13,16 @@ enable :sessions
 Bookmarks.init "../database/test.db"
 
 before do
+    
     if !session[:userID] 
         session[:userID] = -1
+    end
+
+    if session[:userID] && (session[:userID] != -1) 
+        if (UserAuthentication.getAccessLevel session[:userID]) == 0
+            session[:userID] = -1
+            redirect '/msg?msg=accountUnavailableMsg'
+        end
     end
 
 end
@@ -115,124 +123,161 @@ get '/search' do
 end
 
 get '/report-bookmark' do
-    erb :newReport
+    
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        erb :newReport
+    else
+        redirect '/msg?msg=missingResourceMsg'
+    end
 
 end
 
 post '/report-bookmark' do
+    
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @ID = params[:bookmarkID]
+        @type = params[:category]
+        @desc = params[:details]=="" ? nil : params[:details]
+        @reporterID = session[:userID]
 
-    @ID = params[:bookmarkID]
-    @type = params[:category]
-    @desc = params[:details]=="" ? nil : params[:details]
-    @reporterID = session[:userID]
+        newReport @ID, @reporterID, @type, @desc
 
-    newReport @ID, @reporterID, @type, @desc
-
-    redirect '/msg?msg=reportThanksMsg'
+        redirect '/msg?msg=reportThanksMsg'
+    else 
+        redirect '/msg?msg=missingResourceMsg'
+    end
 
 end
 
 get '/bookmark-spesifics' do
 
-    @ID = params[:bookmarkID]
-    @details = Bookmarks.getBookmarkDetails(@ID.to_i)
-    @title = @details[:details][:title]
-    @desc = @details[:details][:description]
-    @date = @details[:details][:date]
-    @displayName = @details[:details][:displayName]
-    @displayName = @details[:details][:email] if @displayName.nil?
-    @avgRating = Bookmarks.getAvgRating(@ID)
-    @tags = @details[:tags]
-    @link = @details[:details][:link]
-    
-    @rateCount = Bookmarks.getRatingCount(@ID)
-    @comments = Bookmarks.getComments(@ID)
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @ID = params[:bookmarkID]
+        @details = Bookmarks.getBookmarkDetails(@ID.to_i)
+        @title = @details[:details][:title]
+        @desc = @details[:details][:description]
+        @date = @details[:details][:date]
+        @displayName = @details[:details][:displayName]
+        @displayName = @details[:details][:email] if @displayName.nil?
+        @avgRating = Bookmarks.getAvgRating(@ID)
+        @tags = @details[:tags]
+        @link = @details[:details][:link]
+        
+        @rateCount = Bookmarks.getRatingCount(@ID)
+        @comments = Bookmarks.getComments(@ID)
 
-    if session[:userID] != -1 then
-        @commentButton = erb :addCommentButton
-        @ratingButton = params[:rate] ? nil : (erb :ratingButton)
-        @selectRating = params[:rate] ? (erb :ratingSelection) : nil
-    else 
-        @commentButton = nil
-        @ratingButton = nil
-    end
+        if session[:userID] != -1 then
+            @commentButton = erb :addCommentButton
+            @ratingButton = params[:rate] ? nil : (erb :ratingButton)
+            @selectRating = params[:rate] ? (erb :ratingSelection) : nil
+        else 
+            @commentButton = nil
+            @ratingButton = nil
+        end
 
-    # Display comments if they exist
-    if @comments.length() > 0 then
-        @displayComments = erb :displayComments, :locals => {:comments => @comments}
+        # Display comments if they exist
+        if @comments.length() > 0 then
+            @displayComments = erb :displayComments, :locals => {:comments => @comments}
+        else
+            @displayComments = nil
+        end
+
+        addView @ID, session[:userID]
+
+        erb :bookmarkDetails
     else
-        @displayComments = nil
+        redirect '/msg?msg=missingResourceMsg'
     end
-
-    addView @ID, session[:userID]
-
-    erb :bookmarkDetails
     
 end
 
 #User submitted rating
 post '/bookmark-spesifics' do
-    @userID =  session[:userID] 
-    @bookmarkID = params[:bookmarkID]
-    @value = params[:selection] #submitted rating
+   
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @userID =  session[:userID] 
+        @bookmarkID = params[:bookmarkID]
+        @value = params[:selection] #submitted rating
 
-    if Bookmarks.isInteger @value then
+        if Bookmarks.isInteger @value then
 
-        #Either add or update the rating the user has already submitted
-        if Bookmarks.getRating(@bookmarkID, @userID) == nil then
-            success = addRating @bookmarkID, @userID, @value
-        else
-            success = changeRating @bookmarkID, @userID, @value 
+            #Either add or update the rating the user has already submitted
+            if Bookmarks.getRating(@bookmarkID, @userID) == nil then
+                success = addRating @bookmarkID, @userID, @value
+            else
+                success = changeRating @bookmarkID, @userID, @value 
+            end
+
+            if success then 
+                redirect '/msg?msg=ratingAddedMsg'
+            end
         end
 
-        if success then 
-            redirect '/msg?msg=ratingAddedMsg'
-        end
+        redirect '/msg?msg=actionErrorMsg'
+    else
+        redirect '/msg?msg=missingResourceMsg'
     end
-
-    redirect '/msg?msg=actionErrorMsg'
 
 end
 
 get '/add-comment' do
-    if session[:userID] != -1
-        @bookmarkID = params[:bookmarkID]
-        @userID = session[:userID]
-        erb :addComment
+
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        if session[:userID] != -1
+            @bookmarkID = params[:bookmarkID]
+            @userID = session[:userID]
+            erb :addComment
+        else
+            redirect "/bookmark-spesifics?bookmarkID=#{params[:bookmarkID]}"
+        end
     else
-        redirect "/bookmark-spesifics?bookmarkID=#{params[:bookmarkID]}"
+        redirect '/msg?msg=missingResourceMsg'
     end
 
 end
 
 post '/add-comment' do
-    @comment = params[:comment]
-    @bookmarkID = params[:bookmarkID]
-    @userID = session[:userID]
 
-    if addComment @bookmarkID, @userID, @comment then
-        redirect '/msg?msg=commentAddedMsg'
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @comment = params[:comment]
+        @bookmarkID = params[:bookmarkID]
+        @userID = session[:userID]
+
+        if addComment @bookmarkID, @userID, @comment then
+            redirect '/msg?msg=commentAddedMsg'
+        end
+    else
+        redirect '/msg?msg=missingResourceMsg'
     end
 
 end
 
 get '/delete-comment' do
+
+    if Bookmarks.resourceExists? params[:commentID], "comment"
         if session[:userID] != -1
         @commentID = params[:commentID]
         @userID = session[:userID]
         erb :deleteComment
+        else
+            redirect "/bookmark-spesifics?bookmarkID=#{params[:bookmarkID]}"
+        end
     else
-        redirect "/bookmark-spesifics?bookmarkID=#{params[:bookmarkID]}"
+        redirect '/msg?msg=missingResourceMsg'
     end
 
 end
 
 post '/delete-comment' do
-    @commentID = params[:commentID]
-    @userID = session[:userID]
+    if Bookmarks.resourceExists? params[:commentID], "comment"
+        @commentID = params[:commentID]
+        @userID = session[:userID]
 
-    if deleteComment @commentID then
-        redirect '/msg?msg=commentDeletedMsg'
+        if deleteComment @commentID then
+            redirect '/msg?msg=commentDeletedMsg'
+        end
+    else
+        redirect '/msg?msg=missingResourceMsg'
     end
 
 end
@@ -264,65 +309,90 @@ post '/newBookmark' do
 end
 
 get '/edit-bookmark' do
-    @ID = params[:bookmarkID].to_i
-    if UserAuthentication.hasEditRights @ID, session[:userID]  
-        @details = Bookmarks.getBookmarkDetails @ID
-        @title = @details[:details][:title]
-        @desc = @details[:details][:description]
-        @link = @details[:details][:link]
-        @tagList = Bookmarks.getTagNames
-        @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
-        erb :editBookmark
+
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @ID = params[:bookmarkID].to_i
+        if UserAuthentication.hasEditRights @ID, session[:userID]  
+            @details = Bookmarks.getBookmarkDetails @ID
+            @title = @details[:details][:title]
+            @desc = @details[:details][:description]
+            @link = @details[:details][:link]
+            @tagList = Bookmarks.getTagNames
+            @checked = Bookmarks.getBookmarkTagsNames @ID.to_i
+            erb :editBookmark
+        else
+            redirect '/'
+        end
     else
-        redirect '/'
+        redirect '/msg?msg=missingResourceMsg'
     end
     
 end
 
 post '/edit-bookmark' do
-    @ID = params[:bookmarkID].to_i
-    if UserAuthentication.hasEditRights @ID, session[:userID]
-        @bookmarkID = params[:bookmarkID]
-        @title = params[:title]
-        @link = params[:link]
-        @desc = params[:desc]
-        @tags = extractTagsFromParams params
-        @userID = session[:userID]
-    
-        updateBookmark @bookmarkID, @title, @link, @desc, @userID
-        reAssignTags @tags, (Bookmarks.getBookmarkTagsNames @ID), @ID
-        redirect '/msg?msg=updateBookmarkMsg' 
+
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @ID = params[:bookmarkID].to_i
+        if UserAuthentication.hasEditRights @ID, session[:userID]
+            @bookmarkID = params[:bookmarkID]
+            @title = params[:title]
+            @link = params[:link]
+            @desc = params[:desc]
+            @tags = extractTagsFromParams params
+            @userID = session[:userID]
+        
+            updateBookmark @bookmarkID, @title, @link, @desc, @userID
+            reAssignTags @tags, (Bookmarks.getBookmarkTagsNames @ID), @ID
+            redirect '/msg?msg=updateBookmarkMsg' 
+        else
+            redirect '/'
+        end
     else
-        redirect '/'
+        redirect '/msg?msg=missingResourceMsg'
     end
    
 end
 
 
 get '/delete-bookmark' do 
-    @bookmarkID = params[:bookmarkID]
-    if UserAuthentication.hasEditRights @bookmarkID, session[:userID] then
-        erb :deleteBookmark
+
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @bookmarkID = params[:bookmarkID]
+        if UserAuthentication.hasEditRights @bookmarkID, session[:userID] then
+            erb :deleteBookmark
+        else
+            redirect '/msg?msg=deleteErrorMsg'
+        end   
     else
-        redirect '/msg?msg=deleteErrorMsg'
-    end     
+        redirect '/msg?msg=missingResourceMsg'
+    end 
 
 end        
 
 post '/delete-bookmark' do
-    @bookmarkID = params[:bookmarkID]
+    
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        @bookmarkID = params[:bookmarkID]
 
-    deleteBookmark @bookmarkID
-    redirect '/msg?msg=successfulDeleteMsg'
+        deleteBookmark @bookmarkID
+        redirect '/msg?msg=successfulDeleteMsg'
+    else
+        redirect '/msg?msg=missingResourceMsg'
+    end 
+
 end
 
 get '/bookmark-addView' do
-    addView params[:bookmarkID], session[:userID]
+
+    if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+        addView params[:bookmarkID], session[:userID]
+    end
     redirect back
 
 end
 
 get '/msg' do
+
     @message = params[:msg]==nil ? :defaultMsg : params[:msg].to_sym
     erb :message
 
@@ -354,9 +424,14 @@ get '/approve-users' do
 end 
 
 get '/verify-user' do
+    
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        @userID = params[:userID]
-        erb :confirmVerification
+        if Bookmarks.resourceExists? params[:userID], "users"
+            @userID = params[:userID]
+            erb :confirmVerification
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
@@ -364,11 +439,20 @@ get '/verify-user' do
 end
 
 post '/verify-user' do
-    @userID = params[:userID]
-    puts params[:userID]
-    if Bookmarks.verifyUser(@userID) then
-        redirect '/msg?msg=verifySuccessMsg'
-    end
+
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        if Bookmarks.resourceExists? params[:userID], "users"
+            @userID = params[:userID]
+            puts params[:userID]
+            if Bookmarks.verifyUser(@userID) then
+                redirect '/msg?msg=verifySuccessMsg'
+            end
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
+    else
+        redirect '/'
+    end 
 
 end 
 
@@ -387,42 +471,61 @@ get '/reported-bookmarks' do
 end
 
 get '/report-details' do
+
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        @ID = params[:bookmarkID]
-        @details = Bookmarks.getBookmarkDetails(@ID.to_i)
-        @title = @details[:details][:title]
-        @desc = @details[:details][:description]
-        @date = @details[:details][:date]
-        @displayName = @details[:details][:displayName]
-        @displayName = @details[:details][:email] if @displayName.nil?
-        @avgRating = Bookmarks.getAvgRating(@ID)
-        @tags = @details[:tags]
-        @link = @details[:details][:link]
-        @rateCount = Bookmarks.getRatingCount(@ID)
+        if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+            @ID = params[:bookmarkID]
+            @details = Bookmarks.getBookmarkDetails(@ID.to_i)
+            @title = @details[:details][:title]
+            @desc = @details[:details][:description]
+            @date = @details[:details][:date]
+            @displayName = @details[:details][:displayName]
+            @displayName = @details[:details][:email] if @displayName.nil?
+            @avgRating = Bookmarks.getAvgRating(@ID)
+            @tags = @details[:tags]
+            @link = @details[:details][:link]
+            @rateCount = Bookmarks.getRatingCount(@ID)
 
-        @reports = Bookmarks.getReportDetails(@ID)
-        @displayReports = erb :displayReports, :locals => {:reports => @reports}
+            @reports = Bookmarks.getReportDetails(@ID)
+            @displayReports = erb :displayReports, :locals => {:reports => @reports}
 
 
 
-        erb :reportDetails
+            erb :reportDetails
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
+    
+
 end
 
 get '/resolve-report' do 
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        erb :resolveReport
+        if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+            erb :resolveReport
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
 end 
 
 post '/resolve-report' do
-    @ID = params[:bookmarkID]
-    if Bookmarks.resolveReports(@ID) then
-        redirect '/msg?msg=successfullyResolvedMsg'
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        if Bookmarks.resourceExists? params[:bookmarkID], "bookmark"
+            @ID = params[:bookmarkID]
+            if Bookmarks.resolveReports(@ID) then
+                redirect '/msg?msg=successfullyResolvedMsg'
+            end
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
+    else
+        redirect '/'
     end
 end 
 
@@ -442,36 +545,57 @@ end
 
 get '/remove-suspension' do 
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        erb :removeSuspension
+        if Bookmarks.resourceExists? params[:userID], "users"
+            erb :removeSuspension
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
 end 
 
 post '/remove-suspension' do
-    @ID = params[:userID]
-    if Bookmarks.unsuspendUser(@ID) then
-        redirect '/msg?msg=suspensionRemovedMsg'
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        if Bookmarks.resourceExists? params[:userID], "users"
+            @ID = params[:userID]
+            if Bookmarks.unsuspendUser(@ID) then
+                redirect '/msg?msg=suspensionRemovedMsg'
+            end
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
+    else
+        redirect '/'
     end
 end
 
 get '/delete-account' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        erb :deleteAccount
+        if Bookmarks.resourceExists? params[:userID], "users"
+            erb :deleteAccount
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
 end 
 
 post '/delete-account' do
-    @ID = params[:userID]
-    if Bookmarks.deleteUser(@ID) then
-        redirect '/msg?msg=accountDeletedMsg'
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        if Bookmarks.resourceExists? params[:userID], "users"
+            @ID = params[:userID]
+            if Bookmarks.deleteUser(@ID) then
+                redirect '/msg?msg=accountDeletedMsg'
+            end
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
+    else
+        redirect '/'
     end
 end
-#error do
-#   redirect '/msg?msg=actionErrorMsg'
-#end
 
 get '/user-list' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
@@ -485,49 +609,89 @@ end
 
 get '/promote-user' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        erb :promoteUser
+        if Bookmarks.resourceExists? params[:userID], "users"
+            erb :promoteUser
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
 end
 
 post '/promote-user' do
-    @ID = params[:userID]
-    if Bookmarks.promoteToAdmin(@ID) then
-        redirect '/msg?msg=userPromotedMsg'
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        if Bookmarks.resourceExists? params[:userID], "users"
+            @ID = params[:userID]
+            if Bookmarks.promoteToAdmin(@ID) then
+                redirect '/msg?msg=userPromotedMsg'
+            end
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
+    else
+        redirect '/'
     end
 end 
 
 get '/reset-password' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        erb :passwordReset
+        if Bookmarks.resourceExists? params[:userID], "users"
+            erb :passwordReset
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
 end    
 
 post '/reset-password' do
-    @ID = params[:userID]
-    if Bookmarks.resetPassword(@ID) then
-        redirect '/msg?msg=passwordResetMsg'
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        if Bookmarks.resourceExists? params[:userID], "users"
+            @ID = params[:userID]
+            if Bookmarks.resetPassword(@ID) then
+                redirect '/msg?msg=passwordResetMsg'
+            end
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
+    else
+        redirect '/'
     end
 end 
 
 get '/suspend-user' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
-        erb :suspendUser
+        if Bookmarks.resourceExists? params[:userID], "users"
+            erb :suspendUser
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
     else
         redirect '/'
     end
 end    
 
 post '/suspend-user' do
-    @ID = params[:userID]
-    if Bookmarks.suspendUser(@ID) then
-        redirect '/msg?msg=userSuspendedMsg'
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+        if Bookmarks.resourceExists? params[:userID], "users"
+            @ID = params[:userID]
+            if Bookmarks.suspendUser(@ID) then
+                redirect '/msg?msg=userSuspendedMsg'
+            end
+        else
+            redirect '/msg?msg=missingResourceMsg'
+        end
+    else
+        redirect '/'
     end
 end
 
 not_found do
     redirect '/'
 end
+
+#error do
+#   redirect '/msg?msg=actionErrorMsg'
+#end

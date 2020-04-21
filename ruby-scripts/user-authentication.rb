@@ -38,7 +38,7 @@ module UserAuthentication
 
     # 0 for guest, unverified or suspended user, 1 for active user,2 for admin
     def UserAuthentication.getAccessLevel userID
-        if userID == -1
+        if userID == -1 || !(Bookmarks.resourceExists? userID, "users")
             return 0
         else
             user = Bookmarks.getAccessDetails userID

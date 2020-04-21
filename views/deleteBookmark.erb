@@ -16,6 +16,7 @@
                 <h2> Are you sure you want to delete this bookmark?</h2>
                 <form method="post">
                     <input id="delete-bookmark" class="submission-button" type="submit" value="Yes">
+                    <input type = "hidden" name = "bookmarkID" value = "<%= h @bookmarkID%>">
                     <a id="back-button" href="/"><input class="submission-button" type="button" value="Cancel"></a>
                 </form>
             </div>

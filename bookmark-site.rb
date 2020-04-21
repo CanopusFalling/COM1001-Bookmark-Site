@@ -456,7 +456,8 @@ post '/remove-suspension' do
 end
 
 get '/delete-account' do
-    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+    @ID = params[:userID]
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2 && UserAuthentication.getAccessLevel(@ID) == 0 
         erb :deleteAccount
     else
         redirect '/'
@@ -465,7 +466,7 @@ end
 
 post '/delete-account' do
     @ID = params[:userID]
-    if Bookmarks.deleteUser(@ID) then
+    if Bookmarks.deleteUser(@ID)  then
         redirect '/msg?msg=accountDeletedMsg'
     end
 end
@@ -484,7 +485,8 @@ get '/user-list' do
 end    
 
 get '/promote-user' do
-    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+    @ID = params[:userID]
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2 && UserAuthentication.getAccessLevel(@ID) != 2 
         erb :promoteUser
     else
         redirect '/'
@@ -499,7 +501,8 @@ post '/promote-user' do
 end 
 
 get '/reset-password' do
-    if (UserAuthentication.getAccessLevel session[:userID]) == 2
+    @ID = params[:userID]
+    if (UserAuthentication.getAccessLevel session[:userID]) == 2 && UserAuthentication.getAccessLevel(@ID) != 2 
         erb :passwordReset
     else
         redirect '/'

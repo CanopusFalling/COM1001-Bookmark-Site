@@ -26,7 +26,7 @@
             <section class="central-form" id="advanced-search-form">
                 <form>
                     <%= erb :tagControlOnlyList%>
-                    <input type="hidden" name="search_query" value=<%=h params[:search_query]%>>
+                    <input type="hidden" name="search_query" value="<%=h params[:search_query]%>">
                     <input type="submit" class="submission-button" value="Refine Search">
                 </form>
             </section>

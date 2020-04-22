@@ -57,6 +57,8 @@ post '/authenticate-user' do
             elsif @details[:user_type] == Bookmarks::UNVERIFIED_STRING
                 redirect '/msg?msg=unverifiedMsg'
             end
+        elsif UserAuthentication.hasPasswordReset(@login) 
+            redirect "/change-password?userID=#{@result}"
         else
             session[:userID] = @result
             redirect '/'
@@ -66,6 +68,29 @@ post '/authenticate-user' do
     erb:loginpage
 
 end
+
+get '/change-password' do
+    if session[:userID] == -1 
+        erb :changePassword
+    else
+        redirect '/'
+    end
+end
+
+post '/change-password' do
+    @error_msg = getPasswordErrorMsg params
+    @ID = params[:userID]
+    @password = params[:password]
+    if @error_msg == ""
+        if Bookmarks.resetPassword(@ID,@password) then
+            session[:userID] = @ID
+            redirect '/msg?msg=passwordChangedMsg'
+        end
+    else
+        erb :changePassword
+    end
+end 
+
 
 get '/registration' do
     if session[:userID] == -1 
@@ -511,7 +536,7 @@ end
 
 post '/reset-password' do
     @ID = params[:userID]
-    if Bookmarks.resetPassword(@ID) then
+    if Bookmarks.resetPassword(@ID,"password") then
         redirect '/msg?msg=passwordResetMsg'
     end
 end 

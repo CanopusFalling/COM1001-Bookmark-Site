@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require_relative 'database-model.rb'
-require_relative 'support-functions.rb'
 require_relative 'deployment-scripts.rb'
 
 class TestUserAuthentication < Minitest::Test

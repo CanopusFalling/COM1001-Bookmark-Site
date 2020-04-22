@@ -5,8 +5,8 @@ require_relative 'database-model.rb'
 module Deployment
 
     # ===== Constant definitions =====
-    RESET_SCHEMA_SCRIPT_PATH = "database/reset-schema.sql"
-    TEST_DATA_PATH = "database/insert-test-data.sql";
+    RESET_SCHEMA_SCRIPT_PATH = "../database/reset-schema.sql"
+    TEST_DATA_PATH = "../database/insert-test-data.sql";
     
     def Deployment.resetDatabase
 

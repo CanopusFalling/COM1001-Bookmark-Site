@@ -1102,7 +1102,7 @@ module Bookmarks
 
     #Change bookmark details
     def Bookmarks.updateBookmark (bookmarkID, bookmarkTitle, bookmarkDesc, bookmarkLink)
-        if bookmarkTitle.nil? then
+        if bookmarkTitle.nil? || bookmarkLink.nil? then
             return false
         else
             query = "UPDATE bookmark 

@@ -697,7 +697,7 @@ module Bookmarks
     end 
 
     #checks if entry with given id exists in table (dont call for linking tables)
-    def Bookmarks.entryExists? entryID, tableName
+    def Bookmarks.resourceExists? entryID, tableName
 
         if (Bookmarks.isInteger entryID) && (Bookmarks.getTableNames.include? tableName)
             

@@ -15,7 +15,6 @@
                     <ul>
                         <a href="/registration"><li>Register</li></a>
                         <a href="/login"><li>Login</li></a>
-                        <a href="/logout"><li>Log Out</li></a>
                     </ul>
 
                 <% elsif Bookmarks.getUserType(session[:userID]) == Bookmarks::ADMIN_STRING%>
@@ -23,11 +22,13 @@
                         <a href="/adminMenu"><li>Admin Menu</li></a>
                         <a href="/profilePage"><li>Profile</li></a>
                         <a href="/newBookmark"><li>Create Bookmark</li></a>
+                        <a href="/logout"><li>Log Out</li></a>
                     </ul>
                 <% else %>
                     <ul>
                         <a href="/profilePage"><li>Profile</li></a>
                         <a href="/newBookmark"><li>Create Bookmark</li></a>
+                        <a href="/logout"><li>Log Out</li></a>
                     </ul>
                 <% end %>
             </div>

@@ -257,7 +257,7 @@ module Bookmarks
                 end
                 result.transform_keys!(&:to_sym)
             else
-                result = nil
+                result = Array.new
             end
 
             return result

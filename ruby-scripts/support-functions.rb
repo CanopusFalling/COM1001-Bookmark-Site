@@ -54,15 +54,15 @@ def newUser displayName, email, password
 end
 
 def newReport bookmarkId, reporterId, type, desc
-    return Bookmarks.addReport bookmarkId.to_i, type, desc, reporterId.to_i, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addReport bookmarkId, type, desc, reporterId, Time.now.strftime("%d/%m/%Y")
 end
 
 def addView bookmarkId, userId
-    Bookmarks.addView userId.to_i, bookmarkId.to_i, Time.now.strftime("%d/%m/%Y")
+    Bookmarks.addView userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
 end
 
 def addRating bookmarkID, userID, value 
-    return Bookmarks.addRating bookmarkID, userID, value.to_i, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addRating bookmarkID, userID, value, Time.now.strftime("%d/%m/%Y")
 end 
 
 def changeRating bookmarkID, userID, value

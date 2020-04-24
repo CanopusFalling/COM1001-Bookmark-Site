@@ -41,8 +41,13 @@ get '/login' do
     else
         redirect '/'
     end
-
 end
+
+get '/logout'do
+    session.clear
+    redirect'/'
+end
+
 
 #attempted login
 post '/authenticate-user' do

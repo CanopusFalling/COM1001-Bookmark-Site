@@ -13,6 +13,7 @@ class TestDeploymentScripts < Minitest::Test
     end
 
     def test_data
+        Deployment.resetDatabase
         Deployment.testData
         assert_equal 18, Bookmarks.getHomepageDataAll.length
         assert_equal 6, Bookmarks.currentUserEmails.length

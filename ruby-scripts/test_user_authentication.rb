@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require_relative 'database-model.rb'
 require_relative 'deployment-scripts.rb'
+require_relative 'user-authentication.rb'
 
 class TestUserAuthentication < Minitest::Test
     Bookmarks.init('../database/test.db')

@@ -159,17 +159,17 @@ puts ""
 puts Bookmarks.isUniqueValue nil, "bookmark_title", "title8"  
 puts ""
 
-puts"=== entryExists? ==="
-puts Bookmarks.entryExists? nil, nil
-puts ""
-puts Bookmarks.entryExists? nil, "hahahah"
-puts ""
-puts Bookmarks.entryExists? "hahah", nil
-puts ""
-puts Bookmarks.entryExists? 2, "bookmark"
-puts ""
-puts Bookmarks.entryExists? 65, "bookmark"
-puts ""
+#puts"=== entryExists? ==="
+#puts Bookmarks.entryExists? nil, nil
+#puts ""
+#puts Bookmarks.entryExists? nil, "hahahah"
+#puts ""
+#puts Bookmarks.entryExists? "hahah", nil
+#puts ""
+#puts Bookmarks.entryExists? 2, "bookmark"
+#puts ""
+#puts Bookmarks.entryExists? 65, "bookmark"
+#puts ""
 
 puts"=== getAccessDetails ==="
 puts Bookmarks.getAccessDetails nil

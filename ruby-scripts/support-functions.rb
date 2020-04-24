@@ -1,6 +1,6 @@
 require 'bcrypt'
 require_relative 'database-model.rb'
-require_relative '../user-authentication.rb'
+require_relative 'user-authentication.rb'
 
 def getErrorMessage params
 
@@ -25,7 +25,20 @@ def getErrorMessage params
     end
 
     return error_msg
+end
 
+def getPasswordErrorMsg params
+    error_msg = ""
+    password = params[:password]
+    password_conf = params[:password_validation]
+    if ! isValidPassword password
+        error_msg += "Please enter valid password"
+        error_msg += "\n"
+    elsif password != password_conf
+        error_msg += "Passwords don't match"
+    end
+
+    return error_msg
 end
 
 def isValidEmail email
@@ -41,15 +54,15 @@ def newUser displayName, email, password
 end
 
 def newReport bookmarkId, reporterId, type, desc
-    return Bookmarks.addReport bookmarkId.to_i, type, desc, reporterId.to_i, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addReport bookmarkId, type, desc, reporterId, Time.now.strftime("%d/%m/%Y")
 end
 
 def addView bookmarkId, userId
-    Bookmarks.addView userId.to_i, bookmarkId.to_i, Time.now.strftime("%d/%m/%Y")
+    Bookmarks.addView userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
 end
 
 def addRating bookmarkID, userID, value 
-    return Bookmarks.addRating bookmarkID, userID, value.to_i, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addRating bookmarkID, userID, value, Time.now.strftime("%d/%m/%Y")
 end 
 
 def changeRating bookmarkID, userID, value
@@ -99,21 +112,18 @@ def assignTags tags, bookmarkId
 end
 
 def reAssignTags newTags, currentTags, bookmarkId   
-    puts currentTags
-    puts ""
-    puts newTags
 
     currentTags.each do |name|
         if !newTags.include? name
             tagId = Bookmarks.getTagId name
-            puts Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            Bookmarks.deleteTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 
     newTags.each do |name|
         if !currentTags.include? name
             tagId = Bookmarks.getTagId name
-            puts Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
+            Bookmarks.addTagBookmarkLink tagId.to_i, bookmarkId.to_i
         end
     end
 end
@@ -122,23 +132,13 @@ def h(text)
     Rack::Utils.escape_html(text)
 end
 
-def userHasEditRights bookmarkId, userId
-    if userId == -1 || (!Bookmarks.hasPermission userId) 
-        return false
-    elsif (Bookmarks.getBookmarkCreator (bookmarkId.to_i)) == userId
-        return true
-    else
-        return false
-    end
-end
-
 def filterAgainstTags bookmarks, tags
     if !tags || tags.length == 0
         return bookmarks
     end
     result = Array.new
     bookmarks.each do |bookmark|
-        result<<bookmark if ((Bookmarks.getBookmarkTagsNames bookmark[:ID].to_i).intersection tags).length > 0
+        result<<bookmark if (intersection((Bookmarks.getBookmarkTagsNames bookmark[:ID].to_i), tags).length > 0)
     end
 
     return result
@@ -152,4 +152,14 @@ def updateBookmark bookmarkId, title, link, desc, userId
     Bookmarks.addBookmarkEdit userId, bookmarkId, Time.now.strftime("%d/%m/%Y")
     return Bookmarks.updateBookmark bookmarkId, title, desc, link
 
+end
+
+def intersection a, b
+
+    result = Array.new
+    a.each do |element|
+        result << element if b.include? element
+    end
+
+    return result
 end

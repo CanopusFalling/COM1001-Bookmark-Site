@@ -1,5 +1,4 @@
-    
-    -- Returns table with bookmark: id, title, avg rating and number of views
+-- Returns table with bookmark: id, title, avg rating and number of views
     CREATE VIEW bookmark_list AS
     SELECT 
     bookmark_ID AS ID,

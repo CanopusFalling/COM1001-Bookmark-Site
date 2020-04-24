@@ -1,18 +1,22 @@
 <html>
+
+<head>
+    <%= erb :head%>
+
     <head>
-        <%= erb :head%>
-    <head>
-    
-    <!-- Site Structure -->
+
+        <!-- Site Structure -->
+
     <body>
-        
+
         <%= erb :header %>
 
         <main>
             <div id="deleteBookmarkForm">
                 <h2> Are you sure you want to delete this bookmark?</h2>
                 <form method="post">
-                    <input id="delete-bookmark" class="submission-button" type="submit" value="Yes">  
+                    <input id="delete-bookmark" class="submission-button" type="submit" value="Yes">
+                    <input type = "hidden" name = "bookmarkID" value = "<%= h @bookmarkID%>">
                     <a id="back-button" href="/"><input class="submission-button" type="button" value="Cancel"></a>
                 </form>
             </div>

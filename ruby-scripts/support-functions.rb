@@ -62,7 +62,7 @@ def addView bookmarkId, userId
 end
 
 def addRating bookmarkID, userID, value 
-    return Bookmarks.addRating bookmarkID, userID, value, Time.now.strftime("%d/%m/%Y")
+    return Bookmarks.addRating bookmarkID, userID, value.to_i, Time.now.strftime("%d/%m/%Y")
 end 
 
 def changeRating bookmarkID, userID, value

@@ -35,7 +35,7 @@
                     <div class="tagDisplay">
                         <%@tags.each do |tag|%>
                         <a class="tagLink"
-                            href="/search?search_query=&showTag='<%=h  tag[:name]%>'">#<%=h tag[:name]%></a>
+                            href="/search?search_query=&showTag=<%=h  tag[:name]%>">#<%=h tag[:name]%></a>
                         <%end%>
                     </div>
                     <%end%>

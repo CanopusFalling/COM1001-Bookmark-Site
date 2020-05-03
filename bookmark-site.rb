@@ -677,7 +677,7 @@ post '/reset-password' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
         if Bookmarks.resourceExists? params[:userID], "users"
             @ID = params[:userID]
-            if Bookmarks.resetPassword(@ID) then
+            if Bookmarks.resetPassword(@ID,"password") then
                 redirect '/msg?msg=passwordResetMsg'
             end
         else

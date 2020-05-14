@@ -717,6 +717,10 @@ post '/suspend-user' do
         redirect '/'
     end
 end
+ get '/profilepage' do
+        erb :profilepage
+    end
+
 
 not_found do
     redirect '/'

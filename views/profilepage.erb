@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <%= erb :head%>
+    </head>
+      <!-- Site Structure -->
+
+    <body>
+        <%= erb :header %>
+
+        <main>
+            
+    
+
+        <div>
+            
+          <h1>Profile page</h1>
+          
+            <ol>
+                <li>Name: <strong><%= @user[:name] %></strong></li>
+                <li>Email: <strong><%= @user[:email] %></strong></li>
+               
+                
+            </ol>
+
+        </div>
+        
+        </main>
+
+        <%= erb :footer%>
+    </body>
+
+</html>

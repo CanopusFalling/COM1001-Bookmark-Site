@@ -5,6 +5,7 @@
       <!-- Site Structure -->
 
     <body>
+    <h1>Profile page</h1>
         <%= erb :header %>
 
         <main>
@@ -12,17 +13,20 @@
     
 
         <div>
-            
-          <h1>Profile page</h1>
-          
-            <ol>
-                <li>Name: <strong><%= @user[:name] %></strong></li>
-                <li>Email: <strong><%= @user[:email] %></strong></li>
-               
-                
-            </ol>
+             
+     <section class='profilepage'>
+        <h1>Basic Information</h1>
+        <form action="action.php" method="post">
+            <p>Your name: <input type="text" name="name" /></p>
+            <p>Your age: <input type="text" name="age" /></p>
+            <p>Your Date of Birth: <input type="text" name="date" /></p>
+            <p>Your Nation: <input type="text" name="nation" /></p>
+            <p><input type="submit" />EDIT</p>
+            </form>
+         
+         //<button class="btn_edit" onclick="">EDIT</button>
 
-        </div>
+   
         
         </main>
 

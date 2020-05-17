@@ -1,11 +1,11 @@
 <section class="tagControl">
 
-    <div id="activeField">
+    <div id="activeField" onmouseout="hideList()" onmouseover="showList()">
 
 
 
         <div class="tag-dropDownList">
-            <input type="search" class="form-input" id="tagSearch" onkeyup="updateList()" onblur="hideList()" onfocus="showList()"
+            <input type="search" class="form-input" id="tagSearch" onkeyup="updateList()" 
                 placeholder="Search or add tags..." maxlength=40 autocomplete="off" >
             <div id="tagListWrapper">
                 <ul id="tagList">

@@ -135,14 +135,25 @@ get '/search' do
 
     @searchQuery = params["search_query"]
 
-    @fullResults = Bookmarks.getHomepageData @searchQuery
+    @results = Bookmarks.getHomepageData @searchQuery
     #variables for tagControl
     @tagList = Bookmarks.getTagNames
     #get tags for filter either from submitted form 
     #or redirected after clicking on a tag in bookmark details
     @checked = params[:showTag] ? [params[:showTag]] : (extractTagsFromParams params)
-    @results = filterAgainstTags @fullResults, @checked
-    if(@fullResults.length != 0) then
+    @minRating = params[:filterRatingMin]
+    @maxRating = params[:filterRatingMax]
+    if params[:filterByRating]
+        @results = filterAgainstRating @results, @minRating, @maxRating
+    end
+    if params[:filterByTag] 
+        @results = filterAgainstTags @results, @checked
+    end
+    @results = sortBookmarksByField @results, params[:sortOption] ? params[:sortOption] : "title"
+    if(params[:sortDirect]=="desc") 
+        @results.reverse!
+    end
+    if(@results.length != 0) then
         erb :search
     else
         erb :noResults

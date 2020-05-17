@@ -16,15 +16,19 @@
              
      <section class='profilepage'>
         <h1>Basic Information</h1>
-        <form>
-            <p>Your name: <input type="text" name="name" /></p>
-            <p>Your age: <input type="text" name="age" /></p>
-            <p>Your Date of Birth: <input type="text" name="date" /></p>
-            <p>Your Nation: <input type="text" name="nation" /></p>
-            <p><input type="submit" />EDIT</p>
+        <form class= 'formclass' method="post">
+            <p>
+                Your name: <input type="text" name="name" value="<%=@displayname%>">
+             Your email: <input type="text" name="email" value="<%=@email%>">
+             Department : <input type="text" name="department " value="<%=@department%>">
+              Status : <input type="text" name="status " value="<%=@status%>">
+          
+          </p>
+           
+           <input type="submit" />
             </form>
          
-         //<button class="btn_edit" onclick="">EDIT</button>
+        
 
    
         

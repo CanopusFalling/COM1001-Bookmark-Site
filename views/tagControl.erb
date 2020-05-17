@@ -11,8 +11,7 @@
                 <ul id="tagList">
                     <%@tagList.each do |name|%>
                     <li class="tagItem">
-                        <input type="checkbox" id="<%=h "#{name}_tag"%>" onclick="clickedTag('<%=h name%>')"
-                            <%if @checked && (@checked.include? name)%>checked<%end%>>
+                        <input type="checkbox" id="<%=h "#{name}_tag"%>" onclick="clickedTag('<%=h name%>')" <%if @checked && (@checked.include? name)%>checked<%end%>>
                         <label for="<%="#{name}_tag"%>"><%=h name%></label>
                     </li>
                     <%end%>

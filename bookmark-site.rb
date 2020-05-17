@@ -136,15 +136,13 @@ get '/search' do
     @searchQuery = params["search_query"]
 
     @fullResults = Bookmarks.getHomepageData @searchQuery
-
     #variables for tagControl
     @tagList = Bookmarks.getTagNames
     #get tags for filter either from submitted form 
     #or redirected after clicking on a tag in bookmark details
     @checked = params[:showTag] ? [params[:showTag]] : (extractTagsFromParams params)
-    
+    @results = filterAgainstTags @fullResults, @checked
     if(@fullResults.length != 0) then
-        @results = filterAgainstTags @fullResults, @checked
         erb :search
     else
         erb :noResults
@@ -473,7 +471,6 @@ post '/verify-user' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
         if Bookmarks.resourceExists? params[:userID], "users"
             @userID = params[:userID]
-            puts params[:userID]
             if Bookmarks.verifyUser(@userID) then
                 redirect '/msg?msg=verifySuccessMsg'
             end
@@ -680,7 +677,7 @@ post '/reset-password' do
     if (UserAuthentication.getAccessLevel session[:userID]) == 2
         if Bookmarks.resourceExists? params[:userID], "users"
             @ID = params[:userID]
-            if Bookmarks.resetPassword(@ID) then
+            if Bookmarks.resetPassword(@ID,"password") then
                 redirect '/msg?msg=passwordResetMsg'
             end
         else

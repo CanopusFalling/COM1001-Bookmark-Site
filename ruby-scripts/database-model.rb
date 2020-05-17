@@ -251,11 +251,12 @@ module Bookmarks
             result = @@db.execute query, bookmarkID
             
             if  result.length()>0
-                result = result[0]
                 for i in 0..(result.length()/2)
                     result.delete(i)        
                 end
-                result.transform_keys!(&:to_sym)
+                (0..(result.length-1)).each do |i|
+                    result[i] = result[i]["tag_name"]
+                end
             else
                 result = Array.new
             end

@@ -203,6 +203,10 @@
 		width: auto;
 	}
 
+	.edit-buttons img{
+		cursor: pointer;
+	}
+	
     .user-displayName{
         margin: 0px;
         padding: 4px 4px;

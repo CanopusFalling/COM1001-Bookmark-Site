@@ -120,9 +120,10 @@ post '/registration' do
     @displayName = params[:displayName]
     @email = params[:email]
     @email_valid = params[:email_validation]
-    
+    @department = params[:department]
+
     if @error_msg == ""
-        newUser @displayName , @email, params[:password]
+        newUser @displayName , @email, params[:password], @department
         redirect '/msg?msg=newUserMsg'
     else
         erb:registration

@@ -31,7 +31,7 @@ module Bookmarks
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
     #   :link - link to the bookmark
-    #   :rating - avg rating of a bookmark (nil if no ratings)
+    #   :rating - avg rating of a bookmark
     #   :views - total view count of a bookmark
     def Bookmarks.getHomepageData search
         result = nil
@@ -58,7 +58,7 @@ module Bookmarks
     #Returns: A array of hashes with following keys: 
     #   :ID - id of a bookmark
     #   :title - title of a bookmark
-    #   :rating - avg rating of a bookmark (nil if no ratings)
+    #   :rating - avg rating of a bookmark
     #   :views - total view count of a bookmark
     def Bookmarks.getHomepageDataAll
         return Bookmarks.getHomepageData ""

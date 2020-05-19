@@ -144,6 +144,15 @@ def filterAgainstTags bookmarks, tags
     return result
 end
 
+def filterAgainstRating bookmarks, minRating, maxRating
+    result = Array.new
+    bookmarks.each do |bookmark|
+        result<< bookmark if bookmark[:rating]>=minRating.to_f && bookmark[:rating]<=maxRating.to_f
+    end
+
+    return result
+end
+
 def updateBookmark bookmarkId, title, link, desc, userId
 
     title = nil if title == ""
@@ -162,4 +171,10 @@ def intersection a, b
     end
 
     return result
+end
+
+def sortBookmarksByField bookmarks, field
+
+    return bookmarks.sort! {|a,b| a[field.to_sym]<=>b[field.to_sym]}
+
 end

@@ -167,10 +167,21 @@
 	.bookmark-title {
 		margin: 0px;
 		padding: 2px 4px;
-		min-width: 32%;
+		width: 35%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	.bookmark-views {
+		margin: 0px;
+		padding: 2px 6px;
+		width: 20%;
+		justify-content: center;
+		border-left: 1px solid white;
+	}
+
+	.bookmark-rating {
 		margin: 0px;
 		padding: 2px 6px;
 		justify-content: center;
@@ -460,6 +471,39 @@
 		align-items: center;
 		color: red;
 	}
+
+	/* ========= Filter Form Styles ========= */
+
+	main section.central-form .filter-item {
+
+		justify-content: left;
+		vertical-align: middle;
+
+	}
+
+	main section.central-form .filter-item .filter-checkbox{
+
+		width: 5%;
+		margin: auto;
+	}
+
+	main section.central-form .filter-item .form-label{
+
+		width: 20%;
+		margin: auto;
+
+	}
+
+	main section.central-form .filter-item .filter-field{
+		width: 75%;
+		padding: 5px 0;
+		justify-content: center;
+	}
+
+	main section.central-form .filter-item .filter-dropdown{
+		margin: 0 5px;
+	}
+
 
 	/* ========= Admin Menu Styles ========= */
 	main .admin-menu {

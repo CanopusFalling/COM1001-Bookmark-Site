@@ -714,7 +714,7 @@ post '/suspend-user' do
         redirect '/'
     end
 end
- post '/profilepage' do
+ get '/profilepage' do
 @displayname = params[:displayName]
 @email = params[:email]
 @department = params[:department]

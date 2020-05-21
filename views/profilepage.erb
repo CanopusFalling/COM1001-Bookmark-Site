@@ -2,39 +2,32 @@
     <head>
         <%= erb :head%>
     </head>
-      <!-- Site Structure -->
 
     <body>
     <h1>Profile page</h1>
-        <%= erb :header %>
-
-        <main>
-            
+    <%= erb :header %>
     
-
-        <div>
-             
-     <section class='profilepage'>
-        <h1>Basic Information</h1>
-        <form class= 'formclass' method="get">
-            <p>
-                Your name: <input type="text" name="name" value="<%=@userName%>">
-             Your email: <input type="text" name="email" value="<%=@user_email%>">
-             Department : <input type="text" name="department " value="<%=@department%>">
-              Status : <input type="text" name="status " value="<%=@status%>">
-          
-          </p>
-           
-           <input type="submit" />
+    <main>
+        <section class="central-form">
+            <form class='formclass' method="post">
+                <div>
+                    <span class="form-label">Name</span>
+                    <input class="form-input" type="text" name="name" value="<%=@userName%>">
+                </div>
+                <div>
+                    <span class="form-label">Email</span>
+                    <input class="form-input" type="text" name="email" value="<%=@user_email%>">
+                </div>
+                <div>
+                    <span class="form-label">Department</span>
+                    <input class="form-input" type="text" name="department " value="<%=@department%>">
+                </div>
+                <!--<input id="submit-login" class="submission-button" type="submit" value="Change Details."/>-->
             </form>
-         
-        
+        </section>
+    </main>
 
-   
-        
-        </main>
-
-        <%= erb :footer%>
+    <%= erb :footer%>
     </body>
 
 </html>

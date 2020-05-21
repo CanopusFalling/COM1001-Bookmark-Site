@@ -714,13 +714,10 @@ post '/suspend-user' do
         redirect '/'
     end
 end
- get '/profilepage' do
-@displayname = params[:displayName]
-@email = params[:email]
-@department = params[:department]
-@status = params[:status]
-        erb :profilepage
-    end
+
+get '/profilePage' do
+    erb :profilepage
+end
 
 
 not_found do

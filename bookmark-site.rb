@@ -716,6 +716,16 @@ post '/suspend-user' do
 end
 
 get '/profilePage' do
+    userID = session[:userID]
+
+    details = Bookmarks.getUserDetails userID
+
+    if details == nil then
+        redirect '/'
+    end
+
+    @userName = details[:name]
+
     erb :profilepage
 end
 

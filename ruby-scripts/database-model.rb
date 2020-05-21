@@ -193,11 +193,11 @@ module Bookmarks
         if (Bookmarks.isInteger user_ID) && (Bookmarks.isInteger bookmark_ID)
                 query = "SELECT * FROM favourite
                 WHERE user_ID = ? AND bookmark_ID = ?;"
-                rows = @@db.execute query,user_ID.to_i,user_ID.to_i
-                if(rows.length() == 0) 
-                    return false
+                rows = @@db.execute query, user_ID.to_i, bookmark_ID.to_i
+                if(rows.length() != 0) 
+                    return true
                 else     
-                   return true
+                   return false
                 end
         end
         return nil
@@ -1017,6 +1017,17 @@ module Bookmarks
             query = "DELETE FROM rating
                     WHERE bookmark_ID = ?;"
             @@db.execute query, bookmarkID
+            return true
+        end
+        return false
+    end
+
+    #Removes bookmark from user favourites
+    def Bookmarks.deleteFavourite(user,bookmark)
+        if (Bookmarks.isInteger bookmark) && (Bookmarks.isInteger user) then
+            query = "DELETE FROM favourite
+                    WHERE bookmark_ID = ? AND user_ID = ?;"
+            @@db.execute query, bookmark, user
             return true
         end
         return false

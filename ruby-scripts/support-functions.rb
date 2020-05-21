@@ -178,3 +178,12 @@ def sortBookmarksByField bookmarks, field
     return bookmarks.sort! {|a,b| a[field.to_sym]<=>b[field.to_sym]}
 
 end
+
+def changeFavouriteState bookmarkID, userID
+    isInFavourites = Bookmarks.isLiked bookmarkID, userID
+    if isInFavourites
+        Bookmarks.deleteFavourite userID,bookmarkID
+    else
+        Bookmarks.addFavourite userID,bookmarkID
+    end
+end

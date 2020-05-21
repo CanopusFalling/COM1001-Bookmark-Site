@@ -162,7 +162,7 @@
 		display: flex;
 	}
 
-	/* Bookmark Table */
+	/* Bookmark Table */ 
 
 	.bookmark-title {
 		margin: 0px;
@@ -207,10 +207,10 @@
 		cursor: pointer;
 	}
 	
-    .user-displayName{
+	.user-displayName{
         margin: 0px;
         padding: 4px 4px;
-        width: 30%;
+        width: 20%;
     }
 
     .user-email{
@@ -218,13 +218,15 @@
         padding: 2px 6px;
         justify-content: center;
         border-left: 1px solid white;
-        min-width: 10%;
-	}
-	.user-department{
-		border-left: 1px  solid white;
-		margin: 0px;
+        width: 30%; 
+        word-break: break-all;
+    }
+    .user-department{
+        border-left: 1px  solid white;
+        margin: 0px;
         padding: 2px 6px;
-	}
+        width: 20%;
+    }
 
 	section.basic-table div.verify-buttons{
 		max-width: 30%;

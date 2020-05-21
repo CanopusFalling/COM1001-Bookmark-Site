@@ -121,7 +121,7 @@ post '/registration' do
     @email = params[:email]
     @email_valid = params[:email_validation]
     @department = params[:department]
-
+    
     if @error_msg == ""
         newUser @displayName , @email, params[:password], @department
         redirect '/msg?msg=newUserMsg'

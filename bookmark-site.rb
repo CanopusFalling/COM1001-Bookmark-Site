@@ -725,6 +725,10 @@ get '/profilePage' do
     end
 
     @userName = details[:name]
+    @user_email = details[:email]
+    @department = details[:department]
+    @status = details[:status]
+
 
     erb :profilepage
 end

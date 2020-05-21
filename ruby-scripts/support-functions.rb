@@ -49,8 +49,8 @@ def isValidPassword password
     return (!password.nil?) && (password.length>=8) && !(password.index /\d/).nil? && !(password.index /[\#\?\!\@\$\%\^\&\*\-\_]/).nil? && (password.index /\s/).nil?
 end
 
-def newUser displayName, email, password
-    return Bookmarks.addRegisterDetails email, displayName, nil, password
+def newUser displayName, email, password, department
+    return Bookmarks.addRegisterDetails email, displayName, department, password
 end
 
 def newReport bookmarkId, reporterId, type, desc

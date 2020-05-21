@@ -6,7 +6,7 @@
         <a class="bookmark-details" href="bookmark-spesifics?bookmarkID=<%=entry[:ID]%>">
             <span class="bookmark-title"><%=h entry[:title]%></span>
             <span class="bookmark-views">Views: <%=h entry[:views]%></span>
-            <span class="bookmark-rating">Rating: <%=h entry[:rating]!=0 ? "#{entry[:rating]}/5.0" : "Not Rated"%></span>
+            <span class="bookmark-rating">Rating: <%=h entry[:rating]!=0 ? "#{entry[:rating].round(2)}/5.0" : "Not Rated"%></span>
         </a>
 
         <!-- Editing Buttons. -->

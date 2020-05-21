@@ -202,6 +202,7 @@ get '/bookmark-spesifics' do
         @avgRating = Bookmarks.getAvgRating(@ID)
         @tags = @details[:tags]
         @link = @details[:details][:link]
+        @liked = Bookmarks.isLiked @ID.to_i, session[:userID].to_i  
         
         @rateCount = Bookmarks.getRatingCount(@ID)
         @comments = Bookmarks.getComments(@ID)
@@ -429,6 +430,34 @@ get '/bookmark-addView' do
     end
     redirect back
 
+end
+
+get '/favourite-click' do
+
+    if (UserAuthentication.getAccessLevel session[:userID]) != 0 
+        if(Bookmarks.resourceExists? session[:userID], "users") && (Bookmarks.resourceExists? params[:bookmarkID], "bookmark")
+            changeFavouriteState(params[:bookmarkID].to_i, session[:userID].to_i) if params[:bookmarkID]
+        else
+            redirect '/'
+        end
+    else
+        redirect '/'
+    end
+    
+    redirect back
+end
+
+get '/favourite-list' do
+    if (UserAuthentication.getAccessLevel session[:userID]) != 0
+        if Bookmarks.resourceExists? session[:userID], "users"
+            @results = Bookmarks.getFavouriteList session[:userID]
+            erb :favouriteList
+        else
+            redirect '/'
+        end
+    else
+        redirect '/'
+    end
 end
 
 get '/msg' do

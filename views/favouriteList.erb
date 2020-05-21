@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <%= erb :head%>
+    <script src="javascript/useful-functions.js"></script>
+</head>
+
+<!-- Site Structure -->
+
+<body>
+
+    <%= erb :header %>
+
+    <main>
+        
+        <%= erb :resultsTable, :locals => {:results => @results}%>
+    </main>
+
+    <%= erb :footer %>
+</body>
+
+</html>

@@ -314,6 +314,11 @@ module Bookmarks
                 for i in 0..(row.length()/2)
                     row.delete(i)        
                 end
+                row.each do |key,value|
+                    if row[key] == nil
+                        row[key] = 0
+                    end
+                end
             end
             result.map{|row| row.transform_keys!(&:to_sym)}
         end

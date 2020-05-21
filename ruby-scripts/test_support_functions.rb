@@ -56,11 +56,11 @@ class TestSupportFunctions < Minitest::Test
     end
 
     def test_newUser
-        assert newUser("user01","email@email.com","password@1")
-        assert newUser("user50","g@gmail.com","password##5")
+        assert newUser("user01","email@email.com","password@1","head office")
+        assert newUser("user50","g@gmail.com","password##5",nil)
         
-        refute newUser("user60","role2","password##5")
-        refute newUser("user70",nil,"password$$3")
+        refute newUser("user60","role2","password##5","head office")
+        refute newUser("user70",nil,"password$$3","head office")
     end
 
     def test_newReport

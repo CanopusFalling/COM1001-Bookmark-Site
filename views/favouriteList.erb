@@ -12,7 +12,12 @@
     <%= erb :header %>
 
     <main>
-        <a href="/"><button id="back-button">Go back</button></a>
+        <a href="/"><button id="back-button" onclick="goBack()">Go back</button></a>
+        <script>
+        function goBack(){
+            window.history.back();
+        }
+        </script>
         <%= erb :resultsTable, :locals => {:results => @results}%>
     </main>
 

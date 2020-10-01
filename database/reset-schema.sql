@@ -27,7 +27,7 @@ reporter_ID INTEGER  REFERENCES users(user_ID),
 report_type VARCHAR(50),
 report_details VARCHAR(2000),
 report_date DATETIME,
-report_resolved TINYINT
+report_resolved TINYINT NOT NULL
 );
 
 DROP TABLE IF EXISTS tag;

@@ -1,11 +1,16 @@
 <html>
+
+<head>
+    <%= erb :head%>
+    <%= erb :tagControlHead%>
+    <script src="javascript/useful-functions.js"></script>
+
     <head>
-        <%= erb :head%>
-    <head>
-    
-    <!-- Site Structure -->
+
+        <!-- Site Structure -->
+
     <body>
-        
+
         <%= erb :header %>
 
         <main>
@@ -14,14 +19,60 @@
                 Search results for: '<%=h @searchQuery %>'
             </h3>
             <h4>
-                Advanced search: <img class = "edit-button" id="advancedSearch-button" src= "assets/images/plus.png" onclick = "showAdvancedOptions()">
+                Advanced search: <img class="edit-button" id="advancedSearch-button" src="assets/images/plus.png"
+                    onclick="showAdvancedOptions()">
             </h4>
 
-            <section class = "central-form" id="advanced-search-form">
+            <section class="central-form" id="advanced-search-form">
                 <form>
-                    <%= erb :tagControlOnlyList%>
-                    <input type = "hidden" name="search_query" value = <%=params[:search_query]%>>
-                    <input type = "submit" class = "submission-button" value = "Refine Search">
+
+                    <div class = "filter-item">
+                        <input class = "filter-checkbox" type = "checkbox" name = "filterByTag" value = "true" <%= (params[:showTag]||params[:filterByTag]) ? "checked" : ""%>>
+                        <label class = "form-label">Show tags: </label>
+                        <section class = "filter-field">
+                            <%= erb :tagControlOnlyList%>
+                        </section>
+                    </div>
+
+                    <div class = "filter-item">
+                        <input class = "filter-checkbox" type = "checkbox" name = "filterByRating" value = "true" <%=params[:filterByRating] ? "checked" : ""%>>
+                        <label class = "form-label">Show rating: </label>
+                        <div class = "filter-field">
+                            From
+                            <select class="filter-dropdown" name="filterRatingMin">
+                                <option value="1" <%= (!params[:filterRatingMin]||params[:filterRatingMin]=="1") ? "selected" : "" %>>1.0</option>
+                                <option value="2" <%= params[:filterRatingMin]=="2" ? "selected" : "" %>>2.0</option>
+                                <option value="3" <%= params[:filterRatingMin]=="3" ? "selected" : "" %>>3.0</option>
+                                <option value="4" <%= params[:filterRatingMin]=="4" ? "selected" : "" %>>4.0</option>
+                                <option value="5" <%= params[:filterRatingMin]=="5" ? "selected" : "" %>>5.0</option>
+                            </select>
+                            to
+                            <select class="filter-dropdown" name="filterRatingMax">
+                                <option value="1" <%= params[:filterRatingMax]=="1" ? "selected" : "" %>>1.0</option>
+                                <option value="2" <%= params[:filterRatingMax]=="2" ? "selected" : "" %>>2.0</option>
+                                <option value="3" <%= params[:filterRatingMax]=="3" ? "selected" : "" %>>3.0</option>
+                                <option value="4" <%= params[:filterRatingMax]=="4" ? "selected" : "" %>>4.0</option>
+                                <option value="5" <%= (!params[:filterRatingMax]||params[:filterRatingMax]=="5") ? "selected" : "" %>>5.0</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class = "filter-item">
+                        <label class = "form-label">Sort by: </label>
+                        <div class = "filter-field">
+                           <select class="filter-dropdown" name="sortOption">
+                                <option value="title" <%= (!params[:sortOption]||params[:sortOption]=="title") ? "selected" : "" %>>Title</option>
+                                <option value="views" <%= params[:sortOption]=="views" ? "selected" : "" %>>Views</option>
+                                <option value="rating" <%= params[:sortOption]=="rating" ? "selected" : "" %>>Rating</option>
+                            </select>
+                            <select class="filter-dropdown" name="sortDirect">
+                                <option value="asce" <%= (!params[:sortDirect]||params[:sortDirect]=="asce") ? "selected" : "" %>>Ascending</option>
+                                <option value="desc" <%= params[:sortDirect]=="desc" ? "selected" : "" %>>Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" name="search_query" value="<%=h params[:search_query]%>">
+                    <input type="submit" class="submission-button" value="Refine Search">
                 </form>
             </section>
 

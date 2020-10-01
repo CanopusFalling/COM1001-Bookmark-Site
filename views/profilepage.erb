@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <%= erb :head%>
+    </head>
+
+    <body>
+    <h1>Profile page</h1>
+    <%= erb :header %>
+    
+    <main>
+        <section class="central-form">
+            <form class='formclass' method="post">
+                <div>
+                    <span class="form-label">Name</span>
+                    <input class="form-input" type="text" name="name" value="<%=@userName%>">
+                </div>
+                <div>
+                    <span class="form-label">Email</span>
+                    <input class="form-input" type="text" name="email" value="<%=@user_email%>">
+                </div>
+                <div>
+                    <span class="form-label">Department</span>
+                    <input class="form-input" type="text" name="department " value="<%=@department%>">
+                </div>
+                <!--<input id="submit-login" class="submission-button" type="submit" value="Change Details."/>-->
+            </form>
+        </section>
+    </main>
+
+    <%= erb :footer%>
+    </body>
+
+</html>

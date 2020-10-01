@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <%= erb :head%>
+    <head>
+    
+    <!-- Site Structure -->
+    <body>
+        
+        <%= erb :header %>
+
+        <main>
+            <div id="delete-user-form">
+                <h2> Are you sure you want to delete this account from the system?</h2>
+                <form method="post">
+                    <input id="confirm-user-delete" class="submission-button" type="submit" value="Yes">  
+                    <a id="back-button" href="/"><input class="submission-button" type="button" value="Cancel"></a>
+                </form>
+            </div>
+        </main>
+
+        <%= erb :footer %>
+
+    </body>
+
+</html>

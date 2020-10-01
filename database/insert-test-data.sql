@@ -31,14 +31,14 @@ INSERT INTO report(bookmark_id, reporter_id, report_type, report_details, report
 (1, 1, "broken link", "I've reported this before but it's still not gone", '2020-02-09', '2020-02-10'),
 (1, 1, "broken link", "Does anyone check these reports, I will be emailing HR about this if this bookmark is not taken down.", '2020-02-20', '2020-02-22'),
 (1, 1, "broken link", "Nevermind, I hadn't plugged in the ethernet cable.", '2020-02-22', '2020-02-22'),
-(3, 1, "not funny", "This is not a funny, please remove with immediet effect.", CURRENT_TIMESTAMP, null),
-(7, 2, "broken link", "its broke", CURRENT_TIMESTAMP, null),
-(6, 2, "broken link", "lol, the link broke", CURRENT_TIMESTAMP, null),
-(9, 3, "broken link", "I'm running out of ideas for comments.", CURRENT_TIMESTAMP, null),
-(12, 3, "broken link", "Right well the rest will be blank.", CURRENT_TIMESTAMP, null),
-(14, 4, "broken link", "", CURRENT_TIMESTAMP, null),
-(13, 3, "broken link", "", CURRENT_TIMESTAMP, null),
-(8, 5, "broken link", "", CURRENT_TIMESTAMP, null);
+(3, 1, "not funny", "This is not a funny, please remove with immediet effect.", CURRENT_TIMESTAMP, 0),
+(7, 2, "broken link", "its broke", CURRENT_TIMESTAMP, 0),
+(6, 2, "broken link", "lol, the link broke", CURRENT_TIMESTAMP, 0),
+(9, 3, "broken link", "I'm running out of ideas for comments.", CURRENT_TIMESTAMP, 0),
+(12, 3, "broken link", "Right well the rest will be blank.", CURRENT_TIMESTAMP, 0),
+(14, 4, "broken link", "", CURRENT_TIMESTAMP, 0),
+(13, 3, "broken link", "", CURRENT_TIMESTAMP, 0),
+(8, 5, "broken link", "", CURRENT_TIMESTAMP, 0);
 
 INSERT INTO tag(tag_name, tag_colour, tag_date_created) VALUES
 ("Search engines", "rgba(0, 0, 160, 0.3)", CURRENT_TIMESTAMP),

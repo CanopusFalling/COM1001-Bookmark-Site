@@ -8,6 +8,19 @@ Feature: register new user
         When I fill in "confirm-user-email" with "addnew@user.com" within "section"
         When I fill in "user-password" with "NewUserPa55word!" within "section"
         When I fill in "confirm-user-password" with "NewUserPa55word!" within "section"
+        When I fill in "department" with "Head Office" within "section"
+        When I press "register-user" within "section"
+        Then I should see "Thank you for registration in our system. Your aplication is now being processed. In the meantime you can view and report bookmarks as well as view your profile details." within "main"
+
+    Scenario: Register user with valid credentials but no department.
+        Given database is reset
+        Given I am on the homepage.
+        When I follow "Register" within "header"
+        When I fill in "display-name" with "Added By Testing User" within "section"
+        When I fill in "user-email" with "addnew@user.com" within "section"
+        When I fill in "confirm-user-email" with "addnew@user.com" within "section"
+        When I fill in "user-password" with "NewUserPa55word!" within "section"
+        When I fill in "confirm-user-password" with "NewUserPa55word!" within "section"
         When I press "register-user" within "section"
         Then I should see "Thank you for registration in our system. Your aplication is now being processed. In the meantime you can view and report bookmarks as well as view your profile details." within "main"
 
@@ -19,6 +32,7 @@ Feature: register new user
         When I fill in "confirm-user-email" with "addnew@user.com" within "section"
         When I fill in "user-password" with "NewUserPa55word!" within "section"
         When I fill in "confirm-user-password" with "NewUserPa55word!" within "section"
+        When I fill in "department" with "Head Office" within "section"
         When I press "register-user" within "section"
         Then I should see "Email already in use" within "main"
 
@@ -30,6 +44,7 @@ Feature: register new user
         When I fill in "confirm-user-email" with "addnew2@user.com" within "section"
         When I fill in "user-password" with "NewUserPa55word2!" within "section"
         When I fill in "confirm-user-password" with "NewUserPa55word2!" within "section"
+        When I fill in "department" with "Head Office" within "section"
         When I press "register-user" within "section"
         Then I should see "Thank you for registration in our system. Your aplication is now being processed. In the meantime you can view and report bookmarks as well as view your profile details." within "main"
 
@@ -41,6 +56,7 @@ Feature: register new user
         When I fill in "confirm-user-email" with "addnew3@user.com" within "section"
         When I fill in "user-password" with "NewUserPa55word2!" within "section"
         When I fill in "confirm-user-password" with "NewUserPa55word2!" within "section"
+        When I fill in "department" with "Head Office" within "section"
         When I press "register-user" within "section"
         Then I should see "Thank you for registration in our system. Your aplication is now being processed. In the meantime you can view and report bookmarks as well as view your profile details." within "main"
 
@@ -52,6 +68,7 @@ Feature: register new user
         When I fill in "confirm-user-email" with "addnew4@user.com" within "section"
         When I fill in "user-password" with "1!" within "section"
         When I fill in "confirm-user-password" with "1!" within "section"
+        When I fill in "department" with "Head Office" within "section"
         When I press "register-user" within "section"
         Then I should see "Display name:" within "main"
 
@@ -63,6 +80,7 @@ Feature: register new user
         When I fill in "confirm-user-email" with "addnew4@user.com" within "section"
         When I fill in "user-password" with "TestingPassword!" within "section"
         When I fill in "confirm-user-password" with "TestingPassword!" within "section"
+        When I fill in "department" with "Head Office" within "section"
         When I press "register-user" within "section"
         Then I should see "Please enter valid password" within "main"
 
@@ -74,6 +92,7 @@ Feature: register new user
         When I fill in "confirm-user-email" with "addnew4@user.com" within "section"
         When I fill in "user-password" with "TestingPassword1" within "section"
         When I fill in "confirm-user-password" with "TestingPassword1" within "section"
+        When I fill in "department" with "Head Office" within "section"
         When I press "register-user" within "section"
         Then I should see "Please enter valid password" within "main"
 

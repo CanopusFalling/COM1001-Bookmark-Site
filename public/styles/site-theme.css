@@ -11,14 +11,14 @@
  * ===== Tablet Styles =====
  */
 
-@media only screen and (min-width: 400px) {
-}
+@media only screen and (min-width: 400px) {}
 
 /*
  * ===== Desktop Styles =====
  */
 
 @media only screen and (min-width: 800px) {
+
 	/*--------------- General Tags ---------------*/
 	body {
 		width: 100%;
@@ -70,16 +70,14 @@
 	}
 
 	header h1 {
-		width: 100%;
+		width: 50%;
 	}
 
 	header nav {
+		width: 50%;
 		list-style: none;
 		display: flex;
 		justify-content: flex-end;
-		position: relative;
-		top: 0px;
-		right: 0px;
 	}
 
 	header nav ul {
@@ -90,6 +88,7 @@
 	}
 
 	header nav ul li {
+		font-size: 0.8em;
 		padding: 6px 8px;
 		margin: auto 2px;
 		display: flex;
@@ -163,15 +162,26 @@
 		display: flex;
 	}
 
-	/* Bookmark Table */
+	/* Bookmark Table */ 
 
 	.bookmark-title {
 		margin: 0px;
 		padding: 2px 4px;
-		min-width: 32%;
+		width: 35%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	.bookmark-views {
+		margin: 0px;
+		padding: 2px 6px;
+		width: 20%;
+		justify-content: center;
+		border-left: 1px solid white;
+	}
+
+	.bookmark-rating {
 		margin: 0px;
 		padding: 2px 6px;
 		justify-content: center;
@@ -186,18 +196,21 @@
 		background-color: none;
 	}
 
-	.edit-buttons a{
+	.edit-buttons a {
 		display: flex;
 		margin: 0px;
 		padding: 0px;
 		width: auto;
-    }
-    
-    /* ===== Verify user table ====== */
-    .user-displayName{
+	}
+
+	.edit-buttons img{
+		cursor: pointer;
+	}
+	
+	.user-displayName{
         margin: 0px;
         padding: 4px 4px;
-        min-width: 60%;
+        width: 20%;
     }
 
     .user-email{
@@ -205,18 +218,27 @@
         padding: 2px 6px;
         justify-content: center;
         border-left: 1px solid white;
-        min-width: 50%;
+        width: 30%; 
+        word-break: break-all;
+    }
+    .user-department{
+        border-left: 1px  solid white;
+        margin: 0px;
+        padding: 2px 6px;
+        width: 20%;
     }
 
-    .user-department{
-        border-left: 1px solid white;
-        min-width: 40%;
-    }
+	section.basic-table div.verify-buttons{
+		max-width: 30%;
+		padding: 0px;
+		z-index: 1;
+	}
 
     section.basic-table div.verify-buttons, .verify-buttons a{
-        display: flex;
-        justify-content: flex-end;
-        right: 0px;
+		display: flex;
+		justify-content: flex-end;
+		margin: 0px;
+		padding: 0px;
     }
 
     .verify-buttons input{
@@ -227,7 +249,43 @@
 
     .verify-buttons input:hover{
         background-color: rgba(100, 100, 100, 0.7);
+	}
+	.verify-buttons .admin-label{
+		padding: 4px 4px;
+	}
+	
+	/* ===== Reported bookmark table ====== */ 
+	.report-details{
+        z-index: 1;
     }
+	.report-title{
+        margin: 0px;
+        padding: 2px 4px;
+		min-width: 40%;
+		
+    }
+
+    .report-views{
+        margin: 0px;
+        padding: 2px 4px;
+        justify-content: center;
+        border-left: 1px solid white;
+        min-width: 20%;
+    }
+
+    .report-rating{
+		margin: 0px;
+        padding: 2px 6px;
+        border-left: 1px solid white;
+        min-width: 40%;
+	}
+	
+	.report-count{
+		margin: 0px;
+        padding: 2px 6px;
+        border-left: 1px solid white;
+        min-width: 40%;
+	}
 
 	/* ===== advanced Serach form styling =====*/
 
@@ -250,11 +308,9 @@
 
 	main section.item-details .bookmark-details h2,
 	main section.item-details .bookmark-details div {
-		background-image: linear-gradient(
-			to right,
-			rgba(0, 0, 0, 0.5),
-			rgba(0, 0, 0, 0)
-		);
+		background-image: linear-gradient(to right,
+				rgba(0, 0, 0, 0.5),
+				rgba(0, 0, 0, 0));
 		margin: 10px 0px;
 		padding: 4px;
 	}
@@ -263,27 +319,20 @@
 		justify-content: flex-start;
 	}
 
-	main
-		section.item-details
-		.bookmark-details
-		div.edit-buttons
-		img.edit-button {
+	main section.item-details .bookmark-details div.edit-buttons img.edit-button {
 		width: 30px;
 		height: 30px;
 	}
 
-	main
-		section.item-details
-		div.bookmark-details
-		div.rating
-		div.choose-rating {
+	main section.item-details div.bookmark-details div.rating div.choose-rating {
 		padding: 20px;
 		display: inline;
 	}
 
 	/*Styling for the ratings system.*/
 	main section.item-details div input.setting-button,
-	main section.item-details div .option-input {
+	main section.item-details div .option-input,
+	main section.item-details div .submission-button {
 		border: none;
 		color: white;
 		background-color: rgba(0, 0, 0, 0.7);
@@ -320,11 +369,7 @@
 		flex-direction: column;
 	}
 
-	main
-		section.item-details
-		.bookmark-details
-		.display-comments
-		.comment-section-header {
+	main section.item-details .bookmark-details .display-comments .comment-section-header {
 		background-image: none;
 		padding: 0px;
 	}
@@ -335,12 +380,19 @@
 		padding: 0px;
 		background-image: none;
 	}
-	main
-		.item-details
-		.bookmark-details
-		.display-comments
-		.comment-box
-		.individual-comment {
+
+	main .item-details .bookmark-details .display-comments .comment-box .comment-header {
+		background-image: none;
+		display: flex;
+		flex-direction: row;
+		padding: 0px;
+	}
+
+	main .item-details .bookmark-details .display-comments .comment-box .individual-comment .comment-header img {
+		padding: 15px;
+	}
+
+	main .item-details .bookmark-details .display-comments .comment-box .individual-comment {
 		padding: 0px;
 		background-image: none;
 	}
@@ -424,33 +476,69 @@
 		font-size: 1.4em;
 		align-items: center;
 		color: red;
-    }
-    
-    /* ========= Admin Menu Styles ========= */
-    main .admin-menu{
-        width: 50%;
-        max-width: 700px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    main .admin-menu ul {
-        padding: 15px 50px;
-        margin: auto;
-        list-style: none;
-        width: 100%;
-        text-align:center;
-    }
+	}
 
-    main .admin-menu ul li {
-        padding: 6px 8px;
-        margin: auto 2px;
-        background-color: rgba(0, 0, 0, 0.7);
-        font-size: 1.6em;
-        width: 100%;
-        margin: auto;
-    }
+	/* ========= Filter Form Styles ========= */
 
-    main .admin-menu ul li:hover{
-        background-color: rgba(100, 100,100, 0.9);
-    }
+	main section.central-form .filter-item {
+
+		justify-content: left;
+		vertical-align: middle;
+
+	}
+
+	main section.central-form .filter-item .filter-checkbox{
+
+		width: 5%;
+		margin: auto;
+	}
+
+	main section.central-form .filter-item .form-label{
+
+		width: 20%;
+		margin: auto;
+
+	}
+
+	main section.central-form .filter-item .filter-field{
+		width: 75%;
+		padding: 5px 0;
+		justify-content: center;
+	}
+
+	main section.central-form .filter-item .filter-dropdown{
+		margin: 0 5px;
+	}
+
+
+	/* ========= Admin Menu Styles ========= */
+	main .admin-menu {
+		width: 50%;
+		max-width: 700px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		margin: 0 auto;
+	}
+
+	main .admin-menu ul {
+		padding: 15px 0px;
+		margin: auto;
+		list-style: none;
+		width: 100%;
+		text-align: center;
+	}
+
+	main .admin-menu ul li {
+		padding: 6px 8px;
+		margin: auto 2px;
+		background-color: rgba(0, 0, 0, 0.7);
+		font-size: 1.6em;
+		width: 100%;
+		margin: auto;
+	}
+
+	main .admin-menu ul li:hover {
+		background-color: rgba(100, 100, 100, 0.9);
+	}
+}

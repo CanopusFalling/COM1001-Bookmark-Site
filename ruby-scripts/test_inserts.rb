@@ -1,9 +1,11 @@
 require 'minitest/autorun'
 require_relative 'database-model.rb'
+require_relative 'deployment-scripts.rb'
 
 class TestInserts < Minitest::Test
    Bookmarks.init('../database/test.db')
-
+   Deployment.resetDatabase
+   Deployment.testData
    def test_add_user
         # Test with valid details
         valid1 = Bookmarks.addRegisterDetails("aaa@gmail.com","UserA","Dep1","pword007")
@@ -48,8 +50,6 @@ class TestInserts < Minitest::Test
         valid2 = Bookmarks.addBookmark("Bookmark2","Description","www.test.com",'1.01.2001',2)
         valid3 = Bookmarks.addBookmark("Bookmark3","Description","www.website.com",'1.01.2001',3)
 
-        # Test with link already in db
-        sameLink = Bookmarks.addBookmark("Bookmark4","Description","www.bookmark.com",'5.01.2001',1)
         # null bookmark_title
         nullTitle = Bookmarks.addBookmark(nil,"Description","www.abc.com",'5.05.2005',1)
         # creator_id not a valid user_id
@@ -59,7 +59,6 @@ class TestInserts < Minitest::Test
         assert valid2
         assert valid3
         
-        refute sameLink
         refute nullTitle
         refute creatorOutOfRange
     end 
@@ -140,8 +139,8 @@ class TestInserts < Minitest::Test
 
     def test_add_favourite
         # Test with valid details
-        valid1 = Bookmarks.addFavourite(1,1)
-        valid2 = Bookmarks.addFavourite(2,2)
+        valid1 = Bookmarks.addFavourite(1,12)
+        valid2 = Bookmarks.addFavourite(3,2)
         valid3 = Bookmarks.addFavourite(3,3)
 
         # non-integer user_ID
@@ -182,7 +181,7 @@ class TestInserts < Minitest::Test
         # non-integer rater_id
         raterNotInt = Bookmarks.addRating(3,"x",3,"12.12.2012")
         # non-integer rating value
-        valueNotInt = Bookmarks.addRating(3,3,2.5,"12.12.2012")
+        valueNotInt = Bookmarks.addRating(3,3,"x","12.12.2012")
         # null bookmark_id
         bookmarkNull = Bookmarks.addRating(nil,3,1,"12.12.2012")
         # null rater_id
@@ -223,7 +222,7 @@ class TestInserts < Minitest::Test
         valid4 = Bookmarks.addReport(4,"Wrong tags","error .......",-1,"2.02.2020")
 
         # non-integer bookmark_id
-        bookmarkNotInt = Bookmarks.addReport(1.5,"Link doesn't work","error........",1,"2.02.2020")
+        bookmarkNotInt = Bookmarks.addReport("one","Link doesn't work","error........",1,"2.02.2020")
         # non-integer reporter_id
         reporterNotInt = Bookmarks.addReport(3,"Wrong tags","error .......","x","2.02.2020")
         # null bookmark_id
@@ -272,14 +271,14 @@ class TestInserts < Minitest::Test
 
     def test_tag_bookmark_link
         # Test with valid details
-        valid1 = Bookmarks.addTagBookmarkLink(1,1)
-        valid2 = Bookmarks.addTagBookmarkLink(2,2)
+        valid1 = Bookmarks.addTagBookmarkLink(1,10)
+        valid2 = Bookmarks.addTagBookmarkLink(2,12)
         valid3 = Bookmarks.addTagBookmarkLink(3,3)
 
         # non-integer bookmark_id
         bookmarkNotInt = Bookmarks.addTagBookmarkLink("b",3)
         # non-integer tag_id
-        tagNotInt = Bookmarks.addTagBookmarkLink(2,2.5)
+        tagNotInt = Bookmarks.addTagBookmarkLink(2,"two")
         # null bookmark_id
         bookmarkNull = Bookmarks.addTagBookmarkLink(nil,5)
         # null tag_id
@@ -314,7 +313,7 @@ class TestInserts < Minitest::Test
         # non-integer viewer_id
         viewerNotInt = Bookmarks.addView("x",3,"20.04.2020")
         # non-integer bookmark_id
-        bookmarkNotInt = Bookmarks.addView(2,2.99,"29.03.2020")
+        bookmarkNotInt = Bookmarks.addView(2,"x","29.03.2020")
         # null bookmark_id
         bookmarkNull = Bookmarks.addView(2,nil,"20.04.2020")
         # bookmark_id not in db

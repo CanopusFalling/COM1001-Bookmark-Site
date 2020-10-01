@@ -1,0 +1,16 @@
+<section class="basic-table" id="suspended-users-table">
+    <%users.each do |user|%>
+    <div id="<%= user[:ID]%>">
+        <div class="user-details">
+            <span class="user-displayName"><%=h user[:displayName]%></span>
+            <span class="user-email"><%=h user[:email]%></span>
+            <span class="user-department"><%=h user[:department]%></span>
+        </div>
+
+        <div class="verify-buttons">
+            <a id="delete-account<%= user[:ID]%>" href="delete-account?userID=<%=h user[:ID]%>"><input type="submit" class="setting-button" value="Delete Account"></a>
+            <a id="remove-suspension<%= user[:ID]%>" href="remove-suspension?userID=<%=h user[:ID]%>"><input type="submit" class="setting-button" value="Remove Suspension"></a>
+        </div>
+    </div>
+    <%end%>
+</section>

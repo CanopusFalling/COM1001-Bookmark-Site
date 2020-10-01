@@ -1,0 +1,27 @@
+<html>
+
+<head>
+    <%= erb :head%>
+    <script src="javascript/useful-functions.js"></script>
+</head>
+
+<!-- Site Structure -->
+
+<body>
+
+    <%= erb :header %>
+
+    <main>
+        <a href="/"><button id="back-button" onclick="goBack()">Go back</button></a>
+        <script>
+        function goBack(){
+            window.history.back();
+        }
+        </script>
+        <%= erb :resultsTable, :locals => {:results => @results}%>
+    </main>
+
+    <%= erb :footer %>
+</body>
+
+</html>

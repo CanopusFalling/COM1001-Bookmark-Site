@@ -1,10 +1,17 @@
 
 require_relative 'database-model.rb'
+require_relative 'deployment-scripts.rb'
+require_relative 'user-authentication.rb'
+require_relative 'support-functions.rb'
 include Bookmarks
 Bookmarks.init('../database/test.db')
 
-result = Bookmarks.getDetailsByEmail("email@email.com")
 
-puts "#{result[:type]}"
+Deployment.resetDatabase
+Deployment.testData
+
+
+
+
 
 

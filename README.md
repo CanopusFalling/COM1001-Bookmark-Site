@@ -2,7 +2,7 @@
 
 ## Team
  - Samuel Kent | [Website](https://samthedude.github.io/) | [GitHub](https://github.com/SamTheDude) | [Linkedin](https://www.linkedin.com/in/samuel-kent-27378b1a9/)
- - Zbigniew Lisak
+ - Zbigniew Lisak | [GitHub](https://github.com/LisakZbigniew)
  - Jacob Crawley | [GitHub](https://github.com/jacob-crawley)
  - PingChenLin
  - Modestas Talanskas
